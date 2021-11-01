@@ -1,4 +1,5 @@
 
+
 class ResReservation {
   ResReservation({
     this.success,
@@ -50,6 +51,8 @@ class ResReservationData {
     this.folioBalance,
     this.propertyName,
     this.companyName,
+    this.memberFolioId,
+    this.invoiceId,
     this.isReservationSelected
   });
 
@@ -70,6 +73,8 @@ class ResReservationData {
   String? folioBalance;
   String? propertyName;
   String? companyName;
+  String? memberFolioId;
+  String? invoiceId;
   bool? isReservationSelected;
 
   factory ResReservationData.fromJson(Map<String, dynamic> json) => ResReservationData(
@@ -90,6 +95,8 @@ class ResReservationData {
     folioBalance: json["folioBalance"] == null ? null : json["folioBalance"],
     propertyName: json["propertyName"] == null ? null : json["propertyName"],
     companyName: json["companyName"] == null ? null : json["companyName"],
+    memberFolioId: json["memberFolioID"] == null ? null : json["memberFolioID"],
+    invoiceId: json["invoiceID"] == null ? null : json["invoiceID"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -110,5 +117,7 @@ class ResReservationData {
     "folioBalance": folioBalance == null ? null : folioBalance,
     "propertyName": propertyName == null ? null : propertyName,
     "companyName": companyName == null ? null : companyName,
+    "memberFolioID": memberFolioId == null ? null : memberFolioId,
+    "invoiceID": invoiceId == null ? null : invoiceId,
   };
 }

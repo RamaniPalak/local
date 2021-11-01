@@ -58,7 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (BuildContext) => UpdateProfileScreen()));
+                      builder: (BuildContext) => UpdateProfileScreen())).then((value) {
+                        if(value == true){
+                          reservationDetail();
+                        }
+              });
             },
             child: Padding(
               padding: EdgeInsets.only(

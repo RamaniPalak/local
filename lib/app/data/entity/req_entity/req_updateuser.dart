@@ -4,11 +4,13 @@ class ReqUpdateUser {
   ReqUpdateUser({
     this.memberId,
     this.firstName,
+    this.lastName,
     this.eMail,
   });
 
   String? memberId;
   String? firstName;
+  String? lastName;
   String? eMail;
 
   factory ReqUpdateUser.fromJson(Map<String, dynamic> json) => ReqUpdateUser(
@@ -21,5 +23,6 @@ class ReqUpdateUser {
     "MemberID": memberId == null ? null : memberId,
     "FirstName": firstName == null ? null : firstName,
     "EMail": eMail == null ? null : eMail,
+    "LastName": lastName == null ? null : lastName,
   };
 }

@@ -9,13 +9,13 @@ class ServerConfigs {
   static String houseKeeping = 'Member/HouseKeepingSchedule';
   static String getBankDetail = 'Member/GetMemBankDetailByID';
   static String updateBankDetail = 'Member/BankDetailEdit';
-  static String updateUserProfile = 'Member/MemberUpdateProfile';
-  static String getDocument = 'Member/GetMemberDocumentByID';
+  static String updateUserProfile = 'Login/MemberUpdateProfile';
   static String getUserDetail = 'Login/GetMemberDetail';
   static String getUnbilledTransaction = 'Login/GetTransactionUnbilledList';
   static String getTransactionInvoice = 'Login/GetTransactionInvoice';
-  static String getNoticeList = 'Login/MobileGetNoticeList';
-  static String insertNotice = 'Login/InsertNotice';
-
+  static String getNoticeList = 'Member/GetNoticeList';
+  static String insertNotice = 'Member/InsertNotice';
+  static String getDocument = 'Login/GetMemberDocumentByID';
+  static String getInvoiceId = 'Member/GetInvoiceByID';
   static String userLogout = 'userLogout';
 }

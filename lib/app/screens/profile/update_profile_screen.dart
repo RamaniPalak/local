@@ -27,67 +27,63 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
   TextEditingController mobileController = TextEditingController();
   TextEditingController emailController = TextEditingController();
 
-  LocalUser? localUser;
-  ResReservationData? reservationData;
+  updateProfile() async {
+    try {
+      final provider = Provider.of<ProfileProviderImpl>(context, listen: false);
 
-  // updateProfile() async {
-  //   try {
-  //     final provider = Provider.of<ProfileProviderImpl>(context, listen: false);
-  //
-  //     provider.getUserDetailData?.firstName = fNameController.text;
-  //     provider.getUserDetailData?.firstName = lNameController.text;
-  //     provider.getUserDetailData?.mobileNo = mobileController.text;
-  //     provider.getUserDetailData?.eMail = emailController.text;
-  //
-  //     await provider.updateUserProfile();
-  //
-  //     handleRes(res: provider.updatedUserRes!, context: context);
-  //
-  //     if (provider.updatedUserRes?.state == Status.COMPLETED) {
-  //       Navigator.of(context).pop();
-  //     }
-  //   } catch (e) {
-  //     ShowSnackBar(context: context, message: e.toString());
-  //   }
-  // }
+      provider.member?.firstName = fNameController.text;
+      provider.member?.lastName = lNameController.text;
+      provider.member?.mobileNo = mobileController.text;
+      provider.member?.eMail = emailController.text;
+
+      await provider.updateUserProfile();
+
+      handleRes(res: provider.updatedUserRes!, context: context);
+
+      if (provider.updatedUserRes?.state == Status.COMPLETED) {
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      ShowSnackBar(context: context, message: e.toString());
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
-    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-    //   final profile = Provider.of<ProfileProviderImpl>(context, listen: false);
-    //
-    //   await profile.userDetail();
-    //
-    //   final data = profile.userDetailRes?.data?.data;
-    //
-    //   setState(() {
-    //     fNameController.text = data?.firstName ?? '';
-    //     lNameController.text = data?.lastName ?? '';
-    //     mobileController.text = data?.mobileNo ?? '';
-    //     emailController.text = data?.eMail ?? '';
-    //
-    //   });
-    // });
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      final profile = Provider.of<ProfileProviderImpl>(context, listen: false);
 
-    reservationDetail();
-  }
+      await profile.userDetail();
 
-  reservationDetail() async {
-    var user = await UserPrefs.shared.getUser;
-    var res = await Reservation.shared.getUser;
+      final data = profile.userDetailRes?.data?.data;
 
-    setState(() {
-      localUser = user;
-      reservationData = res;
+      setState(() {
+        fNameController.text = data?.meber?.firstName ?? '';
+        lNameController.text = data?.meber?.lastName ?? '';
+        mobileController.text = data?.meber?.mobileNo ?? '';
+        emailController.text = data?.meber?.eMail ?? '';
 
-      fNameController.text = reservationData?.memberName ?? '';
-      lNameController.text = reservationData?.memberName ?? '';
-      mobileController.text = localUser?.mobile ?? '';
-      emailController.text = localUser?.email ?? '';
+      });
     });
+
   }
+
+  // reservationDetail() async {
+  //   var user = await UserPrefs.shared.getUser;
+  //   var res = await Reservation.shared.getUser;
+  //
+  //   setState(() {
+  //     localUser = user;
+  //     reservationData = res;
+  //
+  //     fNameController.text = reservationData?.memberName ?? '';
+  //     lNameController.text = reservationData?.memberName ?? '';
+  //     mobileController.text = localUser?.mobile ?? '';
+  //     emailController.text = localUser?.email ?? '';
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +200,7 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
         color: kPrimaryColor,
         title: 'UPDATE',
         onTap: () {
-       //   updateProfile();
+         updateProfile();
         },
       ),
     );

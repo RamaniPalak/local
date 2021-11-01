@@ -1,6 +1,4 @@
-
-
-
+import 'package:local/app/data/entity/res_entity/res_getinvoice.dart';
 import 'package:local/app/data/entity/res_entity/res_transactioninvoice.dart';
 import 'package:local/app/data/entity/res_entity/res_unbilltransac.dart';
 import 'package:local/app/providers/base_notifier.dart';
@@ -11,7 +9,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 class TransactionProvider {
   Future unbillTransaction() async {}
 
- Future TransactionInvoice() async {}
+  Future TransactionInvoice() async {}
+
+  Future GetInvoice({required String invoiceId}) async {}
 }
 
 class TransactionProviderImpl extends BaseNotifier
@@ -22,7 +22,8 @@ class TransactionProviderImpl extends BaseNotifier
 
   TransactionProviderImpl(this.repo) {
     _unBillTransactionRes = ApiResponse();
-    _transactionInvoiceRes =ApiResponse();
+    _transactionInvoiceRes = ApiResponse();
+    _getInvoiceRes = ApiResponse();
   }
 
   ApiResponse<ResUnbillTransaction>? _unBillTransactionRes;
@@ -30,47 +31,71 @@ class TransactionProviderImpl extends BaseNotifier
   ApiResponse<ResUnbillTransaction>? get unBillTransactionRes =>
       _unBillTransactionRes;
 
-
   ApiResponse<ResTransactionInvoice>? _transactionInvoiceRes;
 
   ApiResponse<ResTransactionInvoice>? get transactionInvoiceRes =>
       _transactionInvoiceRes;
 
+  ApiResponse<ResGetInvoice>? _getInvoiceRes;
+
+  ApiResponse<ResGetInvoice>? get getInvoiceRes => _getInvoiceRes;
+
+  String? path;
 
   @override
   Future unbillTransaction() async {
-   try{
-     apiResIsLoading(_unBillTransactionRes!);
+    try {
+      apiResIsLoading(_unBillTransactionRes!);
 
-     final res = await repo.unbillTransaction();
+      final res = await repo.unbillTransaction();
 
-     if(res.success != true){
-       apiResIsFailed(_unBillTransactionRes!, res.message ?? '');
-     }else {
-       apiResIsSuccess(_unBillTransactionRes!, res);
-     }
-
-   } catch(e){
-     print(e);
-     apiResIsFailed(_unBillTransactionRes!, e.toString() );
-   }
+      if (res.success != true) {
+        apiResIsFailed(_unBillTransactionRes!, res.message ?? '');
+      } else {
+        apiResIsSuccess(_unBillTransactionRes!, res);
+      }
+    } catch (e) {
+      print(e);
+      apiResIsFailed(_unBillTransactionRes!, e.toString());
+    }
   }
 
   @override
   Future TransactionInvoice() async {
-   try{
-     apiResIsLoading(_transactionInvoiceRes!);
+    try {
+      apiResIsLoading(_transactionInvoiceRes!);
 
-     final res = await repo.TransactionInvoice();
+      final res = await repo.TransactionInvoice();
 
-     if(res.success != true){
-       apiResIsFailed(_transactionInvoiceRes!,res.message ?? '');
-     } else {
-       apiResIsSuccess(_transactionInvoiceRes!, res);
-     }
+      if (res.success != true) {
+        apiResIsFailed(_transactionInvoiceRes!, res.message ?? '');
+      } else {
+        apiResIsSuccess(_transactionInvoiceRes!, res);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-   } catch(e){
-     print(e);
-   }
+  @override
+  Future GetInvoice({required String invoiceId}) async {
+    try {
+      apiResIsLoading(_getInvoiceRes!);
+
+      final res = await repo.GetInvoice(invoiceId: invoiceId);
+
+      if (res.success != true) {
+        apiResIsFailed(_getInvoiceRes!, res.message ?? '');
+      } else {
+
+        final file = await res.data?.loadPFd();
+
+        path = file?.path;
+
+        apiResIsSuccess(_getInvoiceRes!, res);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

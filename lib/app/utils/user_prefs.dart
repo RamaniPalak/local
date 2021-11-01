@@ -25,6 +25,7 @@ class UserPrefs {
   Future<LocalUser> get getUser => _getUser();
 
   Future<LocalUser> _getUser() async {
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool isLogin = prefs.getBool('IS_USER_LOGIN') ?? false;
@@ -36,6 +37,17 @@ class UserPrefs {
 
     return LocalUser(isLogin: isLogin, token: token, memberID: memberId,mobile: mobile,email: email);
   }
+
+  Future setEmail({required String email}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    prefs.setString('EMAIL', email);
+
+
+  }
+
+
 
   // Get is login here
   Future<bool> get isUserLogin => _isUserLogin();

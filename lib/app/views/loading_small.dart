@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local/app/utils/constants.dart';
 
 class LoadingSmall extends StatelessWidget {
 
@@ -16,7 +17,7 @@ class LoadingSmall extends StatelessWidget {
         width: size ?? 22,
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(color ?? Colors.white),
+          valueColor: AlwaysStoppedAnimation<Color>(color ?? kPrimaryColor),
         ),
       ),
     );

@@ -70,6 +70,16 @@ class Reservation {
         roomTypeName: roomTypeName);
   }
 
+
+  Future setMemberName({required String name}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    prefs.setString('memberName', name);
+
+
+  }
+
   // Get is login here
   Future<bool> get isUserReservation => _isUserReservation();
 

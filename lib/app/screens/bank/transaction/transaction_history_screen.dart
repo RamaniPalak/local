@@ -245,19 +245,21 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     }
 
     final data = res.transactionInvoiceRes?.data?.data;
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => MonthlyInvoiceScreen()));
-      },
-      child: Container(
-        child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: kFlexibleSize(20)),
-          itemCount: data?.length ?? 0,
-          itemBuilder: (context, index) {
-            return Container(
+    return Container(
+      child: ListView.builder(
+        padding: EdgeInsets.symmetric(vertical: kFlexibleSize(20)),
+        itemCount: data?.length ?? 0,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => MonthlyInvoiceScreen(
+                        invoiceId: data?[index].invoiceId,
+                      )));
+            },
+            child: Container(
               color: Colors.white,
               margin: EdgeInsets.only(bottom: kFlexibleSize(10)),
               padding: EdgeInsets.symmetric(
@@ -329,9 +331,9 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                   )
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

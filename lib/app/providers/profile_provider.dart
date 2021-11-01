@@ -4,6 +4,7 @@ import 'package:local/app/data/entity/res_entity/res_user_login.dart';
 import 'package:local/app/data/entity/res_entity/res_userdetail.dart';
 import 'package:local/app/repository/profile_repository.dart';
 import 'package:local/app/utils/api_response.dart';
+import 'package:local/app/utils/reservation.dart';
 import 'package:local/app/utils/user_prefs.dart';
 import 'base_notifier.dart';
 
@@ -13,8 +14,8 @@ class ProfileProvider {
   Future userDetail() async {}
 
   Future updateBankDetails() async {}
-  //
-  // Future updateUserProfile() async {}
+
+  Future updateUserProfile() async {}
 }
 
 class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
@@ -45,7 +46,7 @@ class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
 
   BankDetail? userBankData;
 
-  ResGetUserDetailData? getUserDetailData;
+  Meber? member;
 
   Logindetails? logindetails;
 
@@ -89,23 +90,26 @@ class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
     }
   }
 
-  // @override
-  // Future updateUserProfile() async {
-  //   try {
-  //     apiResIsLoading(_updatedUserRes!);
-  //
-  //     final res = await repo.updateUserProfile(data: getUserDetailData!);
-  //
-  //     if (res.success != true) {
-  //       apiResIsFailed(_updatedUserRes!, res.message ?? '');
-  //     } else {
-  //       apiResIsSuccess(_updatedUserRes!, res);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     apiResIsFailed(_updatedUserRes!, e);
-  //   }
-  // }
+  @override
+  Future updateUserProfile() async {
+    try {
+      apiResIsLoading(_updatedUserRes!);
+
+      final res = await repo.updateUserProfile(data: member!);
+
+      if (res.success != true) {
+        apiResIsFailed(_updatedUserRes!, res.message ?? '');
+      } else {
+        await userDetail();
+
+        apiResIsSuccess(_updatedUserRes!, res);
+
+      }
+    } catch (e) {
+      print(e);
+      apiResIsFailed(_updatedUserRes!, e);
+    }
+  }
 
   @override
   Future userDetail() async {
@@ -120,8 +124,9 @@ class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
         apiResIsFailed(_userDetailRes!, res.message ?? '');
       } else {
         apiResIsSuccess(_userDetailRes!, res);
-
-        getUserDetailData = res.data;
+        member = res.data?.meber;
+        UserPrefs.shared.setEmail(email: member?.eMail ?? '');
+        Reservation.shared.setMemberName(name: member?.displayName ?? '');
       }
     } catch (e) {
       print(e);

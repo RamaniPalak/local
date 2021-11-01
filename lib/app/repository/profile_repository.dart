@@ -21,9 +21,9 @@ class ProfileRepository {
     return await dataSource.userDetail(memberId: memberId);
   }
 
-  // Future<ResEmpty> updateUserProfile({required ResGetUserDetailData data}) async {
-  //   return await dataSource.updateUserProfile(data: data);
-  // }
+  Future<ResEmpty> updateUserProfile({required Meber data}) async {
+    return await dataSource.updateUserProfile(data: data);
+  }
 
 
 }

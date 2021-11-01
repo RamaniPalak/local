@@ -24,7 +24,8 @@ Widget multiProvider(){
       ChangeNotifierProvider(create: (_) =>  authProvider),
       ChangeNotifierProvider(create: (_) => profileProvider),
       ChangeNotifierProvider(create: (_) => transactionProvider,),
-      ChangeNotifierProvider(create: (_) => noticeProvider)
+      ChangeNotifierProvider(create: (_) => noticeProvider),
+      ChangeNotifierProvider(create: (context) => documentProvider,)
     ],
     child: app(),
   );

@@ -40,6 +40,17 @@ final statusTermValue = EnumValues<NoticeStatusTerm>({
   'Closed' : NoticeStatusTerm.Closed,
 });
 
+
+enum DocumentTitleTerm {AadharCard,DrivingLicense,EmployeeCard}
+
+final documentTitleValue = EnumValues<DocumentTitleTerm>({
+
+  'Aadhar Card' : DocumentTitleTerm.AadharCard,
+  'Driving License' : DocumentTitleTerm.DrivingLicense,
+  'Employee Card' :DocumentTitleTerm.EmployeeCard
+});
+
+
 class EnumValues<T> {
   late Map<String, T> map;
   late Map<T, String> reverseMap;
