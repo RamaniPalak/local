@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:local/app/data/entity/res_entity/res_getinvoice.dart';
 import 'package:local/app/data/entity/res_entity/res_transactioninvoice.dart';
 import 'package:local/app/data/entity/res_entity/res_unbilltransac.dart';
@@ -40,7 +42,7 @@ class TransactionProviderImpl extends BaseNotifier
 
   ApiResponse<ResGetInvoice>? get getInvoiceRes => _getInvoiceRes;
 
-  String? path;
+  File? pdfFile;
 
   @override
   Future unbillTransaction() async {
@@ -87,10 +89,9 @@ class TransactionProviderImpl extends BaseNotifier
       if (res.success != true) {
         apiResIsFailed(_getInvoiceRes!, res.message ?? '');
       } else {
-
         final file = await res.data?.loadPFd();
 
-        path = file?.path;
+        pdfFile = file;
 
         apiResIsSuccess(_getInvoiceRes!, res);
       }

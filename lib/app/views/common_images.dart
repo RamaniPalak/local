@@ -22,12 +22,13 @@ final Image editIconImage = Image.asset(imagePath+ 'edit_icon.png');
 final Image messageImage = Image.asset(imagePath+ 'msg_icon.png');
 final Image cameraImage = Image.asset(imagePath+ 'camera_icon.png');
 final Image deleteImage = Image.asset(imagePath+ 'delete_icon.png');
-final Image licenseImage = Image.asset(imagePath+ 'license.png');
+final Image licenseImage = Image.asset(imagePath+ 'dummy_card.png');
 final Image detailImage = Image.asset(imagePath+ 'image.png',fit: BoxFit.fitHeight,);
 final Image sendImage = Image.asset(imagePath+ 'send_icon.png',);
 final Image downloadImage = Image.asset(imagePath+ 'download_icon.png',);
 final Image addImage = Image.asset(imagePath+ 'add_icon.png');
 final Image splashIconImage = Image.asset(imagePath+ 'splash_icon.png');
+final Image addGreyImage = Image.asset(imagePath+ 'add_grey.png');
 
 
 

@@ -40,7 +40,7 @@ class NoticeProviderImpl extends BaseNotifier implements NoticeProvider {
 
       final res = await repo.getNotice();
 
-      if (res.success != true || (res.data?.data?.length ?? 0) <= 0 ) {
+      if (res.success != true || (res.data?.data?.length ?? 0) <= 0) {
         apiResIsFailed(_getNoticeRes!, res.message ?? '');
       } else {
         apiResIsSuccess(_getNoticeRes!, res);
@@ -57,10 +57,7 @@ class NoticeProviderImpl extends BaseNotifier implements NoticeProvider {
       apiResIsLoading(_insertNoticeRes!);
       print(noticedata?.toJson());
 
-
-
       final res = await repo.insertNotice(data: noticedata!);
-
 
       if (res.success != true) {
         apiResIsFailed(_insertNoticeRes!, res.message ?? '');

@@ -17,5 +17,6 @@ class ServerConfigs {
   static String insertNotice = 'Member/InsertNotice';
   static String getDocument = 'Login/GetMemberDocumentByID';
   static String getInvoiceId = 'Member/GetInvoiceByID';
+  static String documentUpdate = 'Login/MemberUpsertDocument';
   static String userLogout = 'userLogout';
 }

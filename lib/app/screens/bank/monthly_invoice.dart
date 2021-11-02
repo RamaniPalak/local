@@ -1,17 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:local/app/data/entity/res_entity/res_getinvoice.dart';
 import 'package:local/app/providers/transaction_provider.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:local/app/views/loading_small.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
 
 class MonthlyInvoiceScreen extends StatefulWidget {
@@ -91,23 +85,23 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
   Widget _body(BuildContext context) {
     final provider = context.watch<TransactionProviderImpl>();
 
-
     final hasError = provider.getInvoiceRes?.state == Status.ERROR ||
         provider.getInvoiceRes?.state == Status.UNAUTHORISED;
-
 
     if (hasError) {
       return Center(
           child: NoDataFoundView(
               retryCall: () {
-                context.read<TransactionProviderImpl>().GetInvoice(invoiceId: widget.invoiceId ?? '');
+                context
+                    .read<TransactionProviderImpl>()
+                    .GetInvoice(invoiceId: widget.invoiceId ?? '');
               },
               title: 'No Profile Data Found'));
     }
 
     final isLoading = provider.getInvoiceRes?.state == Status.LOADING;
 
-    final path = provider.path;
+    final path = provider.pdfFile;
 
     if (isLoading) {
       return Center(child: LoadingSmall());
@@ -115,7 +109,7 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
 
     if (path != null) {
       return PDFView(
-        filePath: path,
+        filePath: path.path,
       );
     } else {
       return Container();

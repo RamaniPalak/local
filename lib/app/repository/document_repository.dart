@@ -1,5 +1,6 @@
 
 import 'package:local/app/data/datasource/document_data.dart';
+import 'package:local/app/data/entity/res_entity/res_empty.dart';
 import 'package:local/app/data/entity/res_entity/res_getdocument.dart';
 
 class DocumentRepository {
@@ -10,6 +11,10 @@ class DocumentRepository {
 
   Future<ResGetDocument> getDocument({required String memberId}) async {
     return await dataSource.getDocument(memberId: memberId);
+  }
+
+  Future<ResEmpty> uploadDoc({required String path, required String type, String? docNo}) async {
+    return await dataSource.uploadDoc(path: path,type: type,docNo: docNo);
   }
 
 
