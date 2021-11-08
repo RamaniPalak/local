@@ -1,12 +1,14 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:local/app/data/entity/res_entity/res_getdocument.dart';
 import 'package:local/app/providers/document_provider.dart';
 import 'package:local/app/utils/constants.dart';
+import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/image_picker.dart';
+import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/views/common_images.dart';
-import 'package:local/app/views/network_image.dart';
+import 'package:local/app/views/custom_popup_view.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class DocumentScreen extends StatefulWidget {
@@ -15,7 +17,7 @@ class DocumentScreen extends StatefulWidget {
 }
 
 class _DocumentScreenState extends State<DocumentScreen> {
-  var docTitle = ['Driving License', 'Aadhar Card', 'Employment Card'];
+  var docTitle = ['Aadhar Card', 'Driving License', 'Employment Card'];
 
   File? img;
 
@@ -26,7 +28,6 @@ class _DocumentScreenState extends State<DocumentScreen> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<DocumentProviderImpl>().getDocument();
-
     });
 
     pickImage = PickImage(
@@ -35,8 +36,7 @@ class _DocumentScreenState extends State<DocumentScreen> {
           try {
             print(pickImage?.imageFile?.path);
 
-
-              img = pickImage?.imageFile as File?;
+            img = pickImage?.imageFile as File?;
 
             context.read<DocumentProviderImpl>().uploadDoc(path: img?.path ?? '');
 
@@ -46,8 +46,6 @@ class _DocumentScreenState extends State<DocumentScreen> {
           }
         });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +66,29 @@ class _DocumentScreenState extends State<DocumentScreen> {
 
     final data = document.getDocumentRes?.data?.data;
 
-    List<String> list = docTitle;
+    final hasError = document.getDocumentRes?.state == Status.ERROR ||
+        document.getDocumentRes?.state == Status.UNAUTHORISED;
+
+
+    if (hasError) {
+      return Center(
+          child: NoDataFoundView(
+              retryCall: () {
+                context.read<DocumentProviderImpl>().getDocument();
+              },
+              title: 'No Profile Data Found'));
+    }
+
+    final isLoading = document.getDocumentRes?.state == Status.LOADING ||
+        document.uploadDocumentRes?.state == Status.LOADING ||
+        document.deleteDocumentRes?.state == Status.LOADING;
+
+    print("doc isLoading");
+    print(isLoading);
+
+    if (isLoading) {
+      return Center(child: LoadingSmall());
+    }
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
@@ -76,12 +96,10 @@ class _DocumentScreenState extends State<DocumentScreen> {
         itemCount: docTitle.length,
         itemBuilder: (context, index) {
           ResGetDocumentData? myObj;
-
           try {
             myObj = data
                 ?.where((element) {
                   print(element.documentTitle);
-
                   return element.documentTitle == docTitle[index];
                 })
                 .toList()
@@ -113,10 +131,23 @@ class _DocumentScreenState extends State<DocumentScreen> {
                         padding: EdgeInsets.only(
                           right: kFlexibleSize(15),
                         ),
-                        child: Container(
-                          width: kFlexibleSize(15),
-                          height: kFlexibleSize(15),
-                          child: deleteImage,
+                        child: InkWell(
+                          onTap: () {
+                            CustomPopup(context,
+                                title: 'Delete',
+                                message: 'Are you want to Delete',
+                                primaryBtnTxt: 'OK', primaryAction: () {
+                              context.read<DocumentProviderImpl>().deleteDoc(docId: myObj?.documentId ?? '');
+                              context.read<DocumentProviderImpl>().deleteDocumentRes;
+                            },
+                                secondaryBtnTxt: 'CANCEL',
+                                secondaryAction: () {});
+                          },
+                          child: Container(
+                            width: kFlexibleSize(15),
+                            height: kFlexibleSize(15),
+                            child: deleteImage,
+                          ),
                         ),
                       ),
                     if (myObj?.originalDocumentPath == null)
@@ -126,9 +157,9 @@ class _DocumentScreenState extends State<DocumentScreen> {
                         ),
                         child: InkWell(
                           onTap: () {
-                            context.read<DocumentProviderImpl>().selectDocumetNo = myObj?.documentNo ?? '';
-                            context.read<DocumentProviderImpl>().selectDocumetType = docTitle[index];
-                            pickImage?.selectFromGallery();
+                            context.read<DocumentProviderImpl>().selectDocumentNo = myObj?.documentNo ?? '';
+                            context.read<DocumentProviderImpl>().selectDocumentType = docTitle[index];
+                            pickImage?.selectImage();
                           },
                           child: Container(
                             width: kFlexibleSize(15),
@@ -165,7 +196,4 @@ class _DocumentScreenState extends State<DocumentScreen> {
       ),
     );
   }
-
-
-
 }

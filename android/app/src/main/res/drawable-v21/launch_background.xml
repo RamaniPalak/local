@@ -9,16 +9,16 @@
             android:src="@mipmap/launch_image" />
     </item> -->
 
-    <item>
-        <bitmap
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:src="@drawable/splash" />
-    </item>
+<!--    <item>-->
+<!--        <bitmap-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:gravity="center"-->
+<!--            android:src="@drawable/splash" />-->
+<!--    </item>-->
 
-    <item android:top="50dp">
-        <bitmap
-            android:gravity="bottom"
-            android:src="@drawable/secondary_logo" />
-    </item>
+<!--    <item android:top="50dp">-->
+<!--        <bitmap-->
+<!--            android:gravity="bottom"-->
+<!--            android:src="@drawable/secondary_logo" />-->
+<!--    </item>-->
 </layer-list>

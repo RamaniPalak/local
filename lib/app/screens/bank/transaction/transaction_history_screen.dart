@@ -10,6 +10,7 @@ import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/utils/reservation.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
@@ -152,7 +153,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     }
 
     if (res.unBillTransactionRes?.state == Status.LOADING) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: LoadingSmall());
     }
 
     final total = res.unBillTransactionRes?.data?.total() ?? 0.0;

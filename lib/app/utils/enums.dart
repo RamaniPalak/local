@@ -51,6 +51,17 @@ final documentTitleValue = EnumValues<DocumentTitleTerm>({
 });
 
 
+enum HistoryStatus {CheckIn,CheckOut,Cancelled}
+
+final historyStatusValue = EnumValues<HistoryStatus>({
+
+  'CheckIn' : HistoryStatus.CheckIn,
+  'CheckOut' : HistoryStatus.CheckOut,
+  'Cancelled' :HistoryStatus.Cancelled
+
+});
+
+
 class EnumValues<T> {
   late Map<String, T> map;
   late Map<T, String> reverseMap;

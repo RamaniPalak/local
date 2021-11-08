@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
-import 'package:local/app/providers/notice_provider.dart';
+import 'package:local/app/providers/list_provider.dart';
 import 'package:local/app/screens/base/base_state_full.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
@@ -9,6 +9,7 @@ import 'package:local/app/utils/reservation.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/date_pick_view.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class NewNoticeScreen extends BasePage {
@@ -54,7 +55,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
         throw 'Please select date';
       }
 
-      final provider = Provider.of<NoticeProviderImpl>(context, listen: false);
+      final provider = Provider.of<ListProviderImpl>(context, listen: false);
 
       provider.noticedata =
           Notice(note: noteController.text, dateOfIssue: selectedStartDate!);
@@ -185,14 +186,15 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
 
   Widget btn() {
 
-   final isLoading = context.watch<NoticeProviderImpl>().insertNoticeRes?.state == Status.LOADING;
+    if (context.watch<ListProviderImpl>().insertNoticeRes?.state == Status.LOADING){
+     return LoadingSmall();
+   }
 
-    return Container(
+   return Container(
       padding:
           EdgeInsets.only(left: kFlexibleSize(30), right: kFlexibleSize(30)),
       child: BaseAppButton(
         title: 'SUBMIT',
-        isLoading: isLoading,
         color: kPrimaryColor,
         onTap: () {
           insertNotice();

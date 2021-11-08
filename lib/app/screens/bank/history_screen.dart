@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/components/history_components.dart';
+import 'package:local/app/providers/list_provider.dart';
 import 'package:local/app/utils/constants.dart';
+import 'package:local/app/utils/enums.dart';
+import 'package:local/app/utils/no_data_found_view.dart';
+import 'package:local/app/views/loading_small.dart';
+import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -11,6 +16,14 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      context.read<ListProviderImpl>().getHistory();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -19,39 +32,49 @@ class _HistoryScreenState extends State<HistoryScreen> {
           'History',
         ),
       ),
-      body: _body(context),
-    );
-  }
-
-  Widget _body(BuildContext context) {
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Container(
+      body: Container(
         padding: EdgeInsets.only(
             left: kFlexibleSize(20),
             right: kFlexibleSize(20),
             top: kFlexibleSize(10)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: kFlexibleSize(10),
-            ),
-            HistoryComponents(),
-            SizedBox(
-              height: kFlexibleSize(10),
-            ),
-            HistoryComponents(),
-            SizedBox(
-              height: kFlexibleSize(10),
-            ),
-            HistoryComponents(),
-            SizedBox(
-              height: kFlexibleSize(10),
-            ),
-          ],
-        ),
+        child: history(),
       ),
-    ));
+    );
+  }
+
+  Widget history() {
+    final history = context.watch<ListProviderImpl>();
+    final data = history.getHistoryRes?.data?.data;
+
+    if (history.getHistoryRes?.state == Status.LOADING) {
+      return LoadingSmall();
+    }
+
+    final hasError = history.getHistoryRes?.state == Status.ERROR ||
+        history.getHistoryRes?.state == Status.UNAUTHORISED;
+
+    if (hasError) {
+      return Center(
+          child: NoDataFoundView(
+              retryCall: () {
+                context.read<ListProviderImpl>().getHistory();
+              },
+              title: 'No Profile Data Found'));
+    }
+    return ListView.builder(
+        itemCount: data?.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          return HistoryComponents(
+            historyModel: HistoryModel(
+              PropertyName: data?[index].propertyName,
+              RoomNo: data?[index].roomNo,
+              CheckIndate: data?[index].checkInDate,
+              CheckOutdate: data?[index].checkOutDate,
+              payment: data?[index].totalCharges,
+              status: data?[index].statusTerm,
+              color: data?[index].statusColor,
+            ),
+          );
+        });
   }
 }

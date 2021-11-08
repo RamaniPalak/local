@@ -18,5 +18,7 @@ class ServerConfigs {
   static String getDocument = 'Login/GetMemberDocumentByID';
   static String getInvoiceId = 'Member/GetInvoiceByID';
   static String documentUpdate = 'Login/MemberUpsertDocument';
+  static String docDelete = 'Login/MemberDocumentDelete';
+  static String getHistoryList = 'Login/MemberHistoryList';
   static String userLogout = 'userLogout';
 }

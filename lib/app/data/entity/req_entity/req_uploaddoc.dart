@@ -19,10 +19,10 @@ class ReqUploadDoc {
     return {
       "CompanyID": res.companyId,
       "PropertyID": res.propertyId,
-      "associattionID": res.memberId,
-      "documentTitle" : documentTitle,
+      "AssociattionID": res.memberId,
+      "DocumentTitle" : documentTitle,
       "documentNo" : documentNo,
-      "DoumentFile" : thambill,
+      "DocumentFile" : thambill,
       "associationType_Term":"MEMBER"
     };
   }

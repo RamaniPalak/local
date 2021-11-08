@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/utils/constants.dart';
 
-
 class HistoryComponents extends StatelessWidget {
-
-  HistoryComponents({Key? key,})
+  HistoryComponents({Key? key, this.historyModel, this.btntext})
       : super(key: key);
+
+  final HistoryModel? historyModel;
+  final String? btntext;
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       width: kFlexibleSize(335),
       height: kFlexibleSize(195),
@@ -28,7 +28,7 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(15),
             ),
             child: Text(
-              'Vintage Villa version 2',
+              '${historyModel?.PropertyName ?? ''}',
               style: kAppBarTitle,
             ),
           ),
@@ -37,7 +37,8 @@ class HistoryComponents extends StatelessWidget {
               left: kFlexibleSize(15),
               top: kFlexibleSize(10),
             ),
-            child: keyValueComponent(key: 'Room No', value: '105 B'),
+            child: keyValueComponent(
+                key: 'Room No', value: ' ${historyModel?.RoomNo ?? ''}'),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -45,7 +46,8 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(10),
             ),
             child: keyValueComponent(
-                key: 'Start Date & Time', value: '03-08-2021 8:00 AM'),
+                key: 'Start Date & Time',
+                value: '${historyModel?.CheckIndate ?? '-'}'),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -53,7 +55,8 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(10),
             ),
             child: keyValueComponent(
-                key: 'End Date & Time', value: '05-08-2021 8:00 AM'),
+                key: 'End Date & Time',
+                value: '${historyModel?.CheckOutdate ?? '-'}'),
           ),
           Padding(
             padding: EdgeInsets.only(top: kFlexibleSize(15)),
@@ -69,32 +72,32 @@ class HistoryComponents extends StatelessWidget {
               children: [
                 Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(kFlexibleSize(5)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '₹ 5000',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontSize: kBigFontSize,
-                                fontWeight: FontWeight.w900,
-                                color: kPrimaryColor),
-                          ),
-                          Text(
-                            'Total Payment',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: kGreyColor,
-                                fontSize: kMediumFontSize,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
+                  padding: EdgeInsets.all(kFlexibleSize(5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '₹${historyModel?.payment}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: kBigFontSize,
+                            fontWeight: FontWeight.w900,
+                            color: kPrimaryColor),
                       ),
-                    )),
+                      Text(
+                        'Total Payment',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: kGreyColor,
+                            fontSize: kMediumFontSize,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                )),
                 Container(
                   width: kFlexibleSize(1),
                   height: double.infinity,
@@ -102,39 +105,56 @@ class HistoryComponents extends StatelessWidget {
                 ),
                 Expanded(
                     child: Container(
-                      padding: EdgeInsets.all(kFlexibleSize(5)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Pending',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                                fontSize: kBigFontSize,
-                                fontWeight: FontWeight.w900,
-                                color: yellowColor),
-                          ),
-                          Text(
-                            'Payment Status',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: TextStyle(
-                                color: kGreyColor,
-                                fontSize: kMediumFontSize,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
+                  padding: EdgeInsets.all(kFlexibleSize(5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${historyModel?.status ?? ''}',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: kBigFontSize,
+                            fontWeight: FontWeight.w900,
+                            color: historyModel?.color),
                       ),
-                    )),
+                      Text(
+                        ' Status',
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: kGreyColor,
+                            fontSize: kMediumFontSize,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                )),
               ],
             ),
           )
         ],
       ),
     );
-
   }
 }
 
+class HistoryModel {
+  final String? PropertyName;
+  final String? RoomNo;
+  final String? CheckIndate;
+  final String? CheckOutdate;
+  final double? payment;
+  final Color? color;
+  final String? status;
+
+  HistoryModel(
+      {this.PropertyName,
+      this.RoomNo,
+      this.CheckIndate,
+      this.CheckOutdate,
+      this.payment,
+      this.color,
+      this.status});
+}

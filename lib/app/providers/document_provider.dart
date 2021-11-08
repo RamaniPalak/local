@@ -9,6 +9,8 @@ class DocumentProvider {
   Future getDocument() async {}
 
   Future uploadDoc({required String path}) async {}
+
+  Future deleteDoc({required String docId}) async {}
 }
 
 class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
@@ -17,6 +19,7 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
   DocumentProviderImpl(this.repo) {
     _getDocumentRes = ApiResponse();
     _uploadDocumentRes = ApiResponse();
+    _deleteDocumentRes = ApiResponse();
   }
 
   ApiResponse<ResGetDocument>? _getDocumentRes;
@@ -29,9 +32,14 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
 
   ApiResponse<ResEmpty>? get uploadDocumentRes => _uploadDocumentRes;
 
-  String? selectDocumetType;
-  String? selectDocumetNo;
+  ApiResponse<ResEmpty>? _deleteDocumentRes;
 
+  ApiResponse<ResEmpty>? get deleteDocumentRes => _deleteDocumentRes;
+
+  String? selectDocumentType;
+  String? selectDocumentNo;
+
+  ResGetDocumentData? resGetDocument;
 
   @override
   Future getDocument() async {
@@ -42,11 +50,10 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
 
       final res = await repo.getDocument(memberId: user.memberID);
 
-      if (res.success != true) {
+      if (res.success != true || (res.data?.length ?? 0) <= 0) {
         apiResIsFailed(_getDocumentRes!, res.message ?? '');
       } else {
         apiResIsSuccess(_getDocumentRes!, res);
-
       }
     } catch (e) {
       print(e);
@@ -59,7 +66,10 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
     try {
       apiResIsLoading(_uploadDocumentRes!);
 
-      final res = await repo.uploadDoc(path: path, type: selectDocumetType ?? '',docNo: selectDocumetNo ?? '');
+      final res = await repo.uploadDoc(
+          path: path,
+          type: selectDocumentType ?? '',
+          docNo: selectDocumentNo ?? '');
 
       if (res.success != true) {
         apiResIsFailed(_uploadDocumentRes!, res.message ?? '');
@@ -70,6 +80,25 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
     } catch (e) {
       print(e);
       apiResIsFailed(_uploadDocumentRes!, e);
+     }
+  }
+
+  @override
+  Future deleteDoc({required String docId}) async {
+    try {
+      apiResIsLoading(_deleteDocumentRes!);
+
+      final res = await repo.deleteDoc(docId: docId);
+
+      if (res.success != true) {
+        apiResIsFailed(_deleteDocumentRes!, res.message ?? '');
+      } else {
+        apiResIsSuccess(_deleteDocumentRes!, res);
+        getDocument();
+      }
+    } catch (e) {
+      print(e);
+      apiResIsFailed(_deleteDocumentRes!, e);
     }
   }
 }

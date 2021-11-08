@@ -11,6 +11,7 @@ import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:local/app/views/textfield_common.dart';
 import 'package:provider/provider.dart';
 
@@ -191,7 +192,7 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
   Widget button() {
     if (context.read<ProfileProviderImpl>().updatedUserRes?.state ==
         Status.LOADING) {
-      return CircularProgressIndicator();
+      return LoadingSmall();
     }
     return Container(
       padding:

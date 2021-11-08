@@ -12,6 +12,8 @@ abstract class DocumentData {
 
   Future<ResEmpty> uploadDoc(
       {required String path, required String type, String? docNo});
+
+  Future<ResEmpty> deleteDoc({required String docId});
 }
 
 class DocumentDataImpl implements DocumentData {
@@ -34,16 +36,27 @@ class DocumentDataImpl implements DocumentData {
   Future<ResEmpty> uploadDoc(
       {required String path, required String type, String? docNo}) async {
     final req = await ReqUploadDoc(
-        documentNo: docNo ?? '',
-        documentTitle: type,
-        thambill: await MultipartFile.fromFile(path)).toJson();
+            documentNo: docNo ?? '',
+            documentTitle: type,
+            thambill: await MultipartFile.fromFile(path))
+        .toJson();
 
     print(req);
 
     var formData = FormData.fromMap(req);
 
-    final res = await WebService.shared
-        .postApiDIO(path: ServerConfigs.documentUpdate, data: formData);
+    final res = await WebService.shared.postApiDIO(path: ServerConfigs.documentUpdate, data: formData);
+
+    try {
+      return ResEmpty.fromJson(res!);
+    } catch (e) {
+      throw '$jsonParserErrorMsg';
+    }
+  }
+
+  @override
+  Future<ResEmpty> deleteDoc({required String docId}) async {
+    final res = await WebService.shared.deleteApiDIO(path: ServerConfigs.docDelete, data: {'DocumentID': docId});
 
     try {
       return ResEmpty.fromJson(res!);

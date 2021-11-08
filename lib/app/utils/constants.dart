@@ -13,7 +13,7 @@ Color kBgColor = const Color(0x2621245a);
 Color kBgRedColor = const Color(0x26e94040);
 Color dividerColor = const Color(0x2621245a);
 Color yellowColor = const Color(0xfff7b84e);
-Color backgroundColor = const Color(0xffe5e5e5);
+Color backgroundColor = const Color(0xE5E5E5);
 Color greenColor = const Color(0xff58A01E);
 
 String kInitialRoute = '/';

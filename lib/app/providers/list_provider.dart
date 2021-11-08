@@ -1,26 +1,30 @@
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
+import 'package:local/app/data/entity/res_entity/res_gethistory.dart';
 import 'package:local/app/data/entity/res_entity/res_getnotice.dart';
-import 'package:local/app/repository/notice_repository.dart';
+import 'package:local/app/repository/list_repository.dart';
 import 'package:local/app/utils/api_response.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'base_notifier.dart';
 
-class NoticeProvider {
+class ListProvider {
   Future getNotice() async {}
 
   Future insertNotice() async {}
+
+  Future getHistory() async {}
 }
 
-class NoticeProviderImpl extends BaseNotifier implements NoticeProvider {
-  late NoticeRepository repo;
+class ListProviderImpl extends BaseNotifier implements ListProvider {
+  late ListRepository repo;
 
   Future<PackageInfo> get packageInfo async => await PackageInfo.fromPlatform();
 
-  NoticeProviderImpl(this.repo) {
+  ListProviderImpl(this.repo) {
     _getNoticeRes = ApiResponse();
     _insertNoticeRes = ApiResponse();
+    _getHistoryRes = ApiResponse();
   }
 
   ApiResponse<ResGetNotice>? _getNoticeRes;
@@ -30,6 +34,10 @@ class NoticeProviderImpl extends BaseNotifier implements NoticeProvider {
   ApiResponse<ResEmpty>? _insertNoticeRes;
 
   ApiResponse<ResEmpty>? get insertNoticeRes => _insertNoticeRes;
+
+  ApiResponse<ResGetHistory>? _getHistoryRes;
+
+  ApiResponse<ResGetHistory>? get getHistoryRes => _getHistoryRes;
 
   Notice? noticedata;
 
@@ -67,6 +75,24 @@ class NoticeProviderImpl extends BaseNotifier implements NoticeProvider {
     } catch (e) {
       print(e);
       apiResIsFailed(_insertNoticeRes!, e.toString());
+    }
+  }
+
+  @override
+  Future getHistory() async {
+    try {
+      apiResIsLoading(_getHistoryRes!);
+
+      final res = await repo.getHistory();
+
+      if (res.success != true) {
+        apiResIsFailed(_getHistoryRes!, res.message ?? '');
+      } else {
+        apiResIsSuccess(_getHistoryRes!, res);
+      }
+    } catch (e) {
+      print(e);
+      apiResIsFailed(_getHistoryRes!, e.toString());
     }
   }
 }

@@ -180,7 +180,7 @@ class ResGetDocumentData {
         "note": note,
         "documentNo": documentNo == null ? null : documentNo,
         "validTill": validTill == null ? null : validTill!.toIso8601String(),
-        "thumbnail": thumbnail == null ? null : thumbnail,
+        "thumbnail": thumbnail ?? null,
         "status_Term": statusTerm == null ? null : statusTerm,
         "refDocumentID": refDocumentId,
         "orderNo": orderNo == null ? null : orderNo,

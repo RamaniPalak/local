@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/components/notice_components.dart';
-import 'package:local/app/providers/notice_provider.dart';
+import 'package:local/app/providers/list_provider.dart';
 import 'package:local/app/screens/notice/new_notice_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class NoticeScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<NoticeProviderImpl>().getNotice();
+      context.read<ListProviderImpl>().getNotice();
     });
   }
 
@@ -36,7 +37,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext) => NewNoticeScreen())).then((value) {
                 if(value == true){
-                  context.read<NoticeProviderImpl>().getNotice();
+                  context.read<ListProviderImpl>().getNotice();
                 }
           });
         },
@@ -60,7 +61,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   }
 
   Widget notice() {
-    final notice = context.watch<NoticeProviderImpl>();
+    final notice = context.watch<ListProviderImpl>();
 
     final hasError = notice.getNoticeRes?.state == Status.ERROR ||
         notice.getNoticeRes?.state == Status.UNAUTHORISED;
@@ -70,13 +71,13 @@ class _NoticeScreenState extends State<NoticeScreen> {
       return Center(
           child: NoDataFoundView(
               retryCall: () {
-                context.read<NoticeProviderImpl>().getNotice();
+                context.read<ListProviderImpl>().getNotice();
               },
               title: 'No Profile Data Found'));
     }
 
     if (notice.getNoticeRes?.state == Status.LOADING) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: LoadingSmall());
     }
 
     final data = notice.getNoticeRes?.data?.data?.data;

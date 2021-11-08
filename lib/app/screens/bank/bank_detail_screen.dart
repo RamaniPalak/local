@@ -5,6 +5,7 @@ import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:local/app/views/textfield_common.dart';
 import 'package:provider/provider.dart';
 
@@ -142,7 +143,7 @@ class _BankDetailScreenState extends BaseState<BankDetailScreen> {
   Widget button() {
     if (context.read<ProfileProviderImpl>().updatedBankRes?.state ==
         Status.LOADING) {
-      return CircularProgressIndicator();
+      return LoadingSmall();
     }
     return Container(
       padding:

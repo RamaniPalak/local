@@ -114,6 +114,60 @@ class WebService{
 
   }
 
+
+
+  Future<Map<String, dynamic>?> deleteApiDIO({required String path,data,Map<String, dynamic>? queryParameters}) async {
+
+    try{
+
+      print('URL: ' + ServerConfigs.baseURL + path);
+
+      final user = await  UserPrefs.shared.getUser;
+
+      print('token: Bearer ${user.token}');
+
+
+      if(!kReleaseMode){
+        final req = Response(data: data, requestOptions: RequestOptions(
+            path: ''
+        ));
+        print('Req: $req');
+      }
+
+      Response<Map<String, dynamic>> cool = await dio.delete<Map<String, dynamic>>(ServerConfigs.baseURL + path,data: data,queryParameters: queryParameters,
+          options: Options(
+              headers: {
+                'Authorization': 'Bearer ' + user.token
+              }
+          ));
+
+      print('Res: $cool');
+
+      return handleResponse(cool);
+
+    } on SocketException {
+      throw 'No Internet connection';
+    } on DioError catch(e){
+      switch(e.type){
+        case DioErrorType.connectTimeout:
+          throw 'Connection timeOut';
+        case DioErrorType.sendTimeout:
+          throw 'Connection timeOut';
+        case DioErrorType.receiveTimeout:
+          throw 'Connection timeOut';
+        case DioErrorType.response:
+          throw 'Something went wrong.';
+        case DioErrorType.cancel:
+          throw 'Request Canceled by user';
+        case DioErrorType.other:
+          throw 'Something went wrong.';
+      }
+    }catch(e){
+      rethrow;
+    }
+
+  }
+
   Map<String, dynamic>? handleResponse(Response<Map<String, dynamic>> cool){
     try{
       if ((cool.statusCode ?? 0) >= 200 && (cool.statusCode ?? 0) < 300) {
