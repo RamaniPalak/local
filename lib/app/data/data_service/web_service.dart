@@ -85,7 +85,7 @@ class WebService{
         headers: {
           'Authorization': 'Bearer ' + user.token
         }
-      ));
+      ) );
 
       print('Res: $cool');
 

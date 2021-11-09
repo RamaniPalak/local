@@ -141,15 +141,14 @@ class _BankDetailScreenState extends BaseState<BankDetailScreen> {
   }
 
   Widget button() {
-    if (context.read<ProfileProviderImpl>().updatedBankRes?.state ==
-        Status.LOADING) {
-      return LoadingSmall();
-    }
+    final isLoading =  context.read<ProfileProviderImpl>().updatedBankRes?.state == Status.LOADING;
+
     return Container(
       padding:
           EdgeInsets.only(left: kFlexibleSize(20), right: kFlexibleSize(20)),
       child: BaseAppButton(
         title: 'SAVE',
+        isLoading: isLoading,
         color: kPrimaryColor,
         onTap: () {
           updateProfile();

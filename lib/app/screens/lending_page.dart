@@ -43,7 +43,6 @@ class LendingPage extends BaseStateLess {
     // return Consumer<AuthProviderImpl>(builder: (context, auth, __) {
 
 
-
     if (auth.isAppUnderMaintenance == true) {
       return StuckTheAppPage(
           btnTap: () {},

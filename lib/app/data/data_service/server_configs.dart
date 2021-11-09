@@ -13,8 +13,8 @@ class ServerConfigs {
   static String getUserDetail = 'Login/GetMemberDetail';
   static String getUnbilledTransaction = 'Login/GetTransactionUnbilledList';
   static String getTransactionInvoice = 'Login/GetTransactionInvoice';
-  static String getNoticeList = 'Member/GetNoticeList';
-  static String insertNotice = 'Member/InsertNotice';
+  static String getNoticeList = 'Login/MobileGetNoticeList';
+  static String insertNotice = 'Login/MobileInsertNotice';
   static String getDocument = 'Login/GetMemberDocumentByID';
   static String getInvoiceId = 'Member/GetInvoiceByID';
   static String documentUpdate = 'Login/MemberUpsertDocument';

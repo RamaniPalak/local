@@ -10,8 +10,9 @@ import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class NoticeScreen extends StatefulWidget {
-  const NoticeScreen({Key? key}) : super(key: key);
+  const NoticeScreen({Key? key,required this.isCheckout}) : super(key: key);
 
+ final bool isCheckout;
   @override
   _NoticeScreenState createState() => _NoticeScreenState();
 }
@@ -29,13 +30,14 @@ class _NoticeScreenState extends State<NoticeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notice'),
+        title: Text(widget.isCheckout ? 'Notice': 'Request for Change Room' ),
       ),
-      body: _body(context),
+      body: Container(
+          child: notice()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext) => NewNoticeScreen())).then((value) {
+              MaterialPageRoute(builder: (BuildContext) => NewNoticeScreen(isCheckout: widget.isCheckout))).then((value) {
                 if(value == true){
                   context.read<ListProviderImpl>().getNotice();
                 }
@@ -56,16 +58,18 @@ class _NoticeScreenState extends State<NoticeScreen> {
             padding: EdgeInsets.only(
                 left: kFlexibleSize(20),
                 right: kFlexibleSize(20),
-                top: kFlexibleSize(20)),
+                top: kFlexibleSize(20),),
+
+
             child: notice()));
   }
+
 
   Widget notice() {
     final notice = context.watch<ListProviderImpl>();
 
     final hasError = notice.getNoticeRes?.state == Status.ERROR ||
         notice.getNoticeRes?.state == Status.UNAUTHORISED;
-
 
     if (hasError) {
       return Center(
@@ -91,8 +95,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 color: data?[index].statusColor,
                 Checkout: data?[index].noticeTypeTerm,
                 resvId: data?[index].reservationNo,
-                dateIssue: data?[index].dateOfIssue,
-                actionDate: data?[index].actionDate,
+                dateIssue: data?[index].dateOfIssueFormat,
+                actionDate: data?[index].actionDateFormat,
                 note: data?[index].note),
           );
         });

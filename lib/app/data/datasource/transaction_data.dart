@@ -62,8 +62,6 @@ class TransactionDataImpl implements TransactionData {
   Future<ResGetInvoice> GetInvoice({required String invoiceId}) async {
     final user = await Reservation.shared.getUser;
 
-
-
     final req = ReqGetInvoice(
         propertyId: user.propertyId,
         reservationId: user.reservationId,

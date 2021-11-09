@@ -1,8 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
+
 
 class ResGetHistory {
   ResGetHistory({
@@ -71,6 +73,42 @@ class Datum {
   String? propertyName;
   double? totalCharges;
   String? rateName;
+
+  String get checkInFormat {
+
+    try {
+      final date = DateTime.parse(checkInDate ?? '');
+
+
+      String dateTime =  DateFormat.yMd().add_jm().format(date);
+
+      return dateTime;
+
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return '';
+  }
+
+
+  String get checkOutFormat {
+
+    try {
+      final date = DateTime.parse(checkOutDate ?? '');
+
+
+      String dateTime =  DateFormat.yMd().add_jm().format(date);
+
+      return dateTime;
+
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return '';
+  }
+
 
   HistoryStatus? get historyStatus {
     return historyStatusValue.map[statusTerm ?? ''];

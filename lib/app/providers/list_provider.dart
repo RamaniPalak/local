@@ -11,7 +11,7 @@ import 'base_notifier.dart';
 class ListProvider {
   Future getNotice() async {}
 
-  Future insertNotice() async {}
+  Future insertNotice({required String noticeType}) async {}
 
   Future getHistory() async {}
 }
@@ -22,9 +22,11 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
   Future<PackageInfo> get packageInfo async => await PackageInfo.fromPlatform();
 
   ListProviderImpl(this.repo) {
+
     _getNoticeRes = ApiResponse();
     _insertNoticeRes = ApiResponse();
     _getHistoryRes = ApiResponse();
+
   }
 
   ApiResponse<ResGetNotice>? _getNoticeRes;
@@ -40,6 +42,8 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
   ApiResponse<ResGetHistory>? get getHistoryRes => _getHistoryRes;
 
   Notice? noticedata;
+
+
 
   @override
   Future getNotice() async {
@@ -60,12 +64,12 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
   }
 
   @override
-  Future insertNotice() async {
+  Future insertNotice({required String noticeType}) async {
     try {
       apiResIsLoading(_insertNoticeRes!);
-      print(noticedata?.toJson());
+ //     print(noticedata?.toJson());
 
-      final res = await repo.insertNotice(data: noticedata!);
+      final res = await repo.insertNotice(data: noticedata!,noticeType: noticeType);
 
       if (res.success != true) {
         apiResIsFailed(_insertNoticeRes!, res.message ?? '');

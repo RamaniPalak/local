@@ -1,16 +1,5 @@
+import 'package:local/app/components/date_components.dart';
 import 'package:local/app/utils/reservation.dart';
-
-class ReqInsertNotice {
-  ReqInsertNotice({
-    required this.notice,
-  });
-
-  Notice notice;
-
-  Future<Map<String, dynamic>> toJson() async{
-    return { "Notice" : notice == null ? null : await notice.toJson()};
-      }
-}
 
 class Notice {
   Notice({
@@ -22,7 +11,7 @@ class Notice {
   String note;
   DateTime dateOfIssue;
 
-  Future<Map<String, dynamic>> toJson() async {
+  Future<Map<String, dynamic>> toJson(String noticeType) async {
 
     final res = await Reservation.shared.getUser;
 
@@ -31,9 +20,10 @@ class Notice {
       "PropertyID": res.propertyId,
       "ReservationID": res.reservationId,
       "MemberID": res.memberId,
-      "NoticeType_Term": 'Checkout',
+      "NoticeType_Term": noticeType,
       "Note": note == null ? null : note,
       "DateOfIssue": dateOfIssue == null ? null : dateOfIssue.toIso8601String(),
+      "ActionDate" : DateTime.now().toIso8601String()
     };
   }
 }

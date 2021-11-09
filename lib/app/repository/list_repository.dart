@@ -13,8 +13,8 @@ class ListRepository {
     return await dataSource.getNotice();
   }
 
-  Future<ResEmpty> insertNotice({required Notice data}) async {
-    return await dataSource.insertNotice(data: data);
+  Future<ResEmpty> insertNotice({required Notice data,required String noticeType}) async {
+    return await dataSource.insertNotice(data: data,noticeType: noticeType);
   }
 
   Future<ResGetHistory> getHistory() async {

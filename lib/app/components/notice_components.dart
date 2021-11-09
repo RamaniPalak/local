@@ -13,8 +13,11 @@ class NoticeComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+       margin: EdgeInsets.only(bottom: kFlexibleSize(20),
+           left: kFlexibleSize(20),
+           right: kFlexibleSize(20),),
       width: kFlexibleSize(345),
-      height: kFlexibleSize(160),
+      height: kFlexibleSize(140),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kFlexibleSize(10)),

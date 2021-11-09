@@ -41,13 +41,9 @@ class UserPrefs {
   Future setEmail({required String email}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
     prefs.setString('EMAIL', email);
 
-
   }
-
-
 
   // Get is login here
   Future<bool> get isUserLogin => _isUserLogin();

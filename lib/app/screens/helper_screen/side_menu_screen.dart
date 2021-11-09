@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/data/data_service/server_configs.dart';
@@ -104,14 +105,14 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                         builder: (context) => const RaiseComplaint()));
                   } else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const NoticeScreen()));
+                        builder: (context) =>  NoticeScreen(isCheckout: true)));
                   } else if (index == 3) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             const MessageToFrontDeskScreen()));
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const RequestChangeRoomScreen()));
+                        builder: (context) =>  NoticeScreen(isCheckout: false)));
                   } else if (index == 6) {
                     CustomPopup(context,
                         title: 'Logout',
@@ -121,30 +122,6 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                     }, secondaryBtnTxt: 'CANCEL', secondaryAction: () {});
                   }
                 },
-                // onTap: () {
-                //
-                //   if(index != screens.length - 1){
-                //
-                //     var cms = CMSType.aboutUs;
-                //
-                //     if(index == 0){
-                //       cms = CMSType.aboutUs;
-                //     }else if(index == 1){
-                //       cms = CMSType.privacyPolicy;
-                //     }else{
-                //       cms = CMSType.terms;
-                //     }
-                //
-                //     Provider.of<ServiceProviderImpl>(context,listen: false).getCmsPages(type: cms);
-                //
-                //     Navigator.of(context).pop();
-                //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CMSScreen(type: cms),));
-                //
-                //     return;
-                //   }
-                //   showLogoutPopup(context);
-                //
-                // },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: kFlexibleSize(21)),
                   height: kFlexibleSize(60.0),

@@ -12,7 +12,7 @@ import 'package:local/app/utils/reservation.dart';
 abstract class ListData {
   Future<ResGetNotice> getNotice();
 
-  Future<ResEmpty> insertNotice({required Notice data});
+  Future<ResEmpty> insertNotice({required Notice data,required String noticeType});
 
   Future <ResGetHistory> getHistory();
 }
@@ -40,10 +40,10 @@ class ListDataImpl implements ListData {
   }
 
   @override
-  Future<ResEmpty> insertNotice({required Notice data}) async {
-    print(data.toJson());
+  Future<ResEmpty> insertNotice({required Notice data, required String noticeType}) async {
+    //print(data.toJson());
 
-    var req = await ReqInsertNotice(notice: data).toJson();
+    var req = await data.toJson(noticeType);
 
     final res = await WebService.shared
         .postApiDIO(path: ServerConfigs.insertNotice, data: req);

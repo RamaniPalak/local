@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:local/app/data/entity/res_entity/res_reservation.dart';
 import 'package:local/app/providers/profile_provider.dart';
 import 'package:local/app/screens/base/base_state_full.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
-import 'package:local/app/utils/reservation.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
-import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
-import 'package:local/app/views/loading_small.dart';
 import 'package:local/app/views/textfield_common.dart';
 import 'package:provider/provider.dart';
 
@@ -70,21 +66,6 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
     });
 
   }
-
-  // reservationDetail() async {
-  //   var user = await UserPrefs.shared.getUser;
-  //   var res = await Reservation.shared.getUser;
-  //
-  //   setState(() {
-  //     localUser = user;
-  //     reservationData = res;
-  //
-  //     fNameController.text = reservationData?.memberName ?? '';
-  //     lNameController.text = reservationData?.memberName ?? '';
-  //     mobileController.text = localUser?.mobile ?? '';
-  //     emailController.text = localUser?.email ?? '';
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -190,15 +171,14 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
   }
 
   Widget button() {
-    if (context.read<ProfileProviderImpl>().updatedUserRes?.state ==
-        Status.LOADING) {
-      return LoadingSmall();
-    }
+
+    final isLoading =  context.watch<ProfileProviderImpl>().updatedUserRes?.state == Status.LOADING;
     return Container(
       padding:
           EdgeInsets.only(left: kFlexibleSize(30), right: kFlexibleSize(30)),
       child: BaseAppButton(
         color: kPrimaryColor,
+        isLoading: isLoading ,
         title: 'UPDATE',
         onTap: () {
          updateProfile();

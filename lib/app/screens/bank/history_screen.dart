@@ -28,7 +28,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
-        title: Text(
+        title: const Text(
           'History',
         ),
       ),
@@ -47,7 +47,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     final data = history.getHistoryRes?.data?.data;
 
     if (history.getHistoryRes?.state == Status.LOADING) {
-      return LoadingSmall();
+      return Center(child: LoadingSmall());
     }
 
     final hasError = history.getHistoryRes?.state == Status.ERROR ||
@@ -68,8 +68,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             historyModel: HistoryModel(
               PropertyName: data?[index].propertyName,
               RoomNo: data?[index].roomNo,
-              CheckIndate: data?[index].checkInDate,
-              CheckOutdate: data?[index].checkOutDate,
+              CheckIndate: data?[index].checkInFormat,
+              CheckOutdate: data?[index].checkOutFormat,
               payment: data?[index].totalCharges,
               status: data?[index].statusTerm,
               color: data?[index].statusColor,

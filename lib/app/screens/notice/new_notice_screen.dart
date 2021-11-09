@@ -13,7 +13,9 @@ import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class NewNoticeScreen extends BasePage {
-  NewNoticeScreen({Key? key}) : super(key: key);
+  NewNoticeScreen({Key? key,required this.isCheckout}) : super(key: key);
+
+ final bool isCheckout;
 
   @override
   State<NewNoticeScreen> createState() => _NewNoticeScreenState();
@@ -45,6 +47,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
   DateTime? selectedStartDate;
   String? value;
 
+
   insertNotice() async {
     try {
 
@@ -60,7 +63,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
       provider.noticedata =
           Notice(note: noteController.text, dateOfIssue: selectedStartDate!);
 
-      await provider.insertNotice();
+      await provider.insertNotice(noticeType: widget.isCheckout ? 'Checkout': 'Move Room');
 
       handleRes(res: provider.insertNoticeRes!, context: context);
 
@@ -79,8 +82,8 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF2F3F7),
       appBar: AppBar(
-        title: const Text(
-          'New Notice',
+        title:  Text(
+          widget.isCheckout ? 'New Notice': 'Request for Change Room',
         ),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
@@ -186,15 +189,14 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
 
   Widget btn() {
 
-    if (context.watch<ListProviderImpl>().insertNoticeRes?.state == Status.LOADING){
-     return LoadingSmall();
-   }
+    final isLoading =  context.watch<ListProviderImpl>().insertNoticeRes?.state == Status.LOADING;
 
-   return Container(
+    return Container(
       padding:
           EdgeInsets.only(left: kFlexibleSize(30), right: kFlexibleSize(30)),
       child: BaseAppButton(
         title: 'SUBMIT',
+        isLoading: isLoading,
         color: kPrimaryColor,
         onTap: () {
           insertNotice();

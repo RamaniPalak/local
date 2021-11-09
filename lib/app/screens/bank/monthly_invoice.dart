@@ -7,6 +7,7 @@ import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MonthlyInvoiceScreen extends StatefulWidget {
   MonthlyInvoiceScreen({Key? key, this.invoiceId}) : super(key: key);
@@ -26,9 +27,7 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
     super.initState();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context
-          .read<TransactionProviderImpl>()
-          .GetInvoice(invoiceId: widget.invoiceId ?? '');
+      context.read<TransactionProviderImpl>().GetInvoice(invoiceId: widget.invoiceId ?? '');
     });
 
     // loadPFd();
@@ -62,18 +61,24 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Monthly Invoice',
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(
-              right: kFlexibleSize(20),
-            ),
-            child: Container(
-              width: kFlexibleSize(20),
-              height: kFlexibleSize(20),
-              child: downloadImage,
+          InkWell(
+            onTap: () {
+              final provider = context.read<TransactionProviderImpl>();
+              Share.shareFiles([provider.pdfFile?.path ?? ''], text: 'Invoice');
+            },
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: kFlexibleSize(30),
+              ),
+              child: Container(
+                width: kFlexibleSize(30),
+                height: kFlexibleSize(30),
+                child: downloadImage,
+              ),
             ),
           )
         ],

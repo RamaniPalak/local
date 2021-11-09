@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 
@@ -59,6 +60,43 @@ class Datum {
   String? actionDate;
   String? statusTerm;
   String? reservationNo;
+
+  String get dateOfIssueFormat {
+
+    try {
+      final date = DateTime.parse(dateOfIssue ?? '');
+
+
+    String dateTime =  DateFormat.yMd().format(date);
+
+      return dateTime;
+
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return '';
+  }
+
+
+  String get actionDateFormat {
+
+    try {
+      final date = DateTime.parse(actionDate ?? '');
+
+
+      String dateTime =  DateFormat.yMd().format(date);
+
+      return dateTime;
+
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return '';
+  }
+
+
 
   NoticeTypeTerm? get noticeType {
     return noticeTypeTermValue.map[noticeTypeTerm ?? ''];
