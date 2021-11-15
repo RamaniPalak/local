@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/utils/constants.dart';
 
 class RaiseComponent extends StatelessWidget {
-  const RaiseComponent({Key? key, required this.btncolor}) : super(key: key);
+   RaiseComponent({Key? key,  this.btncolor,this.raiseModel,this.btntext,this.Statustext}) : super(key: key);
 
-  final Color btncolor;
+  final Color? btncolor;
+  RaiseModel? raiseModel;
+   final String? btntext;
+   final String? Statustext;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: EdgeInsets.only(bottom: kFlexibleSize(20),
+          left: kFlexibleSize(20),
+          right: kFlexibleSize(20),),
       width: kFlexibleSize(335),
-      height: kFlexibleSize(115),
+      height: kFlexibleSize(100),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kFlexibleSize(10)),
@@ -25,12 +32,12 @@ class RaiseComponent extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(
                   left: kFlexibleSize(15),
-                  top: kFlexibleSize(15),
+                  top: kFlexibleSize(12),
                 ),
                 child: Container(
                   width: kFlexibleSize(230),
                   child: Text(
-                    'Lorem ipsum dolor sit amet, dolor is consectetur adipiscing elit.',
+                    '${raiseModel?.title ?? ''}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
@@ -40,10 +47,14 @@ class RaiseComponent extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
+              Padding(
                 padding: EdgeInsets.only(
-                    right: kFlexibleSize(15), left: kFlexibleSize(10)),
-                child: btn(title: 'High', color: btncolor),
+                    right: kFlexibleSize(15), left: kFlexibleSize(10), top: kFlexibleSize(15)),
+                child: Container(
+                  width: kFlexibleSize(60),
+                  height: kFlexibleSize(25),
+                  child: btn(title: btntext ??'', color: raiseModel?.color ?? kPrimaryColor),
+                ),
               )
             ],
           ),
@@ -52,10 +63,10 @@ class RaiseComponent extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: keyValueComponent(key: 'Related To', value: 'Housekeeping'),
+            child: keyValueComponent(key: 'Related To', value: '${raiseModel?.relatedTo ?? ''}'),
           ),
           Padding(
-            padding: EdgeInsets.only(left: kFlexibleSize(15)),
+            padding: EdgeInsets.only(left: kFlexibleSize(15),bottom: kFlexibleSize(5)),
             child: Row(
               children: [
                 Text('Status',
@@ -67,11 +78,11 @@ class RaiseComponent extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: kFlexibleSize(3)),
                   //flex: (isCenter == false) ? 1 : 0,
-                  child: Text('Open',
+                  child: Text(Statustext ?? '',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.green,
+                          color: raiseModel?.statusColor ?? kPrimaryColor,
                           fontSize: kRegularFontSize,
                           fontWeight: FontWeight.w700)),
                 )
@@ -82,4 +93,21 @@ class RaiseComponent extends StatelessWidget {
       ),
     );
   }
+}
+
+class RaiseModel {
+  final String? title;
+  final String? relatedTo;
+  final String? status;
+  final Color? color;
+  final Color? statusColor;
+
+
+  RaiseModel(
+      {this.title,
+        this.relatedTo,
+        this.status,
+        this.color,
+        this.statusColor
+      });
 }

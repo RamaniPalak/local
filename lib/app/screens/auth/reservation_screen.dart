@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/components/resrvation_components.dart';
 import 'package:local/app/providers/auth_provider.dart';
-import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/no_data_found_view.dart';
+import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class ReservationScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
     }
 
     if (profile.reservationUserRes?.state == Status.LOADING) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: LoadingSmall());
     }
 
     final data = profile.reservationUserRes?.data?.data;

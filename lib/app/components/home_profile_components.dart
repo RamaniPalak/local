@@ -15,31 +15,25 @@ class ProfileComponents extends StatefulWidget {
 }
 
 class _ProfileComponentsState extends State<ProfileComponents> {
-
- @override
+  @override
   void initState() {
-   super.initState();
-   reservationDetail();
-
+    super.initState();
+    reservationDetail();
   }
 
   reservationDetail() async {
-
     var res = await Reservation.shared.getUser;
 
-    setState(()  {
+    setState(() {
       reservationData = res;
     });
   }
 
- ResReservationData? reservationData;
+  ResReservationData? reservationData;
 
   @override
   Widget build(BuildContext context) {
-
-
-
-   return Container(
+    return Container(
       height: kFlexibleSize(150),
       width: double.infinity,
       color: kPrimaryColor,
@@ -49,9 +43,12 @@ class _ProfileComponentsState extends State<ProfileComponents> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext) => ProfileScreen()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext) => ProfileScreen()))
+                  .then((value) {
+                reservationDetail();
+              });
             },
             child: Padding(
               padding: EdgeInsets.only(left: kFlexibleSize(20)),
@@ -111,7 +108,9 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                             left: kFlexibleSize(14),
                           ),
                           child: boxes(
-                              hasPadding: true, key: '${reservationData?.roomNo ?? '-'}', value: 'Room No.')),
+                              hasPadding: true,
+                              key: '${reservationData?.roomNo ?? '-'}',
+                              value: 'Room No.')),
                     )
                   ],
                 ),
@@ -122,7 +121,8 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                   padding: EdgeInsets.only(left: kFlexibleSize(14)),
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                        vertical: kFlexibleSize(2), horizontal: kFlexibleSize(6)),
+                        vertical: kFlexibleSize(2),
+                        horizontal: kFlexibleSize(6)),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(kFlexibleSize(3))),
@@ -156,19 +156,16 @@ Widget boxes(
           softWrap: true,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          style:
-          TextStyle(
+          style: TextStyle(
               fontSize: kDoubleFontSize,
               fontWeight: FontWeight.w900,
               color: Colors.white),
         ),
-        Text(
-          '$value',
-          softWrap: true,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-          style: kLightStyle
-        ),
+        Text('$value',
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: kLightStyle),
       ],
     ),
   );

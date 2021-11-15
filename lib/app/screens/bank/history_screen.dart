@@ -66,10 +66,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
         itemBuilder: (BuildContext context, int index) {
           return HistoryComponents(
             historyModel: HistoryModel(
-              PropertyName: data?[index].propertyName,
-              RoomNo: data?[index].roomNo,
-              CheckIndate: data?[index].checkInFormat,
-              CheckOutdate: data?[index].checkOutFormat,
+              propertyName: data?[index].propertyName,
+              roomNo: data?[index].roomNo,
+              checkInDate: data?[index].checkInFormat,
+              checkOutDate: data?[index].checkOutFormat,
               payment: data?[index].totalCharges,
               status: data?[index].statusTerm,
               color: data?[index].statusColor,

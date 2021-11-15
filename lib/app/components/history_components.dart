@@ -28,7 +28,7 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(15),
             ),
             child: Text(
-              '${historyModel?.PropertyName ?? ''}',
+              '${historyModel?.propertyName ?? ''}',
               style: kAppBarTitle,
             ),
           ),
@@ -38,7 +38,7 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(10),
             ),
             child: keyValueComponent(
-                key: 'Room No', value: ' ${historyModel?.RoomNo ?? ''}'),
+                key: 'Room No', value: ' ${historyModel?.roomNo ?? ''}'),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -47,7 +47,7 @@ class HistoryComponents extends StatelessWidget {
             ),
             child: keyValueComponent(
                 key: 'Start Date & Time',
-                value: '${historyModel?.CheckIndate ?? '-'}'),
+                value: '${historyModel?.checkInDate ?? '-'}'),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -56,7 +56,7 @@ class HistoryComponents extends StatelessWidget {
             ),
             child: keyValueComponent(
                 key: 'End Date & Time',
-                value: '${historyModel?.CheckOutdate ?? '-'}'),
+                value: '${historyModel?.checkOutDate ?? '-'}'),
           ),
           Padding(
             padding: EdgeInsets.only(top: kFlexibleSize(15)),
@@ -141,19 +141,19 @@ class HistoryComponents extends StatelessWidget {
 }
 
 class HistoryModel {
-  final String? PropertyName;
-  final String? RoomNo;
-  final String? CheckIndate;
-  final String? CheckOutdate;
+  final String? propertyName;
+  final String? roomNo;
+  final String? checkInDate;
+  final String? checkOutDate;
   final double? payment;
   final Color? color;
   final String? status;
 
   HistoryModel(
-      {this.PropertyName,
-      this.RoomNo,
-      this.CheckIndate,
-      this.CheckOutdate,
+      {this.propertyName,
+      this.roomNo,
+      this.checkInDate,
+      this.checkOutDate,
       this.payment,
       this.color,
       this.status});

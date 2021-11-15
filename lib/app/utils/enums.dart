@@ -61,6 +61,23 @@ final historyStatusValue = EnumValues<HistoryStatus>({
 
 });
 
+enum ComplainPriorityStatus {High,Medium,Low}
+
+final complainPriorityStatusValue = EnumValues<ComplainPriorityStatus>({
+  'High': ComplainPriorityStatus.High,
+  'Medium': ComplainPriorityStatus.Medium,
+  'Low': ComplainPriorityStatus.Low
+
+}) ;
+
+enum ComplainStatus {Open,Close}
+
+final complainStatusValue = EnumValues<ComplainStatus>({
+
+  'Open':ComplainStatus.Open,
+  'Close': ComplainStatus.Close
+});
+
 
 class EnumValues<T> {
   late Map<String, T> map;

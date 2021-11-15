@@ -52,19 +52,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
     );
   }
 
-  Widget _body(BuildContext context) {
-    return SafeArea(
-        child: Container(
-            padding: EdgeInsets.only(
-                left: kFlexibleSize(20),
-                right: kFlexibleSize(20),
-                top: kFlexibleSize(20),),
-
-
-            child: notice()));
-  }
-
-
   Widget notice() {
     final notice = context.watch<ListProviderImpl>();
 

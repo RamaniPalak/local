@@ -1,5 +1,7 @@
 import 'package:local/app/data/datasource/list_dart.dart';
+import 'package:local/app/data/entity/req_entity/req_addcomplain.dart';
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
+import 'package:local/app/data/entity/res_entity/res_complain.dart';
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
 import 'package:local/app/data/entity/res_entity/res_gethistory.dart';
 import 'package:local/app/data/entity/res_entity/res_getnotice.dart';
@@ -21,6 +23,12 @@ class ListRepository {
     return await dataSource.getHistory();
   }
 
+  Future<ResEmpty> insertComplain({required ReqAddComplain data}) async {
+    return await dataSource.insertComplain(data: data);
+  }
 
+  Future<ResComplain> getComplain() async {
+    return await dataSource.getComplain();
+  }
 
 }

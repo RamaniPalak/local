@@ -1,5 +1,5 @@
 class ServerConfigs {
-  //static String domain = 'gurukulparivar.softcube.co.in';
+
   static String baseURL =
       'http://loclpms-api-dev.ap-south-1.elasticbeanstalk.com/Mobile/api/v1/';
 
@@ -20,5 +20,7 @@ class ServerConfigs {
   static String documentUpdate = 'Login/MemberUpsertDocument';
   static String docDelete = 'Login/MemberDocumentDelete';
   static String getHistoryList = 'Login/MemberHistoryList';
+  static String insertComplain = 'Login/MobileComplaintsListAdd';
+  static String getComplain = 'Login/GetMobilecomplaintsList';
   static String userLogout = 'userLogout';
 }

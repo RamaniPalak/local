@@ -11,8 +11,6 @@ class PickImage {
 
   final picker = ImagePicker();
 
-  List<XFile>? imageFileList = [];
-
   double maxWidth = 200;
 
   late final VoidCallback updateFile;
@@ -41,13 +39,13 @@ class PickImage {
 
   Future selectFromGallery() async {
     try {
-      print('imgaed picked 1');
+      print('image picked 1');
       final pickedFile =
           await picker.pickImage(source: ImageSource.gallery);
-      print('imgaed picked 2');
+      print('image picked 2');
       
       if (pickedFile != null) {
-        print('imgaed picked');
+        print('image picked');
         imageFile = File(pickedFile.path);
         imgBytesData = await pickedFile.readAsBytes();
         updateFile();
@@ -55,7 +53,7 @@ class PickImage {
         print('No image selected.');
       }
     } catch (e) {
-      print('imgaed picked 2');
+      print('image picked 2');
       print(e);
     }
   }
@@ -63,25 +61,25 @@ class PickImage {
   selectImage() {
     if (Platform.isIOS) {
       CupertinoAlertDialog alertDialog = CupertinoAlertDialog(
-        title: Text('Profile Image'),
-        content: Text('Please select an option to pic image'),
+        title: const Text('Profile Image'),
+        content: const Text('Please select an option to pic image'),
         actions: [
           CupertinoDialogAction(
-            child: Text('Camera'),
+            child: const Text('Camera'),
             onPressed: () async {
               await _selectFromCamera();
               Navigator.pop(context);
             },
           ),
           CupertinoDialogAction(
-            child: Text('Gallery'),
+            child: const Text('Gallery'),
             onPressed: () async {
               await selectFromGallery();
               Navigator.pop(context);
             },
           ),
           CupertinoDialogAction(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -96,18 +94,18 @@ class PickImage {
       );
     } else {
       AlertDialog alert = AlertDialog(
-        title: Text('Profile Image'),
-        content: Text("Please select an option to pic your image."),
+        title: const Text('Profile Image'),
+        content: const Text("Please select an option to pic your image."),
         actions: [
           TextButton(
-            child: Text("Camera"),
+            child: const Text("Camera"),
             onPressed: () async {
               await _selectFromCamera();
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: Text("Gallery"),
+            child: const Text("Gallery"),
             onPressed: () async {
               await selectFromGallery();
               Navigator.pop(context);

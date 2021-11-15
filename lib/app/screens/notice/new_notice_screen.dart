@@ -22,7 +22,6 @@ class NewNoticeScreen extends BasePage {
 }
 
 class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
-  int _value = 0;
 
   var notices = ['Checkout'];
 
@@ -183,7 +182,8 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
           btn(),
           SizedBox(height: kFlexibleSize(20)),
         ],
-      )),
+      ),
+      ),
     );
   }
 
@@ -211,20 +211,20 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
         children: [
           Text(
             '$title',
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           ),
-          SizedBox(height: 6),
+          const SizedBox(height: 6),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+               padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: TextField(
               readOnly: true,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: '${reservationData?.reservationNo ?? ''}',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: Colors.black)),

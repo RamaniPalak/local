@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final resGetInvoice = resGetInvoiceFromJson(jsonString);
 
 import 'dart:convert';
 import 'dart:io';

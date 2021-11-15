@@ -1,25 +1,102 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:local/app/data/entity/req_entity/req_addcomplain.dart';
+import 'package:local/app/providers/list_provider.dart';
+import 'package:local/app/screens/base/base_state_full.dart';
 import 'package:local/app/utils/constants.dart';
+import 'package:local/app/utils/enums.dart';
+import 'package:local/app/utils/image_picker.dart';
+import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:local/app/views/textfield_common.dart';
+import 'package:provider/provider.dart';
 
-class NewComplaintsScreen extends StatefulWidget {
-  const NewComplaintsScreen({Key? key}) : super(key: key);
+class NewComplaintsScreen extends BasePage {
+  NewComplaintsScreen({Key? key}) : super(key: key);
 
   @override
   State<NewComplaintsScreen> createState() => _NewComplaintsScreenState();
 }
 
-class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
+class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
+  TextEditingController noteController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+
+  var related = ['Housekeeping', 'Cleaning'];
+  var priority = ['High', 'Medium', 'Low'];
+
+  String? selectRelated;
+  String? selectPriority;
+
+  var point = 5;
+  PickImage? pickImage;
+
+  File? img;
+
+  List<File> imagelist = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    pickImage = PickImage(
+        context: context,
+        updateFile: () async {
+          try {
+            setState(() {
+              img = pickImage?.imageFile as File?;
+              imagelist.add(img!);
+            });
+          } catch (e) {
+            print("Exception:");
+            print(e);
+          }
+        });
+  }
+
+  insert() async {
+    try {
+      if (noteController.text.isEmpty || titleController.text.isEmpty) {
+        throw 'Please enter value';
+      }
+      if (selectRelated == null || selectPriority == null) {
+        throw 'Please select';
+      }
+
+      final provider = Provider.of<ListProviderImpl>(context, listen: false);
+
+      provider.complainData?.ticketTitle = titleController.text;
+      provider.complainData?.ticketNote = noteController.text;
+      provider.complainData?.issueRelatedTypeTerm = selectRelated;
+      provider.complainData?.priorityTerm = selectPriority;
+
+      provider.complainData = ReqAddComplain(
+          ticketTitle: titleController.text,
+          ticketNote: noteController.text,
+          priorityTerm: selectPriority,
+          issueRelatedTypeTerm: selectRelated);
+
+      await provider.insertComplain();
+
+      if (handleRes(res: provider.insertComplainRes!, context: context)) {
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      ShowSnackBar(context: context, message: e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xfff2f3f7),
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'New Complaints',
         ),
         backgroundColor: Colors.transparent,
@@ -36,17 +113,33 @@ class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
               Container(
                   padding: EdgeInsets.only(
                       left: kFlexibleSize(20), right: kFlexibleSize(20)),
-                  child: TextFieldCommon(title: 'Title', hint: 'Enter Title')),
+                  child: TextFieldCommon(
+                    title: 'Title',
+                    hint: 'Enter Title',
+                    controller: titleController,
+                  )),
               Padding(
                 padding: EdgeInsets.all(kFlexibleSize(20)),
                 child: Column(
                   children: [
-                    SizedBox(height: kFlexibleSize(20)),
+                    //  SizedBox(height: kFlexibleSize(20)),
                     CommonDropDown(
-                        data: ['Housekeeping', 'Cleaning'],
+                        data: related,
                         hint: 'Select',
                         title: 'Related to',
-                        onChange: (value) {}),
+                        selectedValue: selectRelated,
+                        onChange: (value) {
+                          selectRelated = value;
+                        }),
+                    SizedBox(height: kFlexibleSize(20)),
+                    CommonDropDown(
+                        data: priority,
+                        hint: 'Select',
+                        title: 'Priority',
+                        selectedValue: selectPriority,
+                        onChange: (value) {
+                          selectPriority = value;
+                        }),
                     SizedBox(height: kFlexibleSize(20)),
                     Column(
                       children: [
@@ -65,6 +158,7 @@ class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
                           child: TextField(
                             maxLines: 6,
                             style: kLongTitleStyle,
+                            controller: noteController,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: 'Enter Description',
@@ -76,7 +170,7 @@ class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
                     ),
                     SizedBox(height: kFlexibleSize(20)),
                     SizedBox(
-                      height: 170,
+                      height: 190,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -86,40 +180,45 @@ class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
                             style: kLongTitleStyle,
                           ),
                           Expanded(
-                              child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 3,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: EdgeInsets.only(
-                                    right: kFlexibleSize(15),
-                                    top: kFlexibleSize(10),
-                                    bottom: kFlexibleSize(10)),
-                                width: (MediaQuery.of(context).size.width - 40) / 3,
-                                height: kFlexibleSize(100),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  child: detailImage,
-                                ),
-                              );
-                            },
-                          ))
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: imagelist.length >= 5
+                                  ? imagelist.length
+                                  : imagelist.length + 1,
+                              itemBuilder: (context, index) {
+                                if (imagelist.length < 5) {
+                                  if (imagelist.length == index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        pickImage?.selectImage();
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            right: kFlexibleSize(15),
+                                            top: kFlexibleSize(10),
+                                            bottom: kFlexibleSize(10)),
+                                        width: kFlexibleSize(100),
+                                        height: kFlexibleSize(120),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: kBgColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0)),
+                                          child: addBlueIcon,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                }
+                                return image(index);
+                              },
+                            ),
+                          )
                         ],
                       ),
                     ),
                     SizedBox(height: kFlexibleSize(30)),
-                    Container(
-                        padding: EdgeInsets.only(
-                          left: kFlexibleSize(30),
-                          right: kFlexibleSize(30),
-                        ),
-                        child: BaseAppButton(
-                          color: kPrimaryColor,
-                          title: 'SUBMIT',
-                        ))
+                    btn()
                   ],
                 ),
               ),
@@ -128,6 +227,55 @@ class _NewComplaintsScreenState extends State<NewComplaintsScreen> {
         ),
       ),
     );
+  }
+
+  Widget image(int index) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: kFlexibleSize(100),
+        height: kFlexibleSize(120),
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {
+            setState(() {
+              imagelist.removeAt(index);
+            });
+          },
+          child: Center(
+              child: img != null
+                  ? Container(
+                  width: kFlexibleSize(100),
+                  height: kFlexibleSize(120),
+                  child: Image.file(imagelist[index]))
+                  : Container(
+                      // width: kFlexibleSize(100),
+                      // height: kFlexibleSize(120),
+                      child: addBlueIcon,
+                    )),
+        ),
+      ),
+    );
+  }
+
+  Widget btn() {
+    final isLoading =
+        context.watch<ListProviderImpl>().insertComplainRes?.state ==
+            Status.LOADING;
+
+    return Container(
+        padding: EdgeInsets.only(
+          left: kFlexibleSize(30),
+          right: kFlexibleSize(30),
+        ),
+        child: BaseAppButton(
+          color: kPrimaryColor,
+          isLoading: isLoading,
+          onTap: () {
+            insert();
+          },
+          title: 'SUBMIT',
+        ));
   }
 }
 

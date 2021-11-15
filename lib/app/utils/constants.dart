@@ -15,6 +15,7 @@ Color dividerColor = const Color(0x2621245a);
 Color yellowColor = const Color(0xfff7b84e);
 Color backgroundColor = const Color(0xE5E5E5);
 Color greenColor = const Color(0xff58A01E);
+Color greyColor = const Color(0xffB0B7BD);
 
 String kInitialRoute = '/';
 String kLoginRoute = '/LoginScreen';

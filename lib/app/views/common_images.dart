@@ -31,6 +31,7 @@ final Image splashIconImage = Image.asset(imagePath+ 'splash_icon.png');
 final Image addGreyImage = Image.asset(imagePath+ 'add_grey.png');
 final Image loclImage = Image.asset(imagePath+ 'locl_icon.png');
 final Image loclTextImage = Image.asset(imagePath+ 'splash_text.png');
+final Image addBlueIcon = Image.asset(imagePath+ 'add_blue.png');
 
 
 
