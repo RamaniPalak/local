@@ -23,7 +23,7 @@ class Notice {
       "NoticeType_Term": noticeType,
       "Note": note == null ? null : note,
       "DateOfIssue": dateOfIssue == null ? null : dateOfIssue.toIso8601String(),
-      "ActionDate" : DateTime.now().toIso8601String()
+      "ActionDate" : DateTime(dateOfIssue.year, dateOfIssue.month + 1, dateOfIssue.day).toIso8601String()
     };
   }
 }

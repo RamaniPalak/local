@@ -1,4 +1,4 @@
-import 'package:local/app/data/datasource/list_dart.dart';
+import 'package:local/app/data/datasource/list_data.dart';
 import 'package:local/app/data/entity/req_entity/req_addcomplain.dart';
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
 import 'package:local/app/data/entity/res_entity/res_complain.dart';
@@ -11,8 +11,8 @@ class ListRepository {
 
   ListRepository({required this.dataSource});
 
-  Future<ResGetNotice> getNotice() async {
-    return await dataSource.getNotice();
+  Future<ResGetNotice> getNotice({required String noticeTypeTerm}) async {
+    return await dataSource.getNotice(noticeTypeTerm: noticeTypeTerm);
   }
 
   Future<ResEmpty> insertNotice({required Notice data,required String noticeType}) async {
@@ -23,8 +23,8 @@ class ListRepository {
     return await dataSource.getHistory();
   }
 
-  Future<ResEmpty> insertComplain({required ReqAddComplain data}) async {
-    return await dataSource.insertComplain(data: data);
+  Future<ResEmpty> insertComplain({required ReqAddComplain data,List<String>? paths}) async {
+    return await dataSource.insertComplain(data: data,paths: paths);
   }
 
   Future<ResComplain> getComplain() async {

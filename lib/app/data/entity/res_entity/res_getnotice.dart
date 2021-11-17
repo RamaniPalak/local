@@ -67,7 +67,7 @@ class Datum {
       final date = DateTime.parse(dateOfIssue ?? '');
 
 
-    String dateTime =  DateFormat.yMd().format(date);
+    String dateTime =  DateFormat("dd/MM/yyyy").format(date);
 
       return dateTime;
 
@@ -85,7 +85,7 @@ class Datum {
       final date = DateTime.parse(actionDate ?? '');
 
 
-      String dateTime =  DateFormat.yMd().format(date);
+      String dateTime =  DateFormat("dd/MM/yyyy").format(date);
 
       return dateTime;
 

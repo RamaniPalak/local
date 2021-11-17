@@ -10,13 +10,13 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'base_notifier.dart';
 
 class ListProvider {
-  Future getNotice() async {}
+  Future getNotice({required String noticeTypeTerm}) async {}
 
   Future insertNotice({required String noticeType}) async {}
 
   Future getHistory() async {}
 
-  Future insertComplain() async {}
+  Future insertComplain({List<String>? paths}) async {}
 
   Future getComplain() async {}
 }
@@ -56,18 +56,18 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
 
   ApiResponse<ResComplain>? get getComplainRes => _getComplainRes;
 
-  Notice? noticedata;
+  Notice? noticeData;
 
   ReqAddComplain? complainData;
 
 
 
   @override
-  Future getNotice() async {
+  Future getNotice({required String noticeTypeTerm}) async {
     try {
       apiResIsLoading(_getNoticeRes!);
 
-      final res = await repo.getNotice();
+      final res = await repo.getNotice(noticeTypeTerm: noticeTypeTerm);
 
       if (res.success != true || (res.data?.data?.length ?? 0) <= 0) {
         apiResIsFailed(_getNoticeRes!, res.message ?? '');
@@ -85,7 +85,7 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
     try {
       apiResIsLoading(_insertNoticeRes!);
 
-      final res = await repo.insertNotice(data: noticedata!,noticeType: noticeType);
+      final res = await repo.insertNotice(data: noticeData!,noticeType: noticeType);
 
       if (res.success != true) {
         apiResIsFailed(_insertNoticeRes!, res.message ?? '');
@@ -117,12 +117,12 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
   }
 
   @override
-  Future insertComplain() async {
+  Future insertComplain({List<String>? paths}) async {
     try{
 
       apiResIsLoading(_insertComplainRes!);
 
-      final res = await repo.insertComplain(data: complainData!);
+      final res = await repo.insertComplain(data: complainData!,paths: paths);
 
       if(res.success != true){
         apiResIsFailed(_insertComplainRes!, res.message ?? '');

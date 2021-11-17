@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:local/app/utils/reservation.dart';
 
 class ReqAddComplain {
@@ -8,6 +9,7 @@ class ReqAddComplain {
     this.propertyId,
     this.ticketNote,
     this.priorityTerm,
+    this.ComplainFiles
   });
 
   String? ticketTitle;
@@ -16,6 +18,7 @@ class ReqAddComplain {
   String? propertyId;
   String? ticketNote;
   String? priorityTerm;
+  List<MultipartFile>? ComplainFiles;
 
   factory ReqAddComplain.fromJson(Map<String, dynamic> json) => ReqAddComplain(
     ticketTitle: json["TicketTitle"] == null ? null : json["TicketTitle"],
@@ -37,6 +40,7 @@ class ReqAddComplain {
       "PropertyID": res.propertyId,
       "TicketNote": ticketNote == null ? null : ticketNote,
       "Priority_Term": priorityTerm == null ? null : priorityTerm,
+      'ComplainFiles' : ComplainFiles == null ? null :ComplainFiles
     };
   }
 }

@@ -105,14 +105,14 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                         builder: (context) => const RaiseComplaint()));
                   } else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>  NoticeScreen(isCheckout: true)));
+                        builder: (context) =>  const NoticeScreen(isCheckout: true)));
                   } else if (index == 3) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             const MessageToFrontDeskScreen()));
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>  NoticeScreen(isCheckout: false)));
+                        builder: (context) => const NoticeScreen(isCheckout: false)));
                   } else if (index == 6) {
                     CustomPopup(context,
                         title: 'Logout',
@@ -177,7 +177,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    ProfileScreen()));
+                     ProfileScreen()));
       },
       child: Container(
         height: kFlexibleSize(150),

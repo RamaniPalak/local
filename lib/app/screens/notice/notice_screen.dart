@@ -13,6 +13,7 @@ class NoticeScreen extends StatefulWidget {
   const NoticeScreen({Key? key,required this.isCheckout}) : super(key: key);
 
  final bool isCheckout;
+
   @override
   _NoticeScreenState createState() => _NoticeScreenState();
 }
@@ -22,7 +23,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<ListProviderImpl>().getNotice();
+      context.read<ListProviderImpl>().getNotice(noticeTypeTerm : widget.isCheckout ? 'Checkout': 'Move Room');
     });
   }
 
@@ -39,11 +40,11 @@ class _NoticeScreenState extends State<NoticeScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext) => NewNoticeScreen(isCheckout: widget.isCheckout))).then((value) {
                 if(value == true){
-                  context.read<ListProviderImpl>().getNotice();
+                  context.read<ListProviderImpl>().getNotice(noticeTypeTerm : widget.isCheckout ? 'Checkout': 'Move Room');
                 }
           });
         },
-        child: Container(
+        child: SizedBox(
             height: kFlexibleSize(20),
             width: kFlexibleSize(20),
             child: addImage),
@@ -62,7 +63,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
       return Center(
           child: NoDataFoundView(
               retryCall: () {
-                context.read<ListProviderImpl>().getNotice();
+                context.read<ListProviderImpl>().getNotice(noticeTypeTerm : widget.isCheckout ? 'Checkout': 'Move Room');
               },
               title: 'No Profile Data Found'));
     }

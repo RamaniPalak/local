@@ -30,13 +30,14 @@ class _DatePickViewState extends State<DatePickView> {
       currentDate: widget.passedDate,
         context: context,
         initialDate: widget.passedDate ?? DateTime.now(),
-        firstDate: widget.maxDate ?? DateTime(1900, 0),
+        firstDate: widget.maxDate ?? DateTime.now(),
         lastDate: widget.minDate ?? DateTime(2101));
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         widget.selectedDate(picked);
       });
+    }
   }
 
   @override

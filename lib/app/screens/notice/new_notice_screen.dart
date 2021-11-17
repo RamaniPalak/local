@@ -9,7 +9,6 @@ import 'package:local/app/utils/reservation.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/date_pick_view.dart';
-import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
 class NewNoticeScreen extends BasePage {
@@ -59,7 +58,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
 
       final provider = Provider.of<ListProviderImpl>(context, listen: false);
 
-      provider.noticedata =
+      provider.noticeData =
           Notice(note: noteController.text, dateOfIssue: selectedStartDate!);
 
       await provider.insertNotice(noticeType: widget.isCheckout ? 'Checkout': 'Move Room');
@@ -96,9 +95,16 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
               child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   textField(title: 'RES#', hint: 'RES'),
                   SizedBox(height: kFlexibleSize(20)),
+                  Text(
+                    'Date of issue',
+                    style: kLongTitleStyle,
+                  ),
+                  SizedBox(height: kFlexibleSize(6)),
                   DatePickView(
                     title: 'Select Date',
                     selectedDate: (date) {

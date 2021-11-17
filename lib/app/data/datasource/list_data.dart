@@ -1,26 +1,26 @@
+import 'package:dio/dio.dart';
 import 'package:local/app/data/data_service/server_configs.dart';
 import 'package:local/app/data/data_service/web_service.dart';
 import 'package:local/app/data/entity/req_entity/req_addcomplain.dart';
 import 'package:local/app/data/entity/req_entity/req_getcomplain.dart';
 import 'package:local/app/data/entity/req_entity/req_getinvoice.dart';
+import 'package:local/app/data/entity/req_entity/req_getnotice.dart';
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
-import 'package:local/app/data/entity/req_entity/req_unbilltransac.dart';
 import 'package:local/app/data/entity/res_entity/res_complain.dart';
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
 import 'package:local/app/data/entity/res_entity/res_gethistory.dart';
 import 'package:local/app/data/entity/res_entity/res_getnotice.dart';
 import 'package:local/app/utils/messages.dart';
 import 'package:local/app/utils/reservation.dart';
-import 'package:local/app/utils/user_prefs.dart';
 
 abstract class ListData {
-  Future<ResGetNotice> getNotice();
+  Future<ResGetNotice> getNotice({required String noticeTypeTerm});
 
   Future<ResEmpty> insertNotice({required Notice data,required String noticeType});
 
   Future <ResGetHistory> getHistory();
 
-  Future <ResEmpty> insertComplain({required ReqAddComplain data});
+  Future <ResEmpty> insertComplain({required ReqAddComplain data,List<String>? paths});
 
   Future<ResComplain> getComplain();
 
@@ -28,18 +28,19 @@ abstract class ListData {
 
 class ListDataImpl implements ListData {
   @override
-  Future<ResGetNotice> getNotice() async {
+  Future<ResGetNotice> getNotice({required String noticeTypeTerm}) async {
     final user = await Reservation.shared.getUser;
 
-    final req = ReqUnbillTransaction(
+    final req = ReqGetNotice(
         propertyId: user.propertyId,
         reservationId: user.reservationId,
-        companyId: user.companyId);
+        companyId: user.companyId,
+    memberId: user.memberId);
 
-    print(req.toJson());
+    //print(req.toJson());
 
     final res = await WebService.shared
-        .postApiDIO(path: ServerConfigs.getNoticeList, data: req);
+        .postApiDIO(path: ServerConfigs.getNoticeList, data: req.toJson(noticeTypeTerm));
 
     try {
       return ResGetNotice.fromJson(res!);
@@ -87,13 +88,40 @@ class ListDataImpl implements ListData {
   }
 
   @override
-  Future<ResEmpty> insertComplain({required ReqAddComplain data}) async {
+  Future<ResEmpty> insertComplain({required ReqAddComplain data,List<String>? paths}) async {
 
-    var req = await data.toJson();
+    final user = await Reservation.shared.getUser;
+
+    final List<MultipartFile> list = [];
+
+    await Future.forEach<String>(paths!, (element) async {
+      print('cool');
+      final file = await MultipartFile.fromFile(element);
+      print('Before Finally');
+      print(file.toString());
+      list.add(file);
+    });
+
+    print('Finally');
+
+    print(list.length);
+
+    final form = {
+      'ComplainFiles' : list,
+      "TicketTitle": data.ticketTitle,
+      "IssueRelatedType_Term":data.issueRelatedTypeTerm,
+      "CompanyID": user.companyId,
+      "PropertyID": user.propertyId,
+      "TicketNote": data.ticketNote ,
+      "Priority_Term": data.priorityTerm ,
+    };
+
+    var formData = FormData.fromMap(form);
+
+    print(form);
 
     final res = await WebService.shared
-        .postApiDIO(path: ServerConfigs.insertComplain, data: req);
-
+        .postApiDIO(path: ServerConfigs.insertComplain, data: formData);
     try {
       return ResEmpty.fromJson(res!);
     } catch (e) {

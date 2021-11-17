@@ -81,7 +81,11 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
           priorityTerm: selectPriority,
           issueRelatedTypeTerm: selectRelated);
 
-      await provider.insertComplain();
+      await provider.insertComplain(paths: imagelist.map((e) {
+
+        return e.path;
+
+      }).toList());
 
       if (handleRes(res: provider.insertComplainRes!, context: context)) {
         Navigator.of(context).pop(true);
@@ -192,19 +196,21 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
                                       onTap: () {
                                         pickImage?.selectImage();
                                       },
-                                      child: Container(
-                                        padding: EdgeInsets.only(
-                                            right: kFlexibleSize(15),
-                                            top: kFlexibleSize(10),
-                                            bottom: kFlexibleSize(10)),
-                                        width: kFlexibleSize(100),
-                                        height: kFlexibleSize(120),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
                                         child: Container(
+                                          // padding: EdgeInsets.only(
+                                          //     right: kFlexibleSize(15),
+                                          //     left: kFlexibleSize(15),
+                                          //     top: kFlexibleSize(15),
+                                          //     bottom: kFlexibleSize(10)),
+                                          width: kFlexibleSize(100),
+                                          height: kFlexibleSize(120),
                                           decoration: BoxDecoration(
                                               color: kBgColor,
                                               borderRadius:
                                                   BorderRadius.circular(10.0)),
-                                          child: addBlueIcon,
+                                          child: Center(child: addBlueIcon),
                                         ),
                                       ),
                                     );
@@ -231,7 +237,10 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
 
   Widget image(int index) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.only(
+          right: kFlexibleSize(15),
+          top: kFlexibleSize(15),
+          bottom: kFlexibleSize(10)),
       child: Container(
         width: kFlexibleSize(100),
         height: kFlexibleSize(120),
@@ -249,8 +258,12 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
                   height: kFlexibleSize(120),
                   child: Image.file(imagelist[index]))
                   : Container(
-                      // width: kFlexibleSize(100),
-                      // height: kFlexibleSize(120),
+                      width: kFlexibleSize(100),
+                      height: kFlexibleSize(120),
+                decoration: BoxDecoration(
+                    color: kBgColor,
+                    borderRadius:
+                    BorderRadius.circular(10.0)),
                       child: addBlueIcon,
                     )),
         ),
