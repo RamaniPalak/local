@@ -47,6 +47,30 @@ Widget keyValueComponent(
   );
 }
 
+
+Widget keyValueReservComponent(
+    {required String key, required String value, bool? isCenter}) {
+  return Row(
+    children: [
+      Text('$key : ', style: TextStyle(
+        color: kFontColor,
+        fontFamily: kRegularFonts,
+        fontSize: kRegularFontSize,
+        fontWeight: FontWeight.w400,
+      )),
+      Expanded(
+        child: Text('$value',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: kRegularFontSize,
+                fontWeight: FontWeight.w700)),
+      )
+    ],
+  );
+}
+
 Widget btn({required String title, required Color color}) {
   return InkWell(
     child: Container(
@@ -71,12 +95,10 @@ Widget btn({required String title, required Color color}) {
 Widget leadingIconWidget({required Widget leading, required String text}) {
   return Row(
     children: [
-      Padding(
-          padding: EdgeInsets.only(left: kFlexibleSize(20)),
-          child: Container(
-              height: kFlexibleSize(18),
-              width: kFlexibleSize(16),
-              child: leading)),
+      Container(
+          height: kFlexibleSize(18),
+          width: kFlexibleSize(16),
+          child: leading),
       Expanded(
         child: Padding(
           padding: EdgeInsets.only(left: kFlexibleSize(10)),

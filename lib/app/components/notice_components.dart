@@ -17,7 +17,7 @@ class NoticeComponent extends StatelessWidget {
            left: kFlexibleSize(20),
            right: kFlexibleSize(20),),
       width: kFlexibleSize(345),
-      height: kFlexibleSize(140),
+      height: kFlexibleSize(150),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kFlexibleSize(10)),
@@ -71,16 +71,18 @@ class NoticeComponent extends StatelessWidget {
           SizedBox(
             height: kFlexibleSize(5),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: Text(
-              '${noticeModel?.note ??''}',
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              style: TextStyle(
-                  color: kFontColor,
-                  fontSize: kRegularFontSize,
-                  fontWeight: FontWeight.w400),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: kFlexibleSize(15),right: kFlexibleSize(15),bottom: kFlexibleSize(5)),
+              child: Text(
+                '${noticeModel?.note ??''}',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                style: TextStyle(
+                    color: kFontColor,
+                    fontSize: kRegularFontSize,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ),
         ],

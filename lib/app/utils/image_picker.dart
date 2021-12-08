@@ -62,20 +62,22 @@ class PickImage {
     if (Platform.isIOS) {
       CupertinoAlertDialog alertDialog = CupertinoAlertDialog(
         title: const Text('Profile Image'),
-        content: const Text('Please select an option to pic image'),
+        content: const Text('Please select an option to pick image'),
         actions: [
           CupertinoDialogAction(
             child: const Text('Camera'),
             onPressed: () async {
-              await _selectFromCamera();
               Navigator.pop(context);
+              await _selectFromCamera();
+
             },
           ),
           CupertinoDialogAction(
             child: const Text('Gallery'),
             onPressed: () async {
-              await selectFromGallery();
               Navigator.pop(context);
+              await selectFromGallery();
+
             },
           ),
           CupertinoDialogAction(
@@ -95,20 +97,22 @@ class PickImage {
     } else {
       AlertDialog alert = AlertDialog(
         title: const Text('Profile Image'),
-        content: const Text("Please select an option to pic your image."),
+        content: const Text("Please select an option to pick your image."),
         actions: [
           TextButton(
             child: const Text("Camera"),
             onPressed: () async {
-              await _selectFromCamera();
               Navigator.pop(context);
+              await _selectFromCamera();
+
             },
           ),
           TextButton(
             child: const Text("Gallery"),
             onPressed: () async {
-              await selectFromGallery();
               Navigator.pop(context);
+              await selectFromGallery();
+
             },
           ),
           TextButton(

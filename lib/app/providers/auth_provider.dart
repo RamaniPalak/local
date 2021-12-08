@@ -67,23 +67,30 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
   ApiResponse<ResEmpty>? get logoutRes => _logoutRes;
 
-  setReservation({ required ResReservationData reservationData}){
+  ResReservationData? selectedRes;
 
+  setReservation({required ResReservationData reservationData}) {
     reservationData.isReservationSelected = true;
 
-   Reservation.shared.setLocalData(user: reservationData);
+    Reservation.shared.setLocalData(user: reservationData);
+
+    selectedRes = reservationData;
+
     isReservationSelected = true;
     notifyListeners();
-
   }
 
   @override
   Future getUserFromLocal() async {
     // TODO: Setting the perfect model for local user
 
+    await Future.delayed(const Duration(seconds: 3));
+
     isLogin = await UserPrefs.shared.isUserLogin;
 
-    isReservationSelected = await Reservation.shared.isUserReservation;
+    selectedRes = await Reservation.shared.getUser;
+
+    isReservationSelected = selectedRes?.isReservationSelected;
 
     print('is User Logged in: $isLogin');
 
@@ -98,7 +105,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
     try {
       apiResIsLoading(_loginUserRes!);
 
-      if (mobile.isEmpty) {
+      if (mobile.trim().isEmpty) {
         throw emptyFieldsMsg;
       }
 
@@ -134,10 +141,13 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
     try {
       isLogin = false;
       isReservationSelected = false;
+
+      selectedRes = null;
+
       notifyListeners();
 
       UserPrefs.shared.clear();
-    // apiResIsLoading(_logoutRes!);
+      // apiResIsLoading(_logoutRes!);
       //
       // final user = await UserPrefs.shared.getUser;
       //
@@ -159,8 +169,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
     }
   }
 
-
-  selectReservation(){
+  selectReservation() {
     isReservationSelected = false;
     notifyListeners();
   }
@@ -177,7 +186,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
   @override
   Future verifyOTP({required String otp, required Function closure}) async {
     try {
-      if (otp.isEmpty) {
+      if (otp.trim().isEmpty) {
         throw emptyFieldsMsg;
       }
 
@@ -244,7 +253,6 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
     notifyListeners();
   }
 
-
   @override
   Future reservationUser() async {
     try {
@@ -252,7 +260,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
       final res = await repo.userReservation();
 
-      if (res.success != true ||(res.data?.length ?? 0) <= 0) {
+      if (res.success != true || (res.data?.length ?? 0) <= 0) {
         apiResIsFailed(_reservationUserRes!, res.message ?? '');
       } else {
         print(res.data?.length);

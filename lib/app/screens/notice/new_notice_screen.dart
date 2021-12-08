@@ -12,16 +12,15 @@ import 'package:local/app/views/date_pick_view.dart';
 import 'package:provider/provider.dart';
 
 class NewNoticeScreen extends BasePage {
-  NewNoticeScreen({Key? key,required this.isCheckout}) : super(key: key);
+  NewNoticeScreen({Key? key, required this.isCheckout}) : super(key: key);
 
- final bool isCheckout;
+  final bool isCheckout;
 
   @override
   State<NewNoticeScreen> createState() => _NewNoticeScreenState();
 }
 
 class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
-
   var notices = ['Checkout'];
 
   reservationDetail() async {
@@ -45,14 +44,12 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
   DateTime? selectedStartDate;
   String? value;
 
-
   insertNotice() async {
     try {
-
-      if(noteController.text.isEmpty){
+      if (noteController.text.trim().isEmpty) {
         throw 'Please enter note';
       }
-      if(selectedStartDate == null){
+      if (selectedStartDate == null) {
         throw 'Please select date';
       }
 
@@ -61,7 +58,8 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
       provider.noticeData =
           Notice(note: noteController.text, dateOfIssue: selectedStartDate!);
 
-      await provider.insertNotice(noticeType: widget.isCheckout ? 'Checkout': 'Move Room');
+      await provider.insertNotice(
+          noticeType: widget.isCheckout ? 'Checkout' : 'Move Room');
 
       handleRes(res: provider.insertNoticeRes!, context: context);
 
@@ -80,122 +78,123 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF2F3F7),
       appBar: AppBar(
-        title:  Text(
-          widget.isCheckout ? 'New Notice': 'Request for Change Room',
+        title: Text(
+          widget.isCheckout ? 'New Notice' : 'Request for Change Room',
         ),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         elevation: 0.0,
       ),
       body: SafeArea(
-          child: Column(
-        children: [
-          Expanded(
-              child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
-              child: Column(
+        child: Column(
+          children: [
+            Expanded(
+                child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: kFlexibleSize(20)),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  textField(title: 'RES#', hint: 'RES'),
-                  SizedBox(height: kFlexibleSize(20)),
-                  Text(
-                    'Date of issue',
-                    style: kLongTitleStyle,
-                  ),
-                  SizedBox(height: kFlexibleSize(6)),
-                  DatePickView(
-                    title: 'Select Date',
-                    selectedDate: (date) {
-                      setState(() {
-                        selectedStartDate = date;
-                      });
-                    },
-                    passedDate: selectedStartDate,
-                  ),
-                  SizedBox(height: kFlexibleSize(20)),
-                  // Column(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   children: <Widget>[
-                  //     Text(
-                  //       'Notice Type',
-                  //       style: kLongTitleStyle,
-                  //     ),
-                  //     SizedBox(height: kFlexibleSize(10)),
-                  //     for (int i = 1; i <= notices.length; i++)
-                  //       Container(
-                  //         height: kFlexibleSize(25),
-                  //         child: Row(
-                  //           children: [
-                  //             Container(
-                  //               child: Radio<int>(
-                  //                 value: i,
-                  //                 splashRadius: 0.0,
-                  //                 groupValue: _value,
-                  //                 activeColor: kPrimaryColor,
-                  //                 onChanged: (value) {
-                  //                   setState(() {
-                  //                     _value = value ?? 0;
-                  //                     print(_value);
-                  //                   });
-                  //                 },
-                  //               ),
-                  //               width: kFlexibleSize(20),
-                  //             ),
-                  //             SizedBox(width: kFlexibleSize(10)),
-                  //             Text('${notices[i - 1]}',
-                  //                 style: kAppBarTitle),
-                  //           ],
-                  //         ),
-                  //       )
-                  //   ],
-                  // ),
-                  // SizedBox(height: kFlexibleSize(20)),
-                  Column(
-                    children: [
-                      Text(
-                        'Note',
-                        style: kLongTitleStyle,
-                      ),
-                      SizedBox(height: kFlexibleSize(6)),
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.circular(kFlexibleSize(10))),
-                        child: TextField(
-                          maxLines: 4,
+                  children: [
+                    textField(title: 'RES#', hint: 'RES'),
+                    SizedBox(height: kFlexibleSize(20)),
+                    Text(
+                      'Date of issue',
+                      style: kLongTitleStyle,
+                    ),
+                    SizedBox(height: kFlexibleSize(6)),
+                    DatePickView(
+                      title: 'Select Date',
+                      selectedDate: (date) {
+                        setState(() {
+                          selectedStartDate = date;
+                        });
+                      },
+                      passedDate: selectedStartDate,
+                    ),
+                    SizedBox(height: kFlexibleSize(20)),
+                    // Column(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: <Widget>[
+                    //     Text(
+                    //       'Notice Type',
+                    //       style: kLongTitleStyle,
+                    //     ),
+                    //     SizedBox(height: kFlexibleSize(10)),
+                    //     for (int i = 1; i <= notices.length; i++)
+                    //       Container(
+                    //         height: kFlexibleSize(25),
+                    //         child: Row(
+                    //           children: [
+                    //             Container(
+                    //               child: Radio<int>(
+                    //                 value: i,
+                    //                 splashRadius: 0.0,
+                    //                 groupValue: _value,
+                    //                 activeColor: kPrimaryColor,
+                    //                 onChanged: (value) {
+                    //                   setState(() {
+                    //                     _value = value ?? 0;
+                    //                     print(_value);
+                    //                   });
+                    //                 },
+                    //               ),
+                    //               width: kFlexibleSize(20),
+                    //             ),
+                    //             SizedBox(width: kFlexibleSize(10)),
+                    //             Text('${notices[i - 1]}',
+                    //                 style: kAppBarTitle),
+                    //           ],
+                    //         ),
+                    //       )
+                    //   ],
+                    // ),
+                    // SizedBox(height: kFlexibleSize(20)),
+                    Column(
+                      children: [
+                        Text(
+                          'Note',
                           style: kLongTitleStyle,
-                          controller: noteController,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: 'Enter Description',
-                              hintStyle: kLightStyle),
                         ),
-                      )
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                  ),
-                  SizedBox(height: kFlexibleSize(20)),
-                ],
+                        SizedBox(height: kFlexibleSize(6)),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: kFlexibleSize(15)),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.circular(kFlexibleSize(10))),
+                          child: TextField(
+                            maxLines: 4,
+                            style: kLongTitleStyle,
+                            controller: noteController,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Enter Description',
+                                hintStyle: kLightStyle),
+                          ),
+                        )
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    ),
+                    SizedBox(height: kFlexibleSize(20)),
+                  ],
+                ),
               ),
-            ),
-          )),
-          btn(),
-          SizedBox(height: kFlexibleSize(20)),
-        ],
-      ),
+            )),
+            btn(),
+            SizedBox(height: kFlexibleSize(20)),
+          ],
+        ),
       ),
     );
   }
 
   Widget btn() {
-
-    final isLoading =  context.watch<ListProviderImpl>().insertNoticeRes?.state == Status.LOADING;
+    final isLoading =
+        context.watch<ListProviderImpl>().insertNoticeRes?.state ==
+            Status.LOADING;
 
     return Container(
       padding:
@@ -221,7 +220,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
           ),
           const SizedBox(height: 6),
           Container(
-               padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: TextField(

@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/providers/auth_provider.dart';
-import 'package:local/app/screens/auth/enter_otp_screen.dart';
 import 'package:local/app/screens/auth/login_screen.dart';
 import 'package:local/app/screens/auth/reservation_screen.dart';
-import 'package:local/app/screens/bank/bank_detail_screen.dart';
-import 'package:local/app/screens/bank/history_screen.dart';
-import 'package:local/app/screens/bank/monthly_invoice.dart';
-import 'package:local/app/screens/bank/transaction/transaction_history_screen.dart';
 import 'package:local/app/screens/base/base_state_less.dart';
-import 'package:local/app/screens/change_room/change_room.dart';
-import 'package:local/app/screens/change_room/request_for_changeroom.dart';
-import 'package:local/app/screens/complaints/new_complaint_screen.dart';
-import 'package:local/app/screens/complaints/raise_complaint.dart';
 import 'package:local/app/screens/helper_screen/stuck_page.dart';
 import 'package:local/app/screens/home/home_screen.dart';
-import 'package:local/app/screens/image_details/image_details_screen.dart';
-import 'package:local/app/screens/message/message_screen.dart';
-import 'package:local/app/screens/notice/new_notice_screen.dart';
-import 'package:local/app/screens/notice/notice_screen.dart';
-import 'package:local/app/screens/profile/profile_screen.dart';
-import 'package:local/app/screens/profile/update_profile_screen.dart';
-import 'package:local/app/screens/schedule/housekeeping_schedule.dart';
-import 'package:local/app/screens/schedule/maintenance_schedule.dart';
 import 'package:local/app/screens/splash_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:provider/provider.dart';
-
-import 'documents/document_screen.dart';
 
 class LendingPage extends BaseStateLess {
   @override

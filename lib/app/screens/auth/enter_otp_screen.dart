@@ -10,7 +10,9 @@ import 'package:local/app/views/common_images.dart';
 import 'package:provider/provider.dart';
 
 class EnterOtpScreen extends BasePage {
-  EnterOtpScreen({Key? key}) : super(key: key);
+  EnterOtpScreen({Key? key, this.otp}) : super(key: key);
+
+  final int? otp;
 
   @override
   State<EnterOtpScreen> createState() => _EnterOtpScreenState();
@@ -32,6 +34,15 @@ class _EnterOtpScreenState extends BaseState<EnterOtpScreen> {
   }
 
   String otpTexts = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      otpTexts = widget.otp.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

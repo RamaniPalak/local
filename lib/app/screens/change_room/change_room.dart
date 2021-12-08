@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/views/base_button.dart';
-import 'package:local/app/views/date_picker.dart';
 import 'package:local/app/views/textfield_common.dart';
 
 class ChangeRoomScreen extends StatefulWidget {
@@ -41,7 +40,7 @@ class _ChangeRoomScreenState extends State<ChangeRoomScreen> {
                 children: [
                   TextFieldCommon(title: 'RES#', hint: 'RES'),
                   SizedBox(height: kFlexibleSize(20)),
-                  datePicker(title: 'Date of issue', hint: 'Select Date'),
+                  // datePicker(title: 'Date of issue', hint: 'Select Date'),
                   SizedBox(height: kFlexibleSize(20)),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,

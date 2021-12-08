@@ -38,8 +38,9 @@ class _DocumentScreenState extends State<DocumentScreen> {
 
             img = pickImage?.imageFile as File?;
 
-            context.read<DocumentProviderImpl>().uploadDoc(path: img?.path ?? '');
-
+            context
+                .read<DocumentProviderImpl>()
+                .uploadDoc(path: img?.path ?? '');
           } catch (e) {
             print("Exception:");
             print(e);
@@ -50,7 +51,7 @@ class _DocumentScreenState extends State<DocumentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xffe5e5e5),
         appBar: AppBar(
           title: const Text(
             'Documents',
@@ -69,14 +70,13 @@ class _DocumentScreenState extends State<DocumentScreen> {
     final hasError = document.getDocumentRes?.state == Status.ERROR ||
         document.getDocumentRes?.state == Status.UNAUTHORISED;
 
-
     if (hasError) {
       return Center(
           child: NoDataFoundView(
               retryCall: () {
                 context.read<DocumentProviderImpl>().getDocument();
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
 
     final isLoading = document.getDocumentRes?.state == Status.LOADING ||
@@ -84,7 +84,6 @@ class _DocumentScreenState extends State<DocumentScreen> {
         document.deleteDocumentRes?.state == Status.LOADING;
 
     print("doc isLoading");
-    print(isLoading);
 
     if (isLoading) {
       return Center(child: LoadingSmall());
@@ -113,71 +112,91 @@ class _DocumentScreenState extends State<DocumentScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(kFlexibleSize(10))),
             margin: EdgeInsets.all(kFlexibleSize(5)),
-            padding: EdgeInsets.all(kFlexibleSize(15)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('${docTitle[index]}',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: kMediumFontSize,
-                            fontWeight: FontWeight.w400)),
-                    if (myObj?.originalDocumentPath != null)
-                      Padding(
-                        padding: EdgeInsets.only(
-                          right: kFlexibleSize(15),
-                        ),
-                        child: InkWell(
+                Container(
+                  padding: EdgeInsets.only(
+                      left: kFlexibleSize(15),
+                      right: kFlexibleSize(15),
+                      top: kFlexibleSize(5)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('${docTitle[index]}',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: kMediumFontSize,
+                              fontWeight: FontWeight.w400)),
+                      if (myObj?.originalDocumentPath != null)
+                        InkWell(
                           onTap: () {
                             CustomPopup(context,
-                                title: 'Delete',
-                                message: 'Are you want to Delete',
-                                primaryBtnTxt: 'OK', primaryAction: () {
-                              context.read<DocumentProviderImpl>().deleteDoc(docId: myObj?.documentId ?? '');
-                              context.read<DocumentProviderImpl>().deleteDocumentRes;
+                                title: '',
+                                message: 'Are you sure you want to delete',
+                                primaryBtnTxt: 'DELETE', primaryAction: () {
+                              context
+                                  .read<DocumentProviderImpl>()
+                                  .deleteDoc(docId: myObj?.documentId ?? '');
+                              context
+                                  .read<DocumentProviderImpl>()
+                                  .deleteDocumentRes;
                             },
                                 secondaryBtnTxt: 'CANCEL',
                                 secondaryAction: () {});
                           },
                           child: Container(
-                            width: kFlexibleSize(15),
-                            height: kFlexibleSize(15),
-                            child: deleteImage,
+                            width: kFlexibleSize(40),
+                            height: kFlexibleSize(40),
+                            child: Center(
+                              child: Container(
+                                width: kFlexibleSize(20),
+                                height: kFlexibleSize(20),
+                                child: deleteImage,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    if (myObj?.originalDocumentPath == null)
-                      Padding(
-                        padding: EdgeInsets.only(
-                          right: kFlexibleSize(15),
-                        ),
-                        child: InkWell(
+                      if (myObj?.originalDocumentPath == null)
+                        InkWell(
                           onTap: () {
-                            context.read<DocumentProviderImpl>().selectDocumentNo = myObj?.documentNo ?? '';
-                            context.read<DocumentProviderImpl>().selectDocumentType = docTitle[index];
+                            context
+                                .read<DocumentProviderImpl>()
+                                .selectDocumentNo = myObj?.documentNo ?? '';
+                            context
+                                .read<DocumentProviderImpl>()
+                                .selectDocumentType = docTitle[index];
                             pickImage?.selectImage();
                           },
                           child: Container(
-                            width: kFlexibleSize(15),
-                            height: kFlexibleSize(15),
-                            child: addGreyImage,
+                            width: kFlexibleSize(40),
+                            height: kFlexibleSize(40),
+                            child: Center(
+                              child: Container(
+                                width: kFlexibleSize(20),
+                                height: kFlexibleSize(20),
+                                child: addGreyImage,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: kFlexibleSize(10)),
                 if (myObj?.originalDocumentPath != null)
                   Container(
-                    height: kFlexibleSize(180),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(kFlexibleSize(10)),
-                        boxShadow: [
+                    padding: EdgeInsets.only(
+                        left: kFlexibleSize(10),
+                        right: kFlexibleSize(10),
+                        bottom: kFlexibleSize(5)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(kFlexibleSize(10)),
+                      child: Container(
+                        height: kFlexibleSize(180),
+                        decoration:
+                            BoxDecoration(color: Colors.white, boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.2),
                             spreadRadius: 10,
@@ -185,10 +204,23 @@ class _DocumentScreenState extends State<DocumentScreen> {
                             offset: Offset(0, 13), // changes position of shadow
                           ),
                         ]),
-                    child: Image.network('${myObj?.originalDocumentPath}'),
+                        child: Image.network(
+                          '${myObj?.originalDocumentPath}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 if (myObj?.originalDocumentPath == null)
-                  Container(height: kFlexibleSize(180), child: licenseImage)
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(kFlexibleSize(10)),
+                      child: Container(
+                          padding: EdgeInsets.only(
+                              left: kFlexibleSize(10),
+                              right: kFlexibleSize(10),
+                              bottom: kFlexibleSize(5)),
+                          height: kFlexibleSize(180),
+                          child: licenseImage))
               ],
             ),
           );

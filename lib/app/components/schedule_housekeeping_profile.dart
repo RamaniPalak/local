@@ -132,7 +132,7 @@ class ScheduleProfile extends StatelessWidget {
                                 child: callImage)),
                         Padding(
                           padding: EdgeInsets.only(left : kFlexibleSize(10)),
-                          child: Text(' +8365699852', style: kTitleMediumStyle),
+                          child: Text('+8365699852', style: kTitleMediumStyle),
                         )
                       ],
                     ),

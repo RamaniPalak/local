@@ -12,6 +12,7 @@ import 'package:local/app/utils/image_picker.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:local/app/views/custom_popup_view.dart';
 import 'package:local/app/views/textfield_common.dart';
 import 'package:provider/provider.dart';
 
@@ -61,11 +62,26 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
 
   insert() async {
     try {
-      if (noteController.text.isEmpty || titleController.text.isEmpty) {
-        throw 'Please enter value';
+      if (titleController.text.trim().isEmpty) {
+        throw 'Please enter title';
       }
-      if (selectRelated == null || selectPriority == null) {
-        throw 'Please select';
+
+      if (selectRelated == null) {
+        throw 'Please select related to';
+      }
+      if (selectPriority == null) {
+        throw 'Please select priority';
+      }
+      if (noteController.text.trim().isEmpty) {
+        throw 'Please enter description';
+      }
+
+      if (imagelist.isEmpty) {
+        throw 'Please select image';
+      }
+
+      if (imagelist.length <= 0) {
+        throw 'select image';
       }
 
       final provider = Provider.of<ListProviderImpl>(context, listen: false);
@@ -81,10 +97,9 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
           priorityTerm: selectPriority,
           issueRelatedTypeTerm: selectRelated);
 
-      await provider.insertComplain(paths: imagelist.map((e) {
-
+      await provider.insertComplain(
+          paths: imagelist.map((e) {
         return e.path;
-
       }).toList());
 
       if (handleRes(res: provider.insertComplainRes!, context: context)) {
@@ -98,7 +113,7 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfff2f3f7),
+      backgroundColor: const Color(0xfff2f3f7),
       appBar: AppBar(
         title: const Text(
           'New Complaints',
@@ -108,127 +123,148 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
         elevation: 0.0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: kFlexibleSize(20),
-              ),
-              Container(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onPanDown: (_) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: kFlexibleSize(20),
+                ),
+                Padding(
                   padding: EdgeInsets.only(
                       left: kFlexibleSize(20), right: kFlexibleSize(20)),
-                  child: TextFieldCommon(
-                    title: 'Title',
-                    hint: 'Enter Title',
-                    controller: titleController,
-                  )),
-              Padding(
-                padding: EdgeInsets.all(kFlexibleSize(20)),
-                child: Column(
-                  children: [
-                    //  SizedBox(height: kFlexibleSize(20)),
-                    CommonDropDown(
-                        data: related,
-                        hint: 'Select',
-                        title: 'Related to',
-                        selectedValue: selectRelated,
-                        onChange: (value) {
-                          selectRelated = value;
-                        }),
-                    SizedBox(height: kFlexibleSize(20)),
-                    CommonDropDown(
-                        data: priority,
-                        hint: 'Select',
-                        title: 'Priority',
-                        selectedValue: selectPriority,
-                        onChange: (value) {
-                          selectPriority = value;
-                        }),
-                    SizedBox(height: kFlexibleSize(20)),
-                    Column(
-                      children: [
-                        Text(
-                          'Description',
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Title',
+                        style: kLongTitleStyle,
+                      ),
+                      SizedBox(height: kFlexibleSize(6)),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(kFlexibleSize(10))),
+                        child: TextField(
+                          maxLines: 2,
                           style: kLongTitleStyle,
+                          controller: titleController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Enter Title',
+                              hintStyle: kLongTitleStyle),
                         ),
-                        SizedBox(height: kFlexibleSize(6)),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: kFlexibleSize(15)),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.circular(kFlexibleSize(10))),
-                          child: TextField(
-                            maxLines: 6,
-                            style: kLongTitleStyle,
-                            controller: noteController,
-                            decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Enter Description',
-                                hintStyle: kLongTitleStyle),
-                          ),
-                        )
-                      ],
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                    ),
-                    SizedBox(height: kFlexibleSize(20)),
-                    SizedBox(
-                      height: 190,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(kFlexibleSize(20)),
+                  child: Column(
+                    children: [
+                      //  SizedBox(height: kFlexibleSize(20)),
+                      CommonDropDown(
+                          data: related,
+                          hint: 'Select',
+                          title: 'Related to',
+                          selectedValue: selectRelated,
+                          onChange: (value) {
+                            selectRelated = value;
+                          }),
+                      SizedBox(height: kFlexibleSize(20)),
+                      CommonDropDown(
+                          data: priority,
+                          hint: 'Select',
+                          title: 'Priority',
+                          selectedValue: selectPriority,
+                          onChange: (value) {
+                            selectPriority = value;
+                          }),
+                      SizedBox(height: kFlexibleSize(20)),
+                      Column(
                         children: [
                           Text(
-                            'Add Images :',
+                            'Description',
                             style: kLongTitleStyle,
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: imagelist.length >= 5
-                                  ? imagelist.length
-                                  : imagelist.length + 1,
-                              itemBuilder: (context, index) {
-                                if (imagelist.length < 5) {
-                                  if (imagelist.length == index) {
-                                    return InkWell(
-                                      onTap: () {
-                                        pickImage?.selectImage();
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                          SizedBox(height: kFlexibleSize(6)),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: kFlexibleSize(15)),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.circular(kFlexibleSize(10))),
+                            child: TextField(
+                              maxLines: 6,
+                              style: kLongTitleStyle,
+                              controller: noteController,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Enter Description',
+                                  hintStyle: kLongTitleStyle),
+                            ),
+                          )
+                        ],
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                      ),
+                      SizedBox(height: kFlexibleSize(20)),
+                      SizedBox(
+                        height: kFlexibleSize(180),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Add Images :',
+                              style: kLongTitleStyle,
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: imagelist.length >= 5
+                                    ? imagelist.length
+                                    : imagelist.length + 1,
+                                itemBuilder: (context, index) {
+                                  if (imagelist.length < 5) {
+                                    if (imagelist.length == index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          pickImage?.selectImage();
+                                        },
                                         child: Container(
-                                          // padding: EdgeInsets.only(
-                                          //     right: kFlexibleSize(15),
-                                          //     left: kFlexibleSize(15),
-                                          //     top: kFlexibleSize(15),
-                                          //     bottom: kFlexibleSize(10)),
+                                          margin: const EdgeInsets.all(8.0),
                                           width: kFlexibleSize(100),
-                                          height: kFlexibleSize(120),
                                           decoration: BoxDecoration(
                                               color: kBgColor,
                                               borderRadius:
                                                   BorderRadius.circular(10.0)),
                                           child: Center(child: addBlueIcon),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    }
                                   }
-                                }
-                                return image(index);
-                              },
-                            ),
-                          )
-                        ],
+                                  return image(index);
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: kFlexibleSize(30)),
-                    btn()
-                  ],
+                      SizedBox(height: kFlexibleSize(30)),
+                      btn()
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -236,38 +272,62 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
   }
 
   Widget image(int index) {
-    return Padding(
-      padding: EdgeInsets.only(
-          right: kFlexibleSize(15),
-          top: kFlexibleSize(15),
-          bottom: kFlexibleSize(10)),
-      child: Container(
-        width: kFlexibleSize(100),
-        height: kFlexibleSize(120),
-        color: Colors.white,
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              imagelist.removeAt(index);
-            });
-          },
-          child: Center(
-              child: img != null
-                  ? Container(
-                  width: kFlexibleSize(100),
-                  height: kFlexibleSize(120),
-                  child: Image.file(imagelist[index]))
-                  : Container(
-                      width: kFlexibleSize(100),
-                      height: kFlexibleSize(120),
-                decoration: BoxDecoration(
-                    color: kBgColor,
-                    borderRadius:
-                    BorderRadius.circular(10.0)),
-                      child: addBlueIcon,
+    return Container(
+      width: kFlexibleSize(110),
+      // height: kFlexibleSize(130),
+      child: img != null
+          ? Stack(
+              fit: StackFit.expand,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                        child: Image.file(
+                      imagelist[index],
+                      fit: BoxFit.cover,
                     )),
-        ),
-      ),
+                  ),
+                ),
+                Positioned(
+                  child: InkWell(
+                      onTap: () {
+                        CustomPopup(context,
+                            title: '',
+                            message: 'Are you sure you want to delete ?',
+                            primaryBtnTxt: 'DELETE', primaryAction: () {
+                          setState(() {
+                            imagelist.removeAt(index);
+                          });
+                        }, secondaryBtnTxt: 'CANCEL', secondaryAction: () {});
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              kFlexibleSize(15),
+                            )),
+                        child: deleteImage,
+                        height: kFlexibleSize(30),
+                        width: kFlexibleSize(30),
+                      )),
+                  right: 1,
+                  top: 1,
+                )
+              ],
+            )
+          : Padding(
+              padding: EdgeInsets.only(top: kFlexibleSize(20)),
+              child: Container(
+                width: kFlexibleSize(95),
+                height: kFlexibleSize(115),
+                decoration: BoxDecoration(
+                    color: kBgColor, borderRadius: BorderRadius.circular(10.0)),
+                child: addBlueIcon,
+              ),
+            ),
     );
   }
 
@@ -277,10 +337,7 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
             Status.LOADING;
 
     return Container(
-        padding: EdgeInsets.only(
-          left: kFlexibleSize(30),
-          right: kFlexibleSize(30),
-        ),
+        width: kFlexibleSize(315),
         child: BaseAppButton(
           color: kPrimaryColor,
           isLoading: isLoading,

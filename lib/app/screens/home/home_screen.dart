@@ -36,8 +36,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           Padding(
             padding: EdgeInsets.only(right: kFlexibleSize(20)),
             child: Container(
-              width: kFlexibleSize(26),
-              height: kFlexibleSize(26),
+              width: kFlexibleSize(20),
+              height: kFlexibleSize(20),
               child: notificationImage,
             ),
           )
@@ -69,9 +69,9 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(left: kFlexibleSize(30)),
+                      padding: EdgeInsets.only(left: kFlexibleSize(20)),
                       child: Text(
-                        'Events',
+                        'Events *',
                         style: TextStyle(
                           fontSize: kRegularFontSize,
                           fontWeight: FontWeight.w700,
@@ -83,26 +83,33 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                   Row(
                     children: [
                       Text(
-                        'View all',
+                        'View All',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: kTenFontSize,
+                            fontSize: kSmallFontSize,
                             fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
                         width: kFlexibleSize(5),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(right: kFlexibleSize(30)),
+                        padding: EdgeInsets.only(right: kFlexibleSize(20)),
                         child: Container(
-                          width: kFlexibleSize(10),
-                          child: arrowRightImage,
+                          width: kFlexibleSize(20),
+                          height: kFlexibleSize(20),
+                          child: Center(
+                            child: Container(
+                              width: kFlexibleSize(20),
+                              height: kFlexibleSize(10),
+                              child: arrowRightImage,
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               SizedBox(
@@ -153,7 +160,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                       child: Container(
                         padding: EdgeInsets.only(left: kFlexibleSize(20)),
                         child: Text(
-                          'Housekeeping Schedule',
+                          'Housekeeping Schedule *',
                           style: TextStyle(
                             fontSize: kRegularFontSize,
                             fontWeight: FontWeight.w700,
@@ -165,12 +172,12 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     Row(
                       children: [
                         Text(
-                          'View all',
+                          'View All',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: kFontColor,
-                              fontSize: kTenFontSize,
+                              fontSize: kSmallFontSize,
                               fontWeight: FontWeight.w400),
                         ),
                         SizedBox(
@@ -179,8 +186,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                         Padding(
                           padding: EdgeInsets.only(right: kFlexibleSize(20)),
                           child: Container(
-                            width: kFlexibleSize(10),
-                            child: arrowRightBlackImage,
+                            width: kFlexibleSize(20),
+                            height: kFlexibleSize(20),
+                            child: Center(
+                              child: Container(
+                                width: kFlexibleSize(15),
+                                height: kFlexibleSize(5),
+                                child: arrowRightBlackImage,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -226,7 +240,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     child: Container(
                       padding: EdgeInsets.only(left: kFlexibleSize(20)),
                       child: Text(
-                        'Maintenance Schedule',
+                        'Maintenance Schedule *',
                         style: TextStyle(
                           fontSize: kRegularFontSize,
                           fontWeight: FontWeight.w700,
@@ -245,12 +259,12 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'View all',
+                          'View All',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: kFontColor,
-                              fontSize: kTenFontSize,
+                              fontSize: kSmallFontSize,
                               fontWeight: FontWeight.w400),
                         ),
                         SizedBox(
@@ -259,8 +273,15 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                         Padding(
                           padding: EdgeInsets.only(right: kFlexibleSize(20)),
                           child: Container(
-                            width: kFlexibleSize(10),
-                            child: arrowRightBlackImage,
+                            width: kFlexibleSize(20),
+                            height: kFlexibleSize(20),
+                            child: Center(
+                              child: Container(
+                                width: kFlexibleSize(15),
+                                height: kFlexibleSize(5),
+                                child: arrowRightBlackImage,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -351,7 +372,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                             builder: (BuildContext) =>
                                 MessageToFrontDeskScreen()));
                   },
-                  title: 'Message To FrontDesk',
+                  title: 'Message To FrontDesk *',
                 ),
               ),
               SizedBox(

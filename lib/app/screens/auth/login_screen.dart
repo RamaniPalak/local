@@ -26,7 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) => EnterOtpScreen()));
+                builder: (BuildContext context) => EnterOtpScreen(
+                      otp: auth.loginUserRes?.data?.data?.otp,
+                    )));
       }
     } catch (e) {
       ShowSnackBar(context: context, message: '${e.toString()}');

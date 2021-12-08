@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/data/data_service/server_configs.dart';
@@ -32,10 +31,10 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
     'History ',
     'Raise Complaints',
     'Notice',
-    'Message To FrontDesk',
+    'Message To FrontDesk *',
     'Request for Change Room',
-    'Review & Ratings',
     'Logout'
+    // 'Review & Ratings',
   ];
 
   // late LocalUser? user;
@@ -105,19 +104,21 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                         builder: (context) => const RaiseComplaint()));
                   } else if (index == 2) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>  const NoticeScreen(isCheckout: true)));
+                        builder: (context) =>
+                            const NoticeScreen(isCheckout: true)));
                   } else if (index == 3) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             const MessageToFrontDeskScreen()));
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const NoticeScreen(isCheckout: false)));
-                  } else if (index == 6) {
+                        builder: (context) =>
+                            const NoticeScreen(isCheckout: false)));
+                  } else if (index == 5) {
                     CustomPopup(context,
                         title: 'Logout',
-                        message: 'Are you want to logout',
-                        primaryBtnTxt: 'OK', primaryAction: () {
+                        message: 'Are you sure you want to logout ?',
+                        primaryBtnTxt: 'LOGOUT', primaryAction: () {
                       context.read<AuthProviderImpl>().logOutUser();
                     }, secondaryBtnTxt: 'CANCEL', secondaryAction: () {});
                   }
@@ -172,12 +173,11 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
 
   Widget profile() {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (BuildContext context) =>
-                     ProfileScreen()));
+                builder: (BuildContext context) => ProfileScreen()));
       },
       child: Container(
         height: kFlexibleSize(150),
@@ -240,10 +240,10 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                         left: kFlexibleSize(20), right: kFlexibleSize(10)),
                     child: boxes(
                         hasPadding: true,
-                        key: '₹${reservationData?.folioBalance ?? '-'}',
+                        key: '₹ ${reservationData?.folioBalance ?? '-'}',
                         value: 'Payment Due')),
                 Container(
-                    height: 30,
+                    height: kFlexibleSize(30),
                     padding: EdgeInsets.only(top: kFlexibleSize(5)),
                     child: VerticalDivider(color: kDivider)),
                 Container(

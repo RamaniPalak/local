@@ -25,6 +25,23 @@ class _BankDetailScreenState extends BaseState<BankDetailScreen> {
 
   updateProfile() async {
     try {
+      if (branchNameController.text.trim().isEmpty) {
+        throw 'Please enter branch name ';
+      }
+      if (bankNameController.text.trim().isEmpty) {
+        throw 'Please enter bank name';
+      }
+      if (IFSCController.text.trim().isEmpty) {
+        throw 'Please enter ifsc code';
+      }
+      if (acHolderController.text.trim().isEmpty) {
+        throw 'Please enter ac holder name';
+      } if (acNumController.text.trim().isEmpty) {
+        throw 'Please enter ac number';
+      }
+
+
+
       final provider = Provider.of<ProfileProviderImpl>(context, listen: false);
 
       provider.userBankData?.acBranchName = branchNameController.text;
@@ -79,73 +96,75 @@ class _BankDetailScreenState extends BaseState<BankDetailScreen> {
 
   Widget _body(BuildContext context) {
     return SafeArea(
-        child: SingleChildScrollView(
-      child: Container(
-        padding:
-            EdgeInsets.only(left: kFlexibleSize(20), right: kFlexibleSize(20)),
-        child: Column(
-          children: [
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-            TextFieldCommon(
-              hint: 'Enter Bank Name',
-              title: 'Bank Name',
-              controller: bankNameController,
-            ),
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-            TextFieldCommon(
-              title: 'Account Number',
-              hint: 'Enter Account Number',
-              controller: acNumController,
-            ),
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-            TextFieldCommon(
-              title: 'IFSC Code',
-              hint: 'Enter IFSC Code',
-              controller: IFSCController,
-            ),
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-            TextFieldCommon(
-              title: 'Account Holder Name',
-              hint: 'Enter Account Holder Name',
-              controller: acHolderController,
-            ),
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-            TextFieldCommon(
-              title: 'Branch Name',
-              hint: 'Enter Branch Name',
-              controller: branchNameController,
-            ),
-            SizedBox(
-              height: kFlexibleSize(50),
-            ),
-            button(),
-            SizedBox(
-              height: kFlexibleSize(20),
-            ),
-          ],
+      child: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.only(
+              left: kFlexibleSize(20), right: kFlexibleSize(20)),
+          child: Column(
+            children: [
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+              TextFieldCommon(
+                hint: 'Enter Bank Name',
+                title: 'Bank Name',
+                controller: bankNameController,
+              ),
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+              TextFieldCommon(
+                title: 'Account Number',
+                hint: 'Enter Account Number',
+                controller: acNumController,
+              ),
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+              TextFieldCommon(
+                title: 'IFSC Code',
+                hint: 'Enter IFSC Code',
+                controller: IFSCController,
+              ),
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+              TextFieldCommon(
+                title: 'Account Holder Name',
+                hint: 'Enter Account Holder Name',
+                controller: acHolderController,
+              ),
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+              TextFieldCommon(
+                title: 'Branch Name',
+                hint: 'Enter Branch Name',
+                controller: branchNameController,
+              ),
+              SizedBox(
+                height: kFlexibleSize(50),
+              ),
+              button(),
+              SizedBox(
+                height: kFlexibleSize(20),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-
     );
   }
 
   Widget button() {
-    final isLoading =  context.read<ProfileProviderImpl>().updatedBankRes?.state == Status.LOADING;
+    final isLoading =
+        context.read<ProfileProviderImpl>().updatedBankRes?.state ==
+            Status.LOADING;
 
     return Container(
-      padding:
-          EdgeInsets.only(left: kFlexibleSize(20), right: kFlexibleSize(20)),
+      width: kFlexibleSize(315),
+      // padding:
+      //     EdgeInsets.only(left: kFlexibleSize(20), right: kFlexibleSize(20)),
       child: BaseAppButton(
         title: 'SAVE',
         isLoading: isLoading,

@@ -69,7 +69,7 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
               retryCall: () {
                 context.read<ListProviderImpl>().getComplain();
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
 
     if (complain.getComplainRes?.state == Status.LOADING) {
@@ -86,7 +86,8 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
                 title: data?[index].ticketTitle,
                 relatedTo: data?[index].issueRelatedTypeTerm,
                 statusColor: data?[index].statusColor,
-                color: data?[index].priorityColor),
+                color: data?[index].priorityColor,
+            note: data?[index].ticketNote),
           );
         });
   }

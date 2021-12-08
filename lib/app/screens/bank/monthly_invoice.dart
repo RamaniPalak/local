@@ -27,7 +27,9 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
     super.initState();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      context.read<TransactionProviderImpl>().GetInvoice(invoiceId: widget.invoiceId ?? '');
+      context
+          .read<TransactionProviderImpl>()
+          .GetInvoice(invoiceId: widget.invoiceId ?? '');
     });
 
     // loadPFd();
@@ -101,7 +103,7 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
                     .read<TransactionProviderImpl>()
                     .GetInvoice(invoiceId: widget.invoiceId ?? '');
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
 
     final isLoading = provider.getInvoiceRes?.state == Status.LOADING;

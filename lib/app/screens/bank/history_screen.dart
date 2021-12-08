@@ -59,7 +59,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
               retryCall: () {
                 context.read<ListProviderImpl>().getHistory();
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
     return ListView.builder(
         itemCount: data?.length ?? 0,

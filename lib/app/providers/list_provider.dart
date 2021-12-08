@@ -27,13 +27,11 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
   Future<PackageInfo> get packageInfo async => await PackageInfo.fromPlatform();
 
   ListProviderImpl(this.repo) {
-
     _getNoticeRes = ApiResponse();
     _insertNoticeRes = ApiResponse();
     _getHistoryRes = ApiResponse();
     _insertComplainRes = ApiResponse();
     _getComplainRes = ApiResponse();
-
   }
 
   ApiResponse<ResGetNotice>? _getNoticeRes;
@@ -60,8 +58,6 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
 
   ReqAddComplain? complainData;
 
-
-
   @override
   Future getNotice({required String noticeTypeTerm}) async {
     try {
@@ -85,7 +81,8 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
     try {
       apiResIsLoading(_insertNoticeRes!);
 
-      final res = await repo.insertNotice(data: noticeData!,noticeType: noticeType);
+      final res =
+          await repo.insertNotice(data: noticeData!, noticeType: noticeType);
 
       if (res.success != true) {
         apiResIsFailed(_insertNoticeRes!, res.message ?? '');
@@ -118,44 +115,38 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
 
   @override
   Future insertComplain({List<String>? paths}) async {
-    try{
-
+    try {
       apiResIsLoading(_insertComplainRes!);
 
-      final res = await repo.insertComplain(data: complainData!,paths: paths);
+      final res = await repo.insertComplain(data: complainData!, paths: paths);
 
-      if(res.success != true){
+      if (res.success != true) {
         apiResIsFailed(_insertComplainRes!, res.message ?? '');
       } else {
         getComplain();
         apiResIsSuccess(_insertComplainRes!, res);
       }
-
-    } catch (e){
+    } catch (e) {
       print(e);
       apiResIsFailed(_insertComplainRes!, e.toString());
-
     }
   }
 
   @override
   Future getComplain() async {
     try {
-
       apiResIsLoading(_getComplainRes!);
 
       final res = await repo.getComplain();
 
-      if(res.success != true){
+      if (res.success != true) {
         apiResIsFailed(_getComplainRes!, res.message ?? '');
       } else {
         apiResIsSuccess(_getComplainRes!, res);
       }
-
-    } catch(e){
+    } catch (e) {
       print(e);
       apiResIsFailed(_getComplainRes!, e.toString());
-
     }
   }
 }

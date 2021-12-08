@@ -103,7 +103,6 @@ class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
         await userDetail();
 
         apiResIsSuccess(_updatedUserRes!, res);
-
       }
     } catch (e) {
       print(e);

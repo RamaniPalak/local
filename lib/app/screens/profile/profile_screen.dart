@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
 import 'package:local/app/providers/auth_provider.dart';
+import 'package:local/app/screens/auth/reservation_screen.dart';
 import 'package:local/app/screens/bank/bank_detail_screen.dart';
 import 'package:local/app/screens/bank/transaction/transaction_history_screen.dart';
 import 'package:local/app/screens/documents/document_screen.dart';
@@ -56,12 +57,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext) => UpdateProfileScreen())).then((value) {
-                        if(value == true){
-                          reservationDetail();
-                        }
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext) => UpdateProfileScreen()))
+                  .then((value) {
+                if (value == true) {
+                  reservationDetail();
+                }
               });
             },
             child: Padding(
@@ -69,9 +71,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 right: kFlexibleSize(20),
               ),
               child: Container(
-                height: kFlexibleSize(20),
-                width: kFlexibleSize(20),
-                child: editIconImage,
+                height: kFlexibleSize(40),
+                width: kFlexibleSize(40),
+                child: Center(
+                  child: Container(
+                    height: kFlexibleSize(20),
+                    width: kFlexibleSize(20),
+                    child: editIconImage,
+                  ),
+                ),
               ),
             ),
           )
@@ -103,11 +111,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Container(
                               width: kFlexibleSize(120),
                               height: kFlexibleSize(120),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
+                              child: ClipRRect(
                                   borderRadius:
-                                      BorderRadius.circular(kFlexibleSize(60))),
-                              child: profileImage,
+                                  BorderRadius.circular(kFlexibleSize(60)),
+                                  child: Container(color: Colors.white, child: profileImage)),
                             ),
                           ),
                         ),
@@ -168,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '₹${reservationData?.folioBalance ?? ''}',
+                                      '₹ ${reservationData?.folioBalance ?? ''}',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(
@@ -298,11 +305,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(height: kFlexibleSize(10)),
                         BaseAppBtn(
                           onTap: () {
-                            Provider.of<AuthProviderImpl>(context,
-                                    listen: false)
-                                .selectReservation();
-                            Navigator.popUntil(
-                                context, (route) => route.isFirst);
+                            // Provider.of<AuthProviderImpl>(context,
+                            //         listen: false)
+                            //     .selectReservation();
+                            // Navigator.popUntil(
+                            //     context, (route) => route.isFirst);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ReservationScreen(),
+                            ));
                           },
                           title: 'Reservation',
                         ),

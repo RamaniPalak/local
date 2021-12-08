@@ -16,6 +16,7 @@ Color yellowColor = const Color(0xfff7b84e);
 Color backgroundColor = const Color(0xE5E5E5);
 Color greenColor = const Color(0xff58A01E);
 Color greyColor = const Color(0xffB0B7BD);
+Color kborderColor = const Color(0x40000000);
 
 String kInitialRoute = '/';
 String kLoginRoute = '/LoginScreen';
@@ -75,7 +76,7 @@ final kLongTitleStyle = TextStyle(
 
 final kCommonBlueShadow = [
   BoxShadow(
-    color: kPrimaryColor.withOpacity(0.3),
+    color: kPrimaryColor.withOpacity(0.5),
     spreadRadius: 0,
     blurRadius: 20,
     offset: Offset(0, 10), // changes position of shadow

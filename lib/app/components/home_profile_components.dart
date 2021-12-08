@@ -155,9 +155,9 @@ Widget boxes(
           '$key',
           softWrap: true,
           overflow: TextOverflow.ellipsis,
-          maxLines: 1,
+          maxLines: 2,
           style: TextStyle(
-              fontSize: kDoubleFontSize,
+              fontSize: kBigFontSize,
               fontWeight: FontWeight.w900,
               color: Colors.white),
         ),

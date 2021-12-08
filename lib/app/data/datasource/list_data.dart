@@ -37,7 +37,7 @@ class ListDataImpl implements ListData {
         companyId: user.companyId,
     memberId: user.memberId);
 
-    //print(req.toJson());
+    print(req.toJson(noticeTypeTerm));
 
     final res = await WebService.shared
         .postApiDIO(path: ServerConfigs.getNoticeList, data: req.toJson(noticeTypeTerm));

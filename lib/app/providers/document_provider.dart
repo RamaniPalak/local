@@ -80,7 +80,7 @@ class DocumentProviderImpl extends BaseNotifier implements DocumentProvider {
     } catch (e) {
       print(e);
       apiResIsFailed(_uploadDocumentRes!, e);
-     }
+    }
   }
 
   @override

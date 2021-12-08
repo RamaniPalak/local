@@ -78,24 +78,31 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
           children: [
             Container(
               width: double.infinity,
-              padding: EdgeInsets.only(
-                  top: kFlexibleSize(30), left: kFlexibleSize(40)),
+              // padding: EdgeInsets.only(
+              //     top: kFlexibleSize(30), left: kFlexibleSize(40)),
               color: kPrimaryColor,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '₹${reservationData?.folioBalance ?? ''}',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: kDoubleSize),
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: kFlexibleSize(30), left: kFlexibleSize(40)),
+                    child: Text(
+                      '₹ ${reservationData?.folioBalance ?? ''}',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: kDoubleSize),
+                    ),
                   ),
                   SizedBox(height: kFlexibleSize(5)),
-                  Text('PAYMENT DUE', style: kLightStyle),
+                  Container(
+                      padding: EdgeInsets.only(left: kFlexibleSize(40)),
+                      child: Text('PAYMENT DUE', style: kLightStyle)),
                   SizedBox(height: kFlexibleSize(11)),
                   Container(
+                    margin: EdgeInsets.only(left: kFlexibleSize(40)),
                     padding: EdgeInsets.symmetric(
                         vertical: kFlexibleSize(2),
                         horizontal: kFlexibleSize(6)),
@@ -111,10 +118,14 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                     ),
                   ),
                   SizedBox(height: kFlexibleSize(25)),
-                  const TabBar(
+                  TabBar(
                     isScrollable: true,
                     indicatorColor: Colors.white,
                     indicator: UnderlineTabIndicator(),
+                    padding: EdgeInsets.only(left: kFlexibleSize(40)),
+                    indicatorPadding: EdgeInsets.only(right: kFlexibleSize(15)),
+                    labelPadding:
+                        EdgeInsets.only(left: 0, right: kFlexibleSize(15)),
                     tabs: [
                       Tab(text: 'Unbilled'),
                       Tab(text: 'Statement'),
@@ -126,7 +137,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             Expanded(
               child: TabBarView(
                 children: [
-                  unbill(),
+                  unBill(),
                   invoice(),
                 ],
               ),
@@ -137,7 +148,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     );
   }
 
-  Widget unbill() {
+  Widget unBill() {
     final res = context.watch<TransactionProviderImpl>();
 
     final hasError = res.unBillTransactionRes?.state == Status.ERROR ||
@@ -149,7 +160,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
               retryCall: () {
                 context.read<TransactionProviderImpl>().unbillTransaction();
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
 
     if (res.unBillTransactionRes?.state == Status.LOADING) {
@@ -166,10 +177,11 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
         itemBuilder: (context, index) {
           if (index == ((data?.length ?? 0))) {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: kFlexibleSize(10)),
+              margin: EdgeInsets.symmetric(
+                  vertical: kFlexibleSize(20), horizontal: kFlexibleSize(20)),
               child: Column(
                 children: [
-                  const MySeparator(),
+                  MySeparator(),
                   SizedBox(height: kFlexibleSize(20)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,7 +204,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             );
           } else {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: kFlexibleSize(10)),
+              margin: EdgeInsets.symmetric(vertical: kFlexibleSize(10),horizontal: kFlexibleSize(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -211,7 +223,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                     ),
                   ),
-                  Text('₹${data?[index].charge}',
+                  Text('₹ ${data?[index].charge}',
                       style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: kMediumFontSize,
@@ -238,7 +250,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
               retryCall: () {
                 context.read<TransactionProviderImpl>().TransactionInvoice();
               },
-              title: 'No Profile Data Found'));
+              title: 'No Data Found'));
     }
 
     if (res.transactionInvoiceRes?.state == Status.LOADING) {
@@ -257,78 +269,84 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => MonthlyInvoiceScreen(
-                        invoiceId: data?[index].invoiceId,
-                      )));
+                            invoiceId: data?[index].invoiceId,
+                          )));
             },
             child: Container(
               color: Colors.white,
               margin: EdgeInsets.only(bottom: kFlexibleSize(10)),
               padding: EdgeInsets.symmetric(
-                  vertical: kFlexibleSize(8), horizontal: kFlexibleSize(20)),
+                  vertical: kFlexibleSize(10), horizontal: kFlexibleSize(20)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '${data?[index].invoiceNo}',
-                        style: TextStyle(
-                            color: kFontColor,
-                            fontSize: kRegularFontSize,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Text(
-                        '₹${data?[index].receivedAmt}',
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: kMediumFontSize,
-                            fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(right: kFlexibleSize(10)),
-                        child: Text(
-                          '${data?[index].invoiceDate}',
-                          style: kTransactionStyle,
+                  Container(
+                    padding: EdgeInsets.only(left: kFlexibleSize(20)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '${data?[index].invoiceNo}',
+                          style: TextStyle(
+                              color: kFontColor,
+                              fontSize: kRegularFontSize,
+                              fontWeight: FontWeight.w700),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            '₹${data?[index].dueAmt} Due ',
+                        Text(
+                          '₹ ${data?[index].receivedAmt}',
+                          style: TextStyle(
+                              color: kPrimaryColor,
+                              fontSize: kMediumFontSize,
+                              fontWeight: FontWeight.w900),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: kFlexibleSize(20)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: kFlexibleSize(10)),
+                          child: Text(
+                            '${data?[index].invoiceDate}',
                             style: kTransactionStyle,
                           ),
-                          if (data?[index].isPaymentDue == true)
-                            Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: kFlexibleSize(2),
-                                    horizontal: kFlexibleSize(6)),
-                                decoration: BoxDecoration(
-                                    color: dividerColor,
-                                    borderRadius: BorderRadius.circular(3)),
-                                child: Text(
-                                  'Pay Now',
-                                  style: TextStyle(
-                                      fontSize: kSmallFontSize,
-                                      color: kRedColor,
-                                      fontWeight: FontWeight.w700),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              '₹ ${data?[index].dueAmt} Due ',
+                              style: kTransactionStyle,
+                            ),
+                            if (data?[index].isPaymentDue == true)
+                              Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: kFlexibleSize(2),
+                                      horizontal: kFlexibleSize(6)),
+                                  decoration: BoxDecoration(
+                                      color: dividerColor,
+                                      borderRadius: BorderRadius.circular(3)),
+                                  child: Text(
+                                    'Pay Now',
+                                    style: TextStyle(
+                                        fontSize: kSmallFontSize,
+                                        color: kRedColor,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
-                              ),
-                            )
-                        ],
-                      ),
-                    ],
+                              )
+                          ],
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -344,7 +362,7 @@ class MySeparator extends StatelessWidget {
   final double height;
   final Color color;
 
-  const MySeparator({this.height = 1, this.color = Colors.black});
+  MySeparator({this.height = 1, this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,7 @@ import 'package:local/app/providers/profile_provider.dart';
 import 'package:local/app/screens/base/base_state_full.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
+import 'package:local/app/utils/extensions.dart';
 import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
@@ -26,6 +27,16 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
 
   updateProfile() async {
     try {
+      if (fNameController.text.trim().isEmpty ||
+          lNameController.text.trim().isEmpty ||
+          emailController.text.trim().isEmpty) {
+        throw 'Please enter field';
+      }
+
+      if (!emailController.text.isValidEmail) {
+        throw 'please enter valid email';
+      }
+
       final provider = Provider.of<ProfileProviderImpl>(context, listen: false);
 
       provider.member?.firstName = fNameController.text;
@@ -61,10 +72,8 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
         lNameController.text = data?.meber?.lastName ?? '';
         mobileController.text = data?.meber?.mobileNo ?? '';
         emailController.text = data?.meber?.eMail ?? '';
-
       });
     });
-
   }
 
   @override
@@ -99,11 +108,15 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
                     Container(
                       height: kFlexibleSize(120),
                       width: kFlexibleSize(120),
-                      decoration: BoxDecoration(
+                      // decoration: BoxDecoration(
+                      //
+                      //     color: Colors.grey),
+                      child: ClipRRect(
                           borderRadius:
-                              BorderRadius.circular(kFlexibleSize(60)),
-                          color: Colors.grey),
-                      child: profileImage,
+                          BorderRadius.circular(kFlexibleSize(60)),
+                          child: Container(
+                              color: Colors.grey,
+                              child: profileImage)),
                     ),
                     Positioned(
                       child: Container(
@@ -145,10 +158,28 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
                     controller: lNameController,
                   ),
                   SizedBox(height: kFlexibleSize(20)),
-                  TextFieldCommon(
-                    title: 'Phone No.',
-                    hint: 'Enter Phone No.',
-                    controller: mobileController,
+                  Column(
+                    children: [
+                      Text('Phone No.', style: kLongTitleStyle),
+                      SizedBox(height: kFlexibleSize(6)),
+                      Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: kFlexibleSize(15)),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(kFlexibleSize(10))),
+                        child: TextField(
+                          style: kAppBarTitle,
+                          controller: mobileController,
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Enter Phone No.'),
+                        ),
+                      )
+                    ],
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                   ),
                   SizedBox(height: kFlexibleSize(20)),
                   TextFieldCommon(
@@ -171,17 +202,18 @@ class _UpdateProfileScreenState extends BaseState<UpdateProfileScreen> {
   }
 
   Widget button() {
-
-    final isLoading =  context.watch<ProfileProviderImpl>().updatedUserRes?.state == Status.LOADING;
+    final isLoading =
+        context.watch<ProfileProviderImpl>().updatedUserRes?.state ==
+            Status.LOADING;
     return Container(
       padding:
           EdgeInsets.only(left: kFlexibleSize(30), right: kFlexibleSize(30)),
       child: BaseAppButton(
         color: kPrimaryColor,
-        isLoading: isLoading ,
+        isLoading: isLoading,
         title: 'UPDATE',
         onTap: () {
-         updateProfile();
+          updateProfile();
         },
       ),
     );

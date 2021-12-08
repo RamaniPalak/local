@@ -18,7 +18,7 @@ class RaiseComponent extends StatelessWidget {
           left: kFlexibleSize(20),
           right: kFlexibleSize(20),),
       width: kFlexibleSize(335),
-      height: kFlexibleSize(100),
+      height: kFlexibleSize(130),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(kFlexibleSize(10)),
@@ -88,7 +88,29 @@ class RaiseComponent extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: kFlexibleSize(15),
+                bottom: kFlexibleSize(5),
+                right: kFlexibleSize(15),
+              ),
+              child: Container(
+                width: double.infinity,
+                child: Text(
+                  '${raiseModel?.note ?? ''}',
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  softWrap: true,
+                  style: TextStyle(
+                      color: kFontColor,
+                      fontSize: kRegularFontSize,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -101,6 +123,7 @@ class RaiseModel {
   final String? status;
   final Color? color;
   final Color? statusColor;
+  final String? note;
 
 
   RaiseModel(
@@ -108,6 +131,7 @@ class RaiseModel {
         this.relatedTo,
         this.status,
         this.color,
-        this.statusColor
+        this.statusColor,
+        this.note
       });
 }

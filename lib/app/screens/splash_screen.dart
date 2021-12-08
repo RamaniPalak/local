@@ -27,10 +27,8 @@ class SplashScreen extends BaseStateLess {
 
                       width: double.infinity,
                       child: loclTextImage),
-
                 ],
               ),
-
             ],
           ),
         ),
