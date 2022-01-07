@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:local/app/views/network_image.dart';
 
 class CardComponents extends StatelessWidget {
-  CardComponents({
-    Key? key,
-  }) : super(key: key);
+
+  CardComponents({Key? key, this.cardModel}) : super(key: key);
+
+  CardModel? cardModel;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: kFlexibleSize(130),
-      width: kFlexibleSize(335),
+      height: kFlexibleSize(100),
+      width: kFlexibleSize(300),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
@@ -23,12 +25,19 @@ class CardComponents extends StatelessWidget {
           Padding(
             padding: EdgeInsets.all(kFlexibleSize(10)),
             child: Container(
-                height: kFlexibleSize(100),
-                width: kFlexibleSize(80),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(kFlexibleSize(10)),
-                  child: Container(color: Colors.white, child: cardImage),
-                )),
+              height: kFlexibleSize(80),
+              width: kFlexibleSize(80),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(kFlexibleSize(10)),
+                child: Container(
+                  color: Colors.white,
+                  child: Hero(
+                    tag: '${cardModel?.eventID}',
+                    child: CustomNetWorkImage(url: '${cardModel?.img}'),
+                  ),
+                ),
+              ),
+            ),
           ),
           Expanded(
             child: Column(
@@ -41,7 +50,7 @@ class CardComponents extends StatelessWidget {
                       right: kFlexibleSize(20),
                       top: kFlexibleSize(10)),
                   child: Text(
-                    'Lorem ipsum dolor sit amet, ipsum is consectetur adipiscing elit ipsum dolor sit amet.',
+                    '${cardModel?.name ??'-' }',
                     style: kRegularText,
                     maxLines: 3,
                     overflow: TextOverflow.clip,
@@ -50,14 +59,14 @@ class CardComponents extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(
                       left: kFlexibleSize(5), top: kFlexibleSize(5)),
-                  child: prefixTitle('7:00 am to 9:00 am', clockImage),
+                  child: prefixTitle('${cardModel?.time ?? '-'}', clockImage),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
                       left: kFlexibleSize(5),
                       top: kFlexibleSize(5),
                       bottom: kFlexibleSize(15)),
-                  child: prefixTitle('Jan 4 2021', calendarImage),
+                  child: prefixTitle('${cardModel?.date ?? '-'}', calendarImage),
                 ),
               ],
             ),
@@ -66,4 +75,22 @@ class CardComponents extends StatelessWidget {
       ),
     );
   }
+}
+
+
+class CardModel {
+  final String? img;
+  final String? name;
+  final String? time;
+  final String? date;
+  final String? eventID;
+
+
+  CardModel(
+      { this.img,
+        this.name,
+        this.time,
+        this.date,
+        this.eventID
+      });
 }

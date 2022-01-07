@@ -9,6 +9,7 @@ import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:local/app/views/custom_popup_view.dart';
 import 'package:local/app/views/loading_small.dart';
+import 'package:local/app/views/network_image.dart';
 import 'package:provider/provider.dart';
 
 class DocumentScreen extends StatefulWidget {
@@ -204,8 +205,8 @@ class _DocumentScreenState extends State<DocumentScreen> {
                             offset: Offset(0, 13), // changes position of shadow
                           ),
                         ]),
-                        child: Image.network(
-                          '${myObj?.originalDocumentPath}',
+                        child: CustomNetWorkImage(
+                            url: '${myObj?.originalDocumentPath }',
                           fit: BoxFit.cover,
                         ),
                       ),

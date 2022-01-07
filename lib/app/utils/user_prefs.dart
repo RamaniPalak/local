@@ -12,6 +12,7 @@ class UserPrefs {
     prefs.setString('USER_TOKEN', user.token);
     prefs.setString('MOBILE', user.mobile);
     prefs.setString('EMAIL', user.email);
+    prefs.setString('displayName', user.displayName);
   }
 
   // Clear Local here
@@ -33,9 +34,10 @@ class UserPrefs {
     String token = prefs.getString('USER_TOKEN') ?? '';
     String mobile = prefs.getString('MOBILE') ?? '';
     String email = prefs.getString('EMAIL') ?? '';
+    String displayName = prefs.getString('displayName') ?? '';
 
 
-    return LocalUser(isLogin: isLogin, token: token, memberID: memberId,mobile: mobile,email: email);
+    return LocalUser(isLogin: isLogin, token: token, memberID: memberId,mobile: mobile,email: email,displayName: displayName);
   }
 
   Future setEmail({required String email}) async {
@@ -63,12 +65,14 @@ class LocalUser {
   final bool isLogin;
   final String mobile;
   final String email;
+  final String displayName;
 
   LocalUser({
     required this.memberID,
     required this.token,
     required this.isLogin,
     required this.mobile,
-    required this.email
+    required this.email,
+    required this.displayName
   });
 }

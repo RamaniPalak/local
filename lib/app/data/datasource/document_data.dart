@@ -56,6 +56,7 @@ class DocumentDataImpl implements DocumentData {
 
   @override
   Future<ResEmpty> deleteDoc({required String docId}) async {
+
     final res = await WebService.shared.deleteApiDIO(path: ServerConfigs.docDelete, data: {'DocumentID': docId});
 
     try {

@@ -13,7 +13,7 @@ class Notice {
 
   Future<Map<String, dynamic>> toJson(String noticeType) async {
 
-    final res = await Reservation.shared.getUser;
+    final res = await Reservation.shared.getReservation;
 
     return {
       "CompanyID": res.companyId,

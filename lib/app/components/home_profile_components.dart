@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
-import 'package:local/app/screens/profile/profile_screen.dart';
 import 'package:local/app/utils/constants.dart';
-import 'package:local/app/utils/reservation.dart';
+import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/common_images.dart';
 
 class ProfileComponents extends StatefulWidget {
   ProfileComponents({
     Key? key,
+    this.reservationData,
+    this.onTap,
+    this.userData
   }) : super(key: key);
+
+  final ResReservationData? reservationData;
+  LocalUser? userData;
+  final GestureTapCallback? onTap;
 
   @override
   State<ProfileComponents> createState() => _ProfileComponentsState();
@@ -18,18 +24,18 @@ class _ProfileComponentsState extends State<ProfileComponents> {
   @override
   void initState() {
     super.initState();
-    reservationDetail();
+    // reservationDetail();
   }
 
-  reservationDetail() async {
-    var res = await Reservation.shared.getUser;
-
-    setState(() {
-      reservationData = res;
-    });
-  }
-
-  ResReservationData? reservationData;
+  // reservationDetail() async {
+  //   var res = await Reservation.shared.getUser;
+  //
+  //   setState(() {
+  //     reservationData = res;
+  //   });
+  // }
+  //
+  // ResReservationData? reservationData;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +47,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext) => ProfileScreen()))
-                  .then((value) {
-                reservationDetail();
-              });
-            },
+            onTap: widget.onTap,
             child: Padding(
               padding: EdgeInsets.only(left: kFlexibleSize(20)),
               child: Container(
@@ -68,7 +66,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                 Container(
                     padding: EdgeInsets.only(left: kFlexibleSize(14)),
                     child: Text(
-                      '${reservationData?.memberName ?? ''}',
+                      '${widget.userData?.displayName ?? '-'}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: kProfileTitle,
@@ -78,7 +76,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                       left: kFlexibleSize(14),
                     ),
                     child: Text(
-                      '${reservationData?.propertyName ?? ''}',
+                      '${widget.reservationData?.propertyName ?? '-'}',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: kRegularProfileText,
@@ -95,7 +93,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                           ),
                           child: boxes(
                               hasPadding: true,
-                              key: '₹ ${reservationData?.folioBalance ?? '-'}',
+                              key: '₹ ${widget.reservationData?.folioBalance ?? '-'}',
                               value: 'Payment Due')),
                     ),
                     Container(
@@ -109,7 +107,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                           ),
                           child: boxes(
                               hasPadding: true,
-                              key: '${reservationData?.roomNo ?? '-'}',
+                              key: '${widget.reservationData?.roomNo ?? '-'}',
                               value: 'Room No.')),
                     )
                   ],

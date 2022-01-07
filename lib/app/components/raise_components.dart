@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:local/app/components/common_components.dart';
 import 'package:local/app/utils/constants.dart';
 
@@ -37,7 +36,7 @@ class RaiseComponent extends StatelessWidget {
                 child: Container(
                   width: kFlexibleSize(230),
                   child: Text(
-                    '${raiseModel?.title ?? ''}',
+                    '${raiseModel?.title ?? '-'}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
@@ -53,7 +52,7 @@ class RaiseComponent extends StatelessWidget {
                 child: Container(
                   width: kFlexibleSize(60),
                   height: kFlexibleSize(25),
-                  child: btn(title: btntext ??'', color: raiseModel?.color ?? kPrimaryColor),
+                  child: btn(title: btntext ?? '-', color: raiseModel?.color ?? kPrimaryColor),
                 ),
               )
             ],
@@ -63,7 +62,7 @@ class RaiseComponent extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: keyValueComponent(key: 'Related To', value: '${raiseModel?.relatedTo ?? ''}'),
+            child: keyValueComponent(key: 'Related To', value: '${raiseModel?.relatedTo ?? '-'}'),
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15),bottom: kFlexibleSize(5)),
@@ -78,7 +77,7 @@ class RaiseComponent extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(left: kFlexibleSize(3)),
                   //flex: (isCenter == false) ? 1 : 0,
-                  child: Text(Statustext ?? '',
+                  child: Text(Statustext ?? '-',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -99,7 +98,7 @@ class RaiseComponent extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 child: Text(
-                  '${raiseModel?.note ?? ''}',
+                  '${raiseModel?.note ?? '-'}',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   softWrap: true,

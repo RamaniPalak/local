@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:local/app/views/network_image.dart';
 
 class ScheduleProfile extends StatelessWidget {
-  const ScheduleProfile({Key? key}) : super(key: key);
+
+   ScheduleProfile({Key? key,this.houseModel}) : super(key: key);
+
+
+  HouseModel? houseModel;
 
   @override
   Widget build(BuildContext context) {
 
-    Size screenSize = MediaQuery.of(context).size;
-    double bottom;
-    //assert(bottom != null);
-
     return Container(
-      // width: screenSize.width / 1,
-      // height: screenSize.height / 1.8,
       padding:  EdgeInsets.all(kFlexibleSize(20)),
       child: Column(
         children: [
@@ -42,21 +41,17 @@ class ScheduleProfile extends StatelessWidget {
                       child: Container(
                         height: kFlexibleSize(120),
                         width: kFlexibleSize(120),
-                        child: Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular((kFlexibleSize(50))),
-                              child: femaleProfileImage,
-                            ),
-                          ],
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular((kFlexibleSize(60))),
+                          child: CustomNetWorkImage(
+                            url:'${houseModel?.img}' ),
                         ),
                       ),
                     ),
                     Container(
                         padding:  EdgeInsets.only(top: kFlexibleSize(10)),
                         child: Text(
-                          'Jenny Wilson',
+                          '${houseModel?.name ?? '-'}',
                           style: TextStyle(
                               fontSize: kBigFontSize,
                               fontWeight: FontWeight.w700,
@@ -69,13 +64,13 @@ class ScheduleProfile extends StatelessWidget {
                           Container(
                               padding:  EdgeInsets.only(top: kFlexibleSize(10)),
                               child: Text(
-                                'HKP Type:',
+                                'HKP Type :',
                                 style: kAppBarTitle,
                               )),
                           Container(
-                            padding:  EdgeInsets.only(top: kFlexibleSize(10), left: kFlexibleSize(13)),
+                            padding:  EdgeInsets.only(top: kFlexibleSize(10), left: kFlexibleSize(5)),
                             child: Text(
-                              'Full',
+                              '${houseModel?.hkpType ?? '-'}',
                               style: TextStyle(
                                   fontSize: kMediumFontSize,
                                   fontWeight: FontWeight.w700,
@@ -102,7 +97,7 @@ class ScheduleProfile extends StatelessWidget {
                                 child: clockBlackImage)),
                         Padding(
                           padding: EdgeInsets.only(left : kFlexibleSize(10)),
-                          child: Text('07:00 am - 09:00 am', style: kTitleMediumStyle),
+                          child: Text('${houseModel?.time ?? '-'}', style: kTitleMediumStyle),
                         )
                       ],
                     ),
@@ -117,7 +112,7 @@ class ScheduleProfile extends StatelessWidget {
                                 child: calendarBlackImage)),
                         Padding(
                           padding: EdgeInsets.only(left : kFlexibleSize(10)),
-                          child: Text('Jan 04 2021', style: kTitleMediumStyle),
+                          child: Text('${houseModel?.date ?? '-'}', style: kTitleMediumStyle),
                         )
                       ],
                     ),
@@ -132,7 +127,7 @@ class ScheduleProfile extends StatelessWidget {
                                 child: callImage)),
                         Padding(
                           padding: EdgeInsets.only(left : kFlexibleSize(10)),
-                          child: Text('+8365699852', style: kTitleMediumStyle),
+                          child: Text('${houseModel?.mobile ?? '-'}', style: kTitleMediumStyle),
                         )
                       ],
                     ),
@@ -146,7 +141,7 @@ class ScheduleProfile extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: kFlexibleSize(8), left: kFlexibleSize(20), right: kFlexibleSize(20)),
                       child: Text(
-                          'Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum has been industry.',
+                          '${houseModel?.note ?? '-'}',
                           style: kLongTitleStyle,
                           softWrap: true),
                     )
@@ -159,4 +154,28 @@ class ScheduleProfile extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+class HouseModel {
+  final String? img;
+  final String? name;
+  final String? time;
+  final String? date;
+  final String? note;
+  final String? mobile;
+  final String? hkpType;
+
+
+  HouseModel(
+      {
+        this.img,
+        this.name,
+        this.time,
+        this.date,
+        this.note,
+        this.mobile,
+        this.hkpType
+      });
 }

@@ -15,19 +15,19 @@ class CustomNetWorkImage extends StatelessWidget {
       final image = NetworkImage(url);
       return FadeInImage(
         fit: fit ?? BoxFit.cover,
-        placeholder: AssetImage(assetName ?? "assets/images/female.png",),
+        placeholder: AssetImage(assetName ?? "assets/images/card_placeholder.png",),
         image: image,
         imageErrorBuilder: (context, error, stackTrace) {
 
           return Image.asset(
-            assetName ?? "assets/images/female.png",
+            assetName ?? "assets/images/card_placeholder.png",
             fit: fit ?? BoxFit.cover,
           );
         },
         placeholderErrorBuilder: (context, error, stackTrace) {
 
           return Image.asset(
-            assetName ?? "assets/images/female.png",
+            assetName ?? "assets/images/card_placeholder.png",
             fit: fit ?? BoxFit.cover,
           );
         },

@@ -30,28 +30,28 @@ class ReservationComponent extends StatelessWidget {
         children: [
           reservTextField(
             title: 'Room type' ,
-            description: '${reserv.roomType}',
+            description: '${reserv.roomType ?? '-'}',
           ),
-          reservTextField(title: 'RES#', description: '${reserv.resvId}'),
+          reservTextField(title: 'RES#', description: '${reserv.resvId ??'-'}'),
           // SizedBox(
           //   height: kFlexibleSize(5),
           // ),
           reservTextField(
-              title: 'Check In Date', description: '${reserv.dateIssue}'),
+              title: 'Check In Date', description: '${reserv.dateIssue ?? '-'}'),
 
           reservTextField(
-              title: 'Check Out Date', description: '${reserv.actionDate}'),
+              title: 'Check Out Date', description: '${reserv.actionDate ?? ''}'),
 
-          reservTextField(title: 'Room No.', description: '${reserv.roomNo}'),
-
-          reservTextField(
-              title: 'Payment Due', description: '${reserv.folioBal}'),
+          reservTextField(title: 'Room No.', description: '${reserv.roomNo ?? '-'}'),
 
           reservTextField(
-              title: 'Company Name', description: '${reserv.comapnyName}'),
+              title: 'Payment Due', description: '${reserv.folioBal ?? '-'}'),
 
           reservTextField(
-              title: 'Property Name', description: '${reserv.propertyName}'),
+              title: 'Company Name', description: '${reserv.companyName ?? '-'}'),
+
+          reservTextField(
+              title: 'Property Name', description: '${reserv.propertyName ?? '-'}'),
           SizedBox(
             height: 10,
           )
@@ -68,7 +68,7 @@ class ReservationModel {
   final String? actionDate;
   final String? roomNo;
   final String? folioBal;
-  final String? comapnyName;
+  final String? companyName;
   final String? propertyName;
 
   ReservationModel(
@@ -78,6 +78,6 @@ class ReservationModel {
       this.actionDate,
       this.roomNo,
       this.folioBal,
-      this.comapnyName,
+      this.companyName,
       this.propertyName});
 }

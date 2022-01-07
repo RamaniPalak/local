@@ -29,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   reservationDetail() async {
-    var res = await Reservation.shared.getUser;
+    var res = await Reservation.shared.getReservation;
     var user = await UserPrefs.shared.getUser;
 
     setState(() {
@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 0.0,
         backgroundColor: kPrimaryColor,
         actions: [
-          GestureDetector(
+          InkWell(
             onTap: () {
               Navigator.push(
                       context,
@@ -71,8 +71,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 right: kFlexibleSize(20),
               ),
               child: Container(
-                height: kFlexibleSize(40),
-                width: kFlexibleSize(40),
+                height: 44,
+                width: 44,
                 child: Center(
                   child: Container(
                     height: kFlexibleSize(20),
@@ -122,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: kFlexibleSize(63),
                           child: Center(
                             child: Text(
-                              '${reservationData?.memberName ?? ''}',
+                              '${localUser?.displayName ?? '-'}',
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: kFlexibleSize(4)),
                         Text(
-                          '${reservationData?.propertyName ?? ''}',
+                          '${reservationData?.propertyName ?? '-'}',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: kAppBarTitle,
@@ -175,7 +175,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '₹ ${reservationData?.folioBalance ?? ''}',
+                                      '₹ ${reservationData?.folioBalance ?? '-'}',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(
@@ -210,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      '${reservationData?.roomNo ?? ''}',
+                                      '${reservationData?.roomNo ?? '-'}',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                       style: TextStyle(
@@ -254,11 +254,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(height: kFlexibleSize(20)),
                         leadingIconWidget(
                             leading: callImage,
-                            text: '+91${localUser?.mobile ?? ''}'),
+                            text: '+91${localUser?.mobile ?? '-'}'),
                         SizedBox(height: kFlexibleSize(10)),
                         leadingIconWidget(
                             leading: messageImage,
-                            text: '${localUser?.email ?? ''}'),
+                            text: '${localUser?.email ?? '-'}'),
                       ],
                     ),
                   ),
@@ -299,7 +299,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        TransactionHistoryScreen()));
+                                          TransactionHistoryScreen()));
                           },
                         ),
                         SizedBox(height: kFlexibleSize(10)),

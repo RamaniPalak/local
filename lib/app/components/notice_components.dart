@@ -36,7 +36,7 @@ class NoticeComponent extends StatelessWidget {
                 child: Container(
                   width: kFlexibleSize(230),
                   child:
-                      keyValueComponent(key: 'Notice type', value: '${noticeModel?.Checkout ??''}'),
+                      keyValueComponent(key: 'Notice type', value: '${noticeModel?.Checkout ?? '-'}'),
                 ),
               ),
               Container(
@@ -52,21 +52,21 @@ class NoticeComponent extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: keyValueComponent(key: 'RES#', value: '${noticeModel?.resvId ??''}'),
+            child: keyValueComponent(key: 'RES#', value: '${noticeModel?.resvId ??'-'}'),
           ),
           SizedBox(
             height: kFlexibleSize(5),
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: keyValueComponent(key: 'Date Of Issue', value: '${noticeModel?.dateIssue ??''}'),
+            child: keyValueComponent(key: 'Date Of Issue', value: '${noticeModel?.dateIssue ??'-'}'),
           ),
           SizedBox(
             height: kFlexibleSize(5),
           ),
           Padding(
             padding: EdgeInsets.only(left: kFlexibleSize(15)),
-            child: keyValueComponent(key: 'Action Date', value: '${noticeModel?.actionDate ??''}'),
+            child: keyValueComponent(key: 'Action Date', value: '${noticeModel?.actionDate ??'-'}'),
           ),
           SizedBox(
             height: kFlexibleSize(5),
@@ -75,7 +75,7 @@ class NoticeComponent extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(left: kFlexibleSize(15),right: kFlexibleSize(15),bottom: kFlexibleSize(5)),
               child: Text(
-                '${noticeModel?.note ??''}',
+                '${noticeModel?.note ?? '-'}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(

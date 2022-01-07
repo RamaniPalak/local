@@ -124,8 +124,11 @@ class ProfileProviderImpl extends BaseNotifier implements ProfileProvider {
       } else {
         apiResIsSuccess(_userDetailRes!, res);
         member = res.data?.meber;
-        UserPrefs.shared.setEmail(email: member?.eMail ?? '');
-        Reservation.shared.setMemberName(name: member?.displayName ?? '');
+        UserPrefs.shared.setLocalData(user: LocalUser(memberID: member?.memberId ??'-', token: user.token , isLogin: true,
+            mobile: member?.mobileNo ?? '-', email: member?.eMail ?? '-',displayName: '${member?.title ?? '-'} ${member?.firstName ?? '-'} '
+                '${member?.lastName ?? '-'}'));
+        UserPrefs.shared.setEmail(email: member?.eMail ?? '-');
+        Reservation.shared.setMemberName(name: member?.displayName ?? '-');
       }
     } catch (e) {
       print(e);

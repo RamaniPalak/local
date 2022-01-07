@@ -19,7 +19,7 @@ abstract class TransactionData {
 class TransactionDataImpl implements TransactionData {
   @override
   Future<ResUnbillTransaction> unbillTransaction() async {
-    final user = await Reservation.shared.getUser;
+    final user = await Reservation.shared.getReservation;
 
     final req = ReqUnbillTransaction(
         propertyId: user.propertyId,
@@ -40,7 +40,7 @@ class TransactionDataImpl implements TransactionData {
 
   @override
   Future<ResTransactionInvoice> TransactionInvoice() async {
-    final user = await Reservation.shared.getUser;
+    final user = await Reservation.shared.getReservation;
 
     final req = ReqUnbillTransaction(
         propertyId: user.propertyId,
@@ -60,7 +60,7 @@ class TransactionDataImpl implements TransactionData {
 
   @override
   Future<ResGetInvoice> GetInvoice({required String invoiceId}) async {
-    final user = await Reservation.shared.getUser;
+    final user = await Reservation.shared.getReservation;
 
     final req = ReqGetInvoice(
         propertyId: user.propertyId,

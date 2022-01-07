@@ -43,7 +43,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                   DateComponent(
                     title: 'M',
                     date: '6',
-                    color: kBgColor,
+                    colors: kBgColor,
                     titleColor: kPrimaryColor,
                   ),
                   Padding(
@@ -51,7 +51,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'T',
                       date: '7',
-                      color: kBgColor,
+                      colors: kBgColor,
                     ),
                   ),
                   Padding(
@@ -59,7 +59,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'W',
                       date: '8',
-                      color: kBgRedColor,
+                      colors: kBgRedColor,
                       titleColor: kRedColor,
                     ),
                   ),
@@ -68,7 +68,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'T',
                       date: '9',
-                      color: kBgColor,
+                      colors: kBgColor,
                       titleColor: kPrimaryColor,
                     ),
                   ),
@@ -77,7 +77,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'F',
                       date: '10',
-                      color: kBgRedColor,
+                      colors: kBgRedColor,
                       titleColor: kRedColor,
                     ),
                   ),
@@ -86,7 +86,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'S',
                       date: '11',
-                      color: kBgColor,
+                      colors: kBgColor,
                       titleColor: kPrimaryColor,
                     ),
                   ),
@@ -95,7 +95,7 @@ class _MaintenanceScreenState extends BaseState<MaintenanceScreen> {
                     child: DateComponent(
                       title: 'S',
                       date: '12',
-                      color: kBgColor,
+                      colors: kBgColor,
                       titleColor: kPrimaryColor,
                     ),
                   ),

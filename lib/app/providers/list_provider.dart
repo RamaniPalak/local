@@ -2,6 +2,7 @@ import 'package:local/app/data/entity/req_entity/req_addcomplain.dart';
 import 'package:local/app/data/entity/req_entity/req_insert_notice.dart';
 import 'package:local/app/data/entity/res_entity/res_complain.dart';
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
+import 'package:local/app/data/entity/res_entity/res_event.dart';
 import 'package:local/app/data/entity/res_entity/res_gethistory.dart';
 import 'package:local/app/data/entity/res_entity/res_getnotice.dart';
 import 'package:local/app/repository/list_repository.dart';
@@ -19,6 +20,8 @@ class ListProvider {
   Future insertComplain({List<String>? paths}) async {}
 
   Future getComplain() async {}
+
+  Future getEvent({required String event}) async {}
 }
 
 class ListProviderImpl extends BaseNotifier implements ListProvider {
@@ -32,6 +35,8 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
     _getHistoryRes = ApiResponse();
     _insertComplainRes = ApiResponse();
     _getComplainRes = ApiResponse();
+    _getEventRes = ApiResponse();
+    _getEventDetailRes = ApiResponse();
   }
 
   ApiResponse<ResGetNotice>? _getNoticeRes;
@@ -54,9 +59,19 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
 
   ApiResponse<ResComplain>? get getComplainRes => _getComplainRes;
 
+  ApiResponse<ResEvent>?  _getEventRes;
+
+  ApiResponse<ResEvent>? get getEventRes => _getEventRes;
+
+  ApiResponse<ResEvent>?  _getEventDetailRes;
+
+  ApiResponse<ResEvent>? get getEventDetailRes => _getEventDetailRes;
+
   Notice? noticeData;
 
   ReqAddComplain? complainData;
+
+  String? selectedEvent;
 
   @override
   Future getNotice({required String noticeTypeTerm}) async {
@@ -147,6 +162,46 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
     } catch (e) {
       print(e);
       apiResIsFailed(_getComplainRes!, e.toString());
+    }
+  }
+
+  @override
+  Future getEvent({ String? event}) async {
+    try{
+      print("event");
+
+      if (event == null){
+        apiResIsLoading(_getEventRes!);
+      }else{
+        apiResIsLoading(_getEventDetailRes!);
+      }
+
+      final res = await repo.getEvent(event: event);
+
+      if(res.success != true){
+        if (event == null){
+          apiResIsFailed(_getEventRes!, res.message ?? '');
+        }else{
+          apiResIsFailed(_getEventDetailRes!, res.message ?? '');
+        }
+
+      } else {
+        if (event == null){
+          apiResIsSuccess(_getEventRes!, res);
+        }else{
+          apiResIsSuccess(_getEventDetailRes!, res);
+        }
+
+      }
+
+    } catch (e){
+      print(e);
+      if (event == null){
+        apiResIsFailed(_getEventRes!, e.toString());
+      }else{
+        apiResIsFailed(_getEventDetailRes!, e.toString());
+      }
+
     }
   }
 }

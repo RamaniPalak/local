@@ -13,7 +13,7 @@ class HistoryComponents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: kFlexibleSize(335),
-      height: kFlexibleSize(195),
+      height: kFlexibleSize(200),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
@@ -28,7 +28,7 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(15),
             ),
             child: Text(
-              '${historyModel?.propertyName ?? ''}',
+              '${historyModel?.propertyName ?? '-'}',
               style: kAppBarTitle,
             ),
           ),
@@ -38,7 +38,7 @@ class HistoryComponents extends StatelessWidget {
               top: kFlexibleSize(10),
             ),
             child: keyValueComponent(
-                key: 'Room No', value: ' ${historyModel?.roomNo ?? ''}'),
+                key: 'Room No', value: ' ${historyModel?.roomNo ?? '-'}'),
           ),
           Container(
             padding: EdgeInsets.only(
@@ -111,7 +111,7 @@ class HistoryComponents extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${historyModel?.status ?? ''}',
+                        '${historyModel?.status ?? '-'}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: TextStyle(

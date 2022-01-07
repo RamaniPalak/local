@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -13,7 +12,6 @@ import 'package:local/app/utils/show_snack_bar.dart';
 import 'package:local/app/views/base_button.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:local/app/views/custom_popup_view.dart';
-import 'package:local/app/views/textfield_common.dart';
 import 'package:provider/provider.dart';
 
 class NewComplaintsScreen extends BasePage {

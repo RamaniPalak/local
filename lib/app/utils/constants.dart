@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 Color kPrimaryColor = const Color(0xff21245a);
@@ -17,6 +16,7 @@ Color backgroundColor = const Color(0xE5E5E5);
 Color greenColor = const Color(0xff58A01E);
 Color greyColor = const Color(0xffB0B7BD);
 Color kborderColor = const Color(0x40000000);
+
 
 String kInitialRoute = '/';
 String kLoginRoute = '/LoginScreen';
@@ -136,7 +136,6 @@ Container bgContainer({required Widget widget}) {
     margin: EdgeInsets.symmetric(horizontal: kFlexibleSize(10.0)),
     padding: EdgeInsets.all(kFlexibleSize(15.0)),
     decoration: BoxDecoration(
-      // boxShadow: kCommonShadow,
         color: Colors.white,
         borderRadius: BorderRadius.circular(15.0)),
     child: widget,

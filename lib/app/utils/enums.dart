@@ -1,15 +1,5 @@
 enum Status { LOADING, COMPLETED, ERROR, UNAUTHORISED }
 
-//Address
-enum AddressType{
-  CURRENT, PERMANENT
-}
-
-final addressValues = EnumValues({
-  "current": AddressType.CURRENT,
-  "permanent": AddressType.PERMANENT
-});
-
 
 //Gender Setup
 enum Gender { OTHERS, FEMALE, MALE, NONE }
@@ -19,6 +9,22 @@ final genderValues = EnumValues({
   "male": Gender.MALE,
   "other": Gender.OTHERS,
   "none": Gender.NONE
+});
+
+enum HousekeepingTerm {Minimal,Full}
+
+final housekeepingValues = EnumValues({
+  "Minimal": HousekeepingTerm.Minimal,
+  "Full": HousekeepingTerm.Full,
+
+});
+
+enum DndTerm {MarkAsDND,Dirty}
+
+final dndTermValue = EnumValues<DndTerm>({
+  'MarkAsDND' : DndTerm.MarkAsDND,
+  'Dirty' : DndTerm.Dirty,
+
 });
 
 

@@ -99,24 +99,25 @@ class ButtonBorder extends StatelessWidget {
       onTap: (isLoading == true) ? null : onTap,
       isLoading: isLoading,
       child: Container(
-        height: 38,
+        height: 28,
         decoration: BoxDecoration(
-            border: Border.all(color: kPrimaryColor),
-            borderRadius:
-                BorderRadius.circular((isLoading == true) ? 22.0 : 5.0)),
+          border: Border.all(color: kPrimaryColor),
+          borderRadius: BorderRadius.circular((isLoading == true) ? 22.0 : 5.0),
+        ),
         child: Center(
           widthFactor: 1,
           child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              child: (isLoading == true)
-                  ? LoadingSmall(
-                      color: kPrimaryColor,
-                    )
-                  : Text(
-                      text,
-                      style: TextStyle(
-                          color: kPrimaryColor, fontWeight: FontWeight.bold),
-                    )),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: (isLoading == true)
+                ? LoadingSmall(
+                    color: kPrimaryColor,
+                  )
+                : Text(
+                    text,
+                    style: TextStyle(
+                        color: kPrimaryColor, fontWeight: FontWeight.bold),
+                  ),
+          ),
         ),
       ),
     );
@@ -124,12 +125,12 @@ class ButtonBorder extends StatelessWidget {
 }
 
 class BaseAppButton extends StatelessWidget {
-  const BaseAppButton({Key? key, this.title, this.onTap, this.isLoading,this.color})
+  const BaseAppButton(
+      {Key? key, this.title, this.onTap, this.isLoading, this.color})
       : super(key: key);
 
   final String? title;
   final Color? color;
-
 
   final GestureTapCallback? onTap;
 
@@ -223,6 +224,58 @@ class BaseAppBtn extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Button extends StatelessWidget {
+  Button(
+      {Key? key,
+      this.title,
+      this.color,
+      this.textcolor,
+      this.onTap,
+      this.isLoading})
+      : super(key: key);
+
+  final String? title;
+  final Color? color;
+  final Color? textcolor;
+  final GestureTapCallback? onTap;
+  final bool? isLoading;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: kFlexibleSize(45.0),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Container(
+          width: double.infinity,
+          child: isLoading == false
+              ? Container(
+                  height: 15,
+                  width: 15,
+                  child: const CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+              : Center(
+                  child: Text(
+                    title!,
+                    style: TextStyle(
+                        fontSize: kRegularFontSize,
+                        fontWeight: FontWeight.w700,
+                        color: textcolor),
+                  ),
+                ),
         ),
       ),
     );

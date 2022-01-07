@@ -14,7 +14,7 @@ class ReqUploadDoc {
 
   Future<Map<String, dynamic>> toJson() async {
 
-    final res = await Reservation.shared.getUser;
+    final res = await Reservation.shared.getReservation;
 
     return {
       "CompanyID": res.companyId,

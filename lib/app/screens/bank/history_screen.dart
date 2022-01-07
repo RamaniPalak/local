@@ -33,10 +33,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(
-            left: kFlexibleSize(20),
-            right: kFlexibleSize(20),
-            top: kFlexibleSize(10)),
         child: history(),
       ),
     );
@@ -64,15 +60,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return ListView.builder(
         itemCount: data?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          return HistoryComponents(
-            historyModel: HistoryModel(
-              propertyName: data?[index].propertyName,
-              roomNo: data?[index].roomNo,
-              checkInDate: data?[index].checkInFormat,
-              checkOutDate: data?[index].checkOutFormat,
-              payment: data?[index].totalCharges,
-              status: data?[index].statusTerm,
-              color: data?[index].statusColor,
+          return Padding(
+            padding: EdgeInsets.only(
+                left: kFlexibleSize(20),
+                right: kFlexibleSize(20),
+                top: kFlexibleSize(10)),
+            child: HistoryComponents(
+              historyModel: HistoryModel(
+                propertyName: data?[index].propertyName ?? '-',
+                roomNo: data?[index].roomNo ?? '-',
+                checkInDate: data?[index].checkInFormat ?? '-',
+                checkOutDate: data?[index].checkOutFormat ?? '-',
+                payment: data?[index].totalCharges ,
+                status: data?[index].statusTerm ?? '-',
+                color: data?[index].statusColor,
+              ),
             ),
           );
         });

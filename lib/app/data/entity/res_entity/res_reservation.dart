@@ -1,4 +1,6 @@
 
+import 'package:local/app/utils/reservation.dart';
+
 
 class ResReservation {
   ResReservation({
@@ -14,6 +16,20 @@ class ResReservation {
   List<ResReservationData>? data;
   int? statusCode;
   int? statusValueCode;
+
+
+
+  Future<ResReservationData?> get selectedReservation async {
+
+    try {
+      final res = await Reservation.shared.getReservation;
+
+      return data?.where((element) => element.reservationId == res.reservationId).toList().first;
+    } catch (e) {
+      print(e);
+    }
+
+  }
 
   factory ResReservation.fromJson(Map<String, dynamic> json) => ResReservation(
     success: json["success"] == null ? null : json["success"],
@@ -53,6 +69,10 @@ class ResReservationData {
     this.companyName,
     this.memberFolioId,
     this.invoiceId,
+    this.reservationStatusTerm,
+    this.city,
+    this.logo,
+    this.logoPath,
     this.isReservationSelected
   });
 
@@ -75,6 +95,10 @@ class ResReservationData {
   String? companyName;
   String? memberFolioId;
   String? invoiceId;
+  String? reservationStatusTerm;
+  String? city;
+  String? logo;
+  String? logoPath;
   bool? isReservationSelected;
 
   factory ResReservationData.fromJson(Map<String, dynamic> json) => ResReservationData(
@@ -97,6 +121,10 @@ class ResReservationData {
     companyName: json["companyName"] == null ? null : json["companyName"],
     memberFolioId: json["memberFolioID"] == null ? null : json["memberFolioID"],
     invoiceId: json["invoiceID"] == null ? null : json["invoiceID"],
+    reservationStatusTerm: json["reservationStatus_Term"] == null ? null : json["reservationStatus_Term"],
+    city: json["city"] == null ? null : json["city"],
+    logo: json["logo"] == null ? null : json["logo"],
+    logoPath: json["logoPath"] == null ? null : json["logoPath"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -119,5 +147,10 @@ class ResReservationData {
     "companyName": companyName == null ? null : companyName,
     "memberFolioID": memberFolioId == null ? null : memberFolioId,
     "invoiceID": invoiceId == null ? null : invoiceId,
+    "reservationStatus_Term": reservationStatusTerm == null ? null : reservationStatusTerm,
+    "city": city == null ? null : city,
+    "logo": logo == null ? null : logo,
+    "logoPath": logoPath == null ? null : logoPath,
   };
 }
+

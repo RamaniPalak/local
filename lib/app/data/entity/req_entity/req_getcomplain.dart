@@ -1,5 +1,3 @@
-
-
 class ReqGetComplain {
   ReqGetComplain({
     this.pageNum,

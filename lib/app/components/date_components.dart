@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:local/app/utils/constants.dart';
 
 class DateComponent extends StatelessWidget {
-  const DateComponent(
-      {Key? key, this.title, this.date, this.color, this.titleColor})
+   DateComponent(
+      {Key? key, this.title, this.date, this.colors, this.titleColor,this.isSelected})
       : super(key: key);
 
   final String? title;
   final String? date;
-  final Color? color;
+  final Color? colors;
   final Color? titleColor;
+  final bool? isSelected ;
 
 
   @override
@@ -17,8 +18,9 @@ class DateComponent extends StatelessWidget {
     return Container(
       width: kFlexibleSize(40),
       height: kFlexibleSize(70),
-      decoration: BoxDecoration(
-        color: color,
+        decoration: BoxDecoration(
+                 border: isSelected == true ? Border.all() : null ,
+        color: colors,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
@@ -26,22 +28,24 @@ class DateComponent extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: kFlexibleSize(13)),
             child: Text(
-              title!,
+              title ?? '',
               style: TextStyle(
                 color: titleColor,
                 fontSize: kRegularFontSize,
                 fontWeight: FontWeight.w400,
+                  fontFamily: kRegularFonts
               ),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(top: kFlexibleSize(8)),
             child: Text(
-              date!,
+              date ?? '',
               style: TextStyle(
                 color: titleColor,
                 fontSize: kMediumFontSize,
                 fontWeight: FontWeight.w900,
+                fontFamily: kRegularFonts
               ),
             ),
           )

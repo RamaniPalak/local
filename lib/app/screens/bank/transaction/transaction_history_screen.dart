@@ -35,7 +35,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   }
 
   reservationDetail() async {
-    var res = await Reservation.shared.getUser;
+    var res = await Reservation.shared.getReservation;
 
     setState(() {
       reservationData = res;
@@ -125,7 +125,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                     padding: EdgeInsets.only(left: kFlexibleSize(40)),
                     indicatorPadding: EdgeInsets.only(right: kFlexibleSize(15)),
                     labelPadding:
-                        EdgeInsets.only(left: 0, right: kFlexibleSize(15)),
+                    EdgeInsets.only(left: 0, right: kFlexibleSize(15)),
                     tabs: [
                       Tab(text: 'Unbilled'),
                       Tab(text: 'Statement'),
@@ -204,17 +204,18 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
             );
           } else {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: kFlexibleSize(10),horizontal: kFlexibleSize(20)),
+              margin: EdgeInsets.symmetric(
+                  vertical: kFlexibleSize(10), horizontal: kFlexibleSize(20)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Column(
                       children: [
-                        Text('${data?[index].accountName}',
+                        Text('${data?[index].accountName ?? '-'}',
                             style: kRegularText),
                         Text(
-                          '${data?[index].narration}',
+                          '${data?[index].narration ?? '-'}',
                           style: kTransactionStyle,
                           maxLines: 2,
                         ),
@@ -223,7 +224,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                     ),
                   ),
-                  Text('₹ ${data?[index].charge}',
+                  Text(' ₹ ${data?[index].charge ?? '-'}',
                       style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: kMediumFontSize,
@@ -269,7 +270,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => MonthlyInvoiceScreen(
-                            invoiceId: data?[index].invoiceId,
+                            invoiceId: data?[index].invoiceId ,
                           )));
             },
             child: Container(
@@ -288,14 +289,14 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${data?[index].invoiceNo}',
+                          '${data?[index].invoiceNo ?? '-'}',
                           style: TextStyle(
                               color: kFontColor,
                               fontSize: kRegularFontSize,
                               fontWeight: FontWeight.w700),
                         ),
                         Text(
-                          '₹ ${data?[index].receivedAmt}',
+                          '₹ ${data?[index].receivedAmt ?? '-'}',
                           style: TextStyle(
                               color: kPrimaryColor,
                               fontSize: kMediumFontSize,
@@ -313,7 +314,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                         Padding(
                           padding: EdgeInsets.only(right: kFlexibleSize(10)),
                           child: Text(
-                            '${data?[index].invoiceDate}',
+                            '${data?[index].invoiceDate ?? '-'}',
                             style: kTransactionStyle,
                           ),
                         ),

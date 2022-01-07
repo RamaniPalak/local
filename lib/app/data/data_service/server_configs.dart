@@ -3,6 +3,8 @@ class ServerConfigs {
   static String baseURL =
       'http://loclpms-api-dev.ap-south-1.elasticbeanstalk.com/Mobile/api/v1/';
 
+
+
   //static String imageBaseURL = 'http://$domain/';
   static String userLogin = 'Login/checklogindetails';
   static String userReservation = 'Login/GetMemberResvationList';
@@ -22,5 +24,8 @@ class ServerConfigs {
   static String getHistoryList = 'Login/MemberHistoryList';
   static String insertComplain = 'Login/MobileComplaintsListAdd';
   static String getComplain = 'Login/GetMobilecomplaintsList';
+  static String eventList = 'Login/GetEventList';
+  static String getHousekeeping = 'Member/HouseKeepingSchedule';
+  static String cancelHKP = 'Member/hkpCancel';
   static String userLogout = 'userLogout';
 }

@@ -78,14 +78,14 @@ class _ReservationScreenState extends State<ReservationScreen> {
               child: ReservationComponent(
                   isReserSelect: isSelected,
                   reserv: ReservationModel(
-                      roomType: data?[index].roomTypeName,
-                      resvId: data?[index].reservationId,
-                      comapnyName: data?[index].companyName,
-                      propertyName: data?[index].propertyName,
-                      dateIssue: data?[index].checkInDate,
-                      actionDate: data?[index].checkOutDate,
-                      roomNo: data?[index].roomNo,
-                      folioBal: data?[index].folioBalance)),
+                      roomType: data?[index].roomTypeName ?? '-',
+                      resvId: data?[index].reservationId ?? '-',
+                      companyName: data?[index].companyName ?? '-',
+                      propertyName: data?[index].propertyName ?? '-',
+                      dateIssue: data?[index].checkInDate ?? '-',
+                      actionDate: data?[index].checkOutDate ??'-',
+                      roomNo: data?[index].roomNo ??'-',
+                      folioBal: data?[index].folioBalance ?? '-')),
             ),
           );
         });

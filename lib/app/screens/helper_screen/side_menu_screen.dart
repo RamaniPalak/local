@@ -46,6 +46,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
     // TODO: implement initState
     super.initState();
     reservationDetail();
+    user();
 
     // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
     //   final getUser = await UserPrefs.shared.getUser;
@@ -59,14 +60,23 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
   }
 
   reservationDetail() async {
-    var res = await Reservation.shared.getUser;
+    var res = await Reservation.shared.getReservation;
 
     setState(() {
       reservationData = res;
     });
   }
 
+  user() async {
+    var user = await UserPrefs.shared.getUser;
+
+    setState(() {
+      userData = user;
+    });
+  }
+
   ResReservationData? reservationData;
+  LocalUser? userData;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +106,17 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
+                  if (index == 5) {
+                    CustomPopup(context,
+                        title: 'Logout',
+                        message: 'Are you sure you want to logout ?',
+                        primaryBtnTxt: 'LOGOUT', primaryAction: () {
+                      context.read<AuthProviderImpl>().logOutUser();
+                    }, secondaryBtnTxt: 'CANCEL', secondaryAction: () {});
+                    return;
+                  }
+
+                  Navigator.of(context).pop();
                   if (index == 0) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => const HistoryScreen()));
@@ -114,13 +135,6 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             const NoticeScreen(isCheckout: false)));
-                  } else if (index == 5) {
-                    CustomPopup(context,
-                        title: 'Logout',
-                        message: 'Are you sure you want to logout ?',
-                        primaryBtnTxt: 'LOGOUT', primaryAction: () {
-                      context.read<AuthProviderImpl>().logOutUser();
-                    }, secondaryBtnTxt: 'CANCEL', secondaryAction: () {});
                   }
                 },
                 child: Container(
@@ -174,6 +188,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
   Widget profile() {
     return InkWell(
       onTap: () {
+        Navigator.of(context).pop();
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -207,7 +222,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                       Container(
                           padding: EdgeInsets.only(left: kFlexibleSize(10)),
                           child: Text(
-                            '${reservationData?.memberName ?? ''}',
+                            '${userData?.displayName ?? ''}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

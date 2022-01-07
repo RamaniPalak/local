@@ -80,14 +80,14 @@ class _RaiseComplaintState extends State<RaiseComplaint> {
         itemCount: data?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           return RaiseComponent(
-            btntext: data?[index].priorityTerm,
-            Statustext: data?[index].ticketStatusTerm,
+            btntext: data?[index].priorityTerm ?? '-',
+            Statustext: data?[index].ticketStatusTerm ?? '-',
             raiseModel: RaiseModel(
-                title: data?[index].ticketTitle,
-                relatedTo: data?[index].issueRelatedTypeTerm,
+                title: data?[index].ticketTitle ?? '-',
+                relatedTo: data?[index].issueRelatedTypeTerm ?? '-',
                 statusColor: data?[index].statusColor,
                 color: data?[index].priorityColor,
-            note: data?[index].ticketNote),
+            note: data?[index].ticketNote ?? '-'),
           );
         });
   }

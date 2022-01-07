@@ -99,14 +99,14 @@ class _NoticeScreenState extends State<NoticeScreen> {
         itemCount: data?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
           return NoticeComponent(
-            btntext: '${data?[index].statusTerm}',
+            btntext: '${data?[index].statusTerm ?? '-'}',
             noticeModel: NoticeModel(
                 color: data?[index].statusColor,
-                Checkout: data?[index].noticeTypeTerm,
-                resvId: data?[index].reservationNo,
-                dateIssue: data?[index].dateOfIssueFormat,
-                actionDate: data?[index].actionDateFormat,
-                note: data?[index].note),
+                Checkout: data?[index].noticeTypeTerm ?? '-',
+                resvId: data?[index].reservationNo ?? '-',
+                dateIssue: data?[index].dateOfIssueFormat ?? '-',
+                actionDate: data?[index].actionDateFormat ?? '-',
+                note: data?[index].note ?? '-'),
           );
         });
   }

@@ -1,35 +1,31 @@
-
-
-import 'package:local/app/utils/reservation.dart';
-
 class ReqGetNotice {
   ReqGetNotice({
     this.companyId,
     this.propertyId,
-    this.reservationId,
-    this.memberId,
+    this.reservationNo,
+    this.roomNo,
     this.noticeTypeTerm,
   });
 
   String? companyId;
   String? propertyId;
-  String? reservationId;
-  String? memberId;
+  String? roomNo;
+  String? reservationNo;
   String? noticeTypeTerm;
 
   factory ReqGetNotice.fromJson(Map<String, dynamic> json) => ReqGetNotice(
     companyId: json["CompanyID"] == null ? null : json["CompanyID"],
     propertyId: json["PropertyID"] == null ? null : json["PropertyID"],
-    reservationId: json["ReservationID"] == null ? null : json["ReservationID"],
-    memberId: json["MemberID"] == null ? null : json["MemberID"],
+    reservationNo: json["ReservationNo"] == null ? null : json["ReservationNo"],
+    roomNo: json["RoomNo"] == null ? null : json["RoomNo"],
     noticeTypeTerm: json["NoticeType_Term"] == null ? null : json["NoticeType_Term"],
   );
 
   Map<String, dynamic> toJson(String noticeType) => {
     "CompanyID": companyId == null ? null : companyId,
     "PropertyID": propertyId == null ? null : propertyId,
-    "ReservationID": reservationId == null ? null : reservationId,
-    "MemberID": memberId == null ? null : memberId,
+    "ReservationNo": reservationNo == null ? null : reservationNo,
+    "RoomNo": roomNo == null ? null : roomNo,
     "NoticeType_Term": noticeType,
   };
 

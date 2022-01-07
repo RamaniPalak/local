@@ -1,15 +1,18 @@
 import 'package:local/app/data/datasource/auth_data.dart';
 import 'package:local/app/data/datasource/document_data.dart';
+import 'package:local/app/data/datasource/housekeeping_data.dart';
 import 'package:local/app/data/datasource/list_data.dart';
 import 'package:local/app/data/datasource/profile.data.dart';
 import 'package:local/app/data/datasource/transaction_data.dart';
 import 'package:local/app/providers/auth_provider.dart';
 import 'package:local/app/providers/document_provider.dart';
+import 'package:local/app/providers/housekeeping_provider.dart';
 import 'package:local/app/providers/list_provider.dart';
 import 'package:local/app/providers/profile_provider.dart';
 import 'package:local/app/providers/transaction_provider.dart';
 import 'package:local/app/repository/auth_repository.dart';
 import 'package:local/app/repository/document_repository.dart';
+import 'package:local/app/repository/housekeeping_repository.dart';
 import 'package:local/app/repository/list_repository.dart';
 import 'package:local/app/repository/profile_repository.dart';
 import 'package:local/app/repository/transaction_repository.dart';
@@ -19,3 +22,4 @@ ProfileProviderImpl get profileProvider => ProfileProviderImpl(ProfileRepository
 TransactionProviderImpl get transactionProvider => TransactionProviderImpl(TransactionRepository(dataSource: TransactionDataImpl()));
 ListProviderImpl get noticeProvider => ListProviderImpl(ListRepository(dataSource: ListDataImpl()));
 DocumentProviderImpl get documentProvider => DocumentProviderImpl(DocumentRepository(dataSource: DocumentDataImpl()));
+HouseKeepingProviderImpl get housekeepingProvider => HouseKeepingProviderImpl(HouseKeepingRepository(dataSource: HouseKeepingDataImpl()));

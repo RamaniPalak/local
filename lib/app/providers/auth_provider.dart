@@ -1,6 +1,7 @@
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
 import 'package:local/app/data/entity/res_entity/res_user_login.dart';
+import 'package:local/app/data/entity/res_entity/res_userdetail.dart';
 import 'package:local/app/providers/base_notifier.dart';
 import 'package:local/app/repository/auth_repository.dart';
 import 'package:local/app/utils/api_response.dart';
@@ -69,6 +70,8 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
   ResReservationData? selectedRes;
 
+  Meber? member;
+
   setReservation({required ResReservationData reservationData}) {
     reservationData.isReservationSelected = true;
 
@@ -88,7 +91,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
     isLogin = await UserPrefs.shared.isUserLogin;
 
-    selectedRes = await Reservation.shared.getUser;
+    selectedRes = await Reservation.shared.getReservation;
 
     isReservationSelected = selectedRes?.isReservationSelected;
 
@@ -121,15 +124,21 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
       this.otp = res.data?.otp;
 
+
       await UserPrefs.shared.setLocalData(
+
           user: LocalUser(
               isLogin: true,
-              email: res.data?.logindetails?.eMail ?? '',
+              email: res.data?.logindetails?.eMail ?? '-',
               token: res.data?.token ?? '',
-              mobile: res.data?.logindetails?.mobileNo ?? '',
-              memberID: res.data?.logindetails?.memberId ?? ''));
+              mobile: res.data?.logindetails?.mobileNo ?? '-',
+              memberID: res.data?.logindetails?.memberId ?? '-',
+             displayName: '${member?.title ?? '-'} ${member?.firstName ?? '-'} ${member?.lastName ?? '-'}'));
+
+
 
       apiResIsSuccess(_loginUserRes!, res);
+
     } catch (e) {
       apiResIsFailed(_loginUserRes!, e);
       rethrow;
@@ -193,12 +202,13 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
       if (otp == this.otp.toString()) {
         isLogin = true;
 
-        await UserPrefs.shared.setLocalData(
+        await UserPrefs.shared. setLocalData(
             user: LocalUser(
-          memberID: loginUserRes?.data?.data?.logindetails?.memberId ?? '',
+          memberID: loginUserRes?.data?.data?.logindetails?.memberId ?? '-',
           token: loginUserRes?.data?.data?.token ?? '',
-          email: loginUserRes?.data?.data?.logindetails?.eMail ?? '',
-          mobile: loginUserRes?.data?.data?.logindetails?.mobileNo ?? '',
+          email: loginUserRes?.data?.data?.logindetails?.eMail ?? '-',
+          mobile: loginUserRes?.data?.data?.logindetails?.mobileNo ?? '-',
+          displayName:  '${member?.title ?? '-'} ${member?.firstName ?? '-'} ${member?.lastName ?? '-'}',
           isLogin: true,
         ));
         notifyListeners();
@@ -264,7 +274,16 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
         apiResIsFailed(_reservationUserRes!, res.message ?? '');
       } else {
         print(res.data?.length);
+
+        final selectedRes = await res.selectedReservation;
+
+        if(selectedRes != null){
+          selectedRes.isReservationSelected = true;
+          Reservation.shared.setLocalData(user: selectedRes);
+        }
+
         apiResIsSuccess(_reservationUserRes!, res);
+
       }
     } catch (e) {
       print(e);

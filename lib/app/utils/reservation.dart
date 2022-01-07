@@ -33,9 +33,9 @@ class Reservation {
   }
 
   // Get User here
-  Future<ResReservationData> get getUser => _getUser();
+  Future<ResReservationData> get getReservation => _getReservation();
 
-  Future<ResReservationData> _getUser() async {
+  Future<ResReservationData> _getReservation() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool isReservation = prefs.getBool('IS_Reservation') ?? false;
@@ -74,9 +74,7 @@ class Reservation {
   Future setMemberName({required String name}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-
     prefs.setString('memberName', name);
-
 
   }
 

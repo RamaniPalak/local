@@ -9,27 +9,28 @@ class SplashScreen extends BaseStateLess {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: backgroundColor,
-          child: Stack(
-            children: [
-              Container(width: double.infinity, child: appBottomImage,alignment: Alignment.bottomCenter),
-              Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(top: kFlexibleSize(60)),
-                    height: kFlexibleSize(450),
-                    width: double.infinity,
-                    child: loclImage,
-                  ),
-                  Container(
-
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            color: backgroundColor,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: kFlexibleSize(60)),
+                      height: kFlexibleSize(450),
                       width: double.infinity,
-                      child: loclTextImage),
-                ],
-              ),
-            ],
+                      child: loclImage,
+                    ),
+                    Container(
+                        width: double.infinity,
+                        child: loclTextImage),
+                    Container(width: double.infinity, child: appBottomImage,alignment: Alignment.bottomCenter),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
