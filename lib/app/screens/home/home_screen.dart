@@ -106,6 +106,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     );
   }
 
+
   Widget _body(BuildContext context) {
     return SafeArea(
         child: Column(

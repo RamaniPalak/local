@@ -113,8 +113,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: kFlexibleSize(120),
                               child: ClipRRect(
                                   borderRadius:
-                                  BorderRadius.circular(kFlexibleSize(60)),
-                                  child: Container(color: Colors.white, child: profileImage)),
+                                      BorderRadius.circular(kFlexibleSize(60)),
+                                  child: Container(
+                                      color: Colors.white,
+                                      child: profileImage)),
                             ),
                           ),
                         ),
@@ -196,42 +198,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ],
                                 ),
-                              )),
+                              ),
+                              ),
                               Container(
                                 width: kFlexibleSize(1),
                                 height: double.infinity,
                                 color: kGreyColor.withOpacity(0.15),
                               ),
                               Expanded(
-                                  child: Container(
-                                padding: EdgeInsets.all(kFlexibleSize(5)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '${reservationData?.roomNo ?? '-'}',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: kDoubleFontSize,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.black),
-                                    ),
-                                    Text(
-                                      'Room No.',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        color: kGreyColor,
-                                        fontFamily: kRegularFonts,
-                                        fontSize: kMediumFontSize,
-                                        fontWeight: FontWeight.w400,
+                                child: Container(
+                                  padding: EdgeInsets.all(kFlexibleSize(5)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '${reservationData?.roomNo ?? '-'}',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: kDoubleFontSize,
+                                            fontWeight: FontWeight.w900,
+                                            color: Colors.black),
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        'Room No.',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          color: kGreyColor,
+                                          fontFamily: kRegularFonts,
+                                          fontSize: kMediumFontSize,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              )),
+                              ),
                             ],
                           ),
                         )
@@ -299,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                          TransactionHistoryScreen()));
+                                        TransactionHistoryScreen()));
                           },
                         ),
                         SizedBox(height: kFlexibleSize(10)),

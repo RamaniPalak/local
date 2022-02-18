@@ -75,6 +75,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
   Widget notice() {
     final notice = context.watch<ListProviderImpl>();
 
+
     final hasError = notice.getNoticeRes?.state == Status.ERROR ||
         notice.getNoticeRes?.state == Status.UNAUTHORISED;
 
