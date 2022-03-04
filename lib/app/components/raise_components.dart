@@ -40,7 +40,7 @@ class RaiseComponent extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: TextStyle(
-                        color: kFontColor,
+                        color: kBlackColor,
                         fontSize: kRegularFontSize,
                         fontWeight: FontWeight.w700),
                   ),
@@ -103,7 +103,7 @@ class RaiseComponent extends StatelessWidget {
                   maxLines: 2,
                   softWrap: true,
                   style: TextStyle(
-                      color: kFontColor,
+                      color: kBlackColor,
                       fontSize: kRegularFontSize,
                       fontWeight: FontWeight.w500),
                 ),

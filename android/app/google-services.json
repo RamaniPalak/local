@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "855493940994",
+    "project_id": "locl-63a48",
+    "storage_bucket": "locl-63a48.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855493940994:android:db6a27053e6208c600941b",
+        "android_client_info": {
+          "package_name": "com.example.locl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855493940994-okefebf03gusnmaop3kvrnspb4ii6eop.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuqwDTNs2dbIhLbYSWCb1x3EjqXkhAdNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855493940994-okefebf03gusnmaop3kvrnspb4ii6eop.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

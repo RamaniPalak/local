@@ -228,7 +228,7 @@ class _HouseKeepingScreenState extends BaseState<HouseKeepingScreen> {
                         child: Button(
                           title: 'DND',
                           color: kRedColor,
-                          textcolor: kBGColor,
+                          textcolor: kWhiteColor,
                         ),
                       ),
                       Container(

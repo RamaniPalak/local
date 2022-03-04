@@ -50,7 +50,7 @@ class BaseTextField extends StatelessWidget {
                   keyboardType == TextInputType.phone)
                 FilteringTextInputFormatter.digitsOnly
             ],
-            style: TextStyle(fontSize: kRegularFontSize,color: (enabled == false) ? kFontColor.withOpacity(0.5) : kFontColor),
+            style: TextStyle(fontSize: kRegularFontSize,color: (enabled == false) ? kBlackColor.withOpacity(0.5) : kBlackColor),
             cursorColor: kPrimaryColor,
             keyboardType: keyboardType,
             textInputAction:

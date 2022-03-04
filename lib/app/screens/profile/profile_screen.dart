@@ -46,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: Color(0xffF2F3F7),
       appBar: AppBar(
-        foregroundColor: Colors.white,
+        foregroundColor: kWhiteColor,
         title: Text(
           'Profile',
           style: kAppBarTitleStyle,
@@ -115,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius:
                                       BorderRadius.circular(kFlexibleSize(60)),
                                   child: Container(
-                                      color: Colors.white,
+                                      color: kWhiteColor,
                                       child: profileImage)),
                             ),
                           ),
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.symmetric(vertical: kFlexibleSize(15)),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kFlexibleSize(20)),
-                      color: Colors.white,
+                      color: kWhiteColor,
                     ),
                     child: Column(
                       children: [
@@ -170,35 +170,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Row(
                             children: [
                               Expanded(
-                                  child: Container(
-                                padding: EdgeInsets.all(kFlexibleSize(5)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      '₹ ${reservationData?.folioBalance ?? '-'}',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: kDoubleFontSize,
-                                          fontWeight: FontWeight.w900,
-                                          color: Colors.black),
-                                    ),
-                                    Text(
-                                      'Payment Due',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                        color: kGreyColor,
-                                        fontFamily: kRegularFonts,
-                                        fontSize: kMediumFontSize,
-                                        fontWeight: FontWeight.w400,
+                                child: Container(
+                                  padding: EdgeInsets.all(kFlexibleSize(5)),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '₹ ${reservationData?.folioBalance ?? '-'}',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: kDoubleFontSize,
+                                            fontWeight: FontWeight.w900,
+                                            color: kBlackColor),
                                       ),
-                                    ),
-                                  ],
+                                      Text(
+                                        'Payment Due',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          color: kGreyColor,
+                                          fontFamily: kRegularFonts,
+                                          fontSize: kMediumFontSize,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
                               ),
                               Container(
                                 width: kFlexibleSize(1),
@@ -301,10 +302,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           title: 'Transaction History',
                           onTap: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        TransactionHistoryScreen()));
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            TransactionHistoryScreen()))
+                                .then((value) {
+                              reservationDetail();
+                            });
                           },
                         ),
                         SizedBox(height: kFlexibleSize(10)),

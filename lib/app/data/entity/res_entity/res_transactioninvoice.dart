@@ -1,5 +1,7 @@
 
 
+import 'package:intl/intl.dart';
+
 class ResTransactionInvoice {
   ResTransactionInvoice({
     this.success,
@@ -51,8 +53,25 @@ class ResTransactionInvoiceData {
   double? dueAmt;
 
 
-  bool get isPaymentDue  {
-    return (dueAmt ?? 0) < 0;
+  // bool get isPaymentDue  {
+  //   return (dueAmt ?? 0) < 0;
+  // }
+
+  String get invoiceDateFormat {
+
+    try {
+      final date = DateTime.parse(invoiceDate ?? '');
+
+
+      String dateTime = DateFormat("MMM-d").format(date);
+
+      return dateTime;
+
+    } on Exception catch (e) {
+      print(e);
+    }
+
+    return '';
   }
 
   factory ResTransactionInvoiceData.fromJson(Map<String, dynamic> json) => ResTransactionInvoiceData(

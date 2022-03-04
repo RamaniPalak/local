@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 Color kPrimaryColor = const Color(0xff21245a);
-Color kBGColor = const Color(0xfff3f4fa);
-Color kFontColor = const Color(0xff000000);
+Color kWhiteColor = const Color(0xfff3f4fa);
+Color kBlackColor = const Color(0xff000000);
 Color kDivider = const Color(0xffcad1d8);
 Color kRedColor = const Color(0xffE94040);
 Color kGreyColor = const Color(0xff576d7e);
@@ -40,7 +40,7 @@ double kFlexibleSize(double size) {
 }
 
 final kAuthTitleStyle = TextStyle(
-  color: kFontColor,
+  color: kBlackColor,
   fontFamily: kRegularFonts,
   fontSize: kRegularFontSize,
   fontWeight: FontWeight.w400,
@@ -54,21 +54,21 @@ final kLightTitle = TextStyle(
 );
 
 final kAppBarTitleStyle = TextStyle(
-  color: kBGColor,
+  color: kWhiteColor,
   fontFamily: kRegularFonts,
   fontSize: kMediumFontSize,
   fontWeight: FontWeight.w600,
 );
 
 final kTitleMediumStyle = TextStyle(
-  color: kFontColor,
+  color: kBlackColor,
   fontFamily: kRegularFonts,
   fontSize: kMediumFontSize,
   fontWeight: FontWeight.w600,
 );
 
 final kLongTitleStyle = TextStyle(
-  color: kFontColor,
+  color: kBlackColor,
   fontFamily: kRegularFonts,
   fontSize: kRegularFontSize,
   fontWeight: FontWeight.w400,
@@ -112,7 +112,7 @@ final kRegularProfileText = TextStyle(
     fontWeight: FontWeight.w400);
 
 final kRegularText = TextStyle(
-  color: kFontColor,
+  color: kBlackColor,
   fontSize: kRegularFontSize,
   fontWeight: FontWeight.w600,
   fontFamily: kRegularFonts,

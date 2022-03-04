@@ -14,10 +14,8 @@ import 'package:local/app/screens/image_details/event_details_screen.dart';
 import 'package:local/app/screens/message/message_screen.dart';
 import 'package:local/app/screens/profile/profile_screen.dart';
 import 'package:local/app/screens/schedule/housekeeping_schedule.dart';
-import 'package:local/app/screens/schedule/maintenance_schedule.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
-import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/utils/reservation.dart';
 import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/base_button.dart';
@@ -38,6 +36,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
   ResReservationData? reservationData;
   LocalUser? userData;
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,8 +46,11 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       getInitialData();
       context.read<ListProviderImpl>().getEvent();
       context.read<HouseKeepingProviderImpl>().houseKeepingDate();
+
     });
+
   }
+
 
   getInitialData() async {
     await context.read<AuthProviderImpl>().reservationUser();
@@ -76,6 +78,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
       userData = user;
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,135 +153,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                     SizedBox(
                       height: kFlexibleSize(25),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Expanded(
-                    //       child: Container(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(20)),
-                    //         child: Text(
-                    //           'Maintenance Schedule *',
-                    //           style: TextStyle(
-                    //             fontSize: kRegularFontSize,
-                    //             fontWeight: FontWeight.w700,
-                    //             color: kFontColor,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     GestureDetector(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //             context,
-                    //             MaterialPageRoute(
-                    //                 builder: (BuildContext) => MaintenanceScreen()));
-                    //       },
-                    //       child: Row(
-                    //         children: [
-                    //           Text(
-                    //             'View All',
-                    //             maxLines: 1,
-                    //             overflow: TextOverflow.ellipsis,
-                    //             style: TextStyle(
-                    //                 color: kFontColor,
-                    //                 fontSize: kSmallFontSize,
-                    //                 fontWeight: FontWeight.w400),
-                    //           ),
-                    //           SizedBox(
-                    //             width: kFlexibleSize(5),
-                    //           ),
-                    //           Padding(
-                    //             padding: EdgeInsets.only(right: kFlexibleSize(20)),
-                    //             child: Container(
-                    //               width: kFlexibleSize(20),
-                    //               height: kFlexibleSize(20),
-                    //               child: Center(
-                    //                 child: Container(
-                    //                   width: kFlexibleSize(15),
-                    //                   height: kFlexibleSize(5),
-                    //                   child: arrowRightBlackImage,
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
-                    // SizedBox(
-                    //   height: kFlexibleSize(16),
-                    // ),
-                    // Container(
-                    //   padding: EdgeInsets.only(
-                    //       left: kFlexibleSize(20), right: kFlexibleSize(20)),
-                    //   child: Row(
-                    //     children: [
-                    //       DateComponent(
-                    //         title: 'M',
-                    //         date: '7',
-                    //         color: kBgColor,
-                    //         titleColor: kPrimaryColor,
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(10)),
-                    //         child: DateComponent(
-                    //           title: 'T',
-                    //           date: '7',
-                    //           color: kBgColor,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-                    //         child: DateComponent(
-                    //           title: 'W',
-                    //           date: '8',
-                    //           color: kBgRedColor,
-                    //           titleColor: kRedColor,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-                    //         child: DateComponent(
-                    //           title: 'T',
-                    //           date: '9',
-                    //           color: kBgColor,
-                    //           titleColor: kPrimaryColor,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-                    //         child: DateComponent(
-                    //           title: 'F',
-                    //           date: '10',
-                    //           color: kBgRedColor,
-                    //           titleColor: kRedColor,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-                    //         child: DateComponent(
-                    //           title: 'S',
-                    //           date: '11',
-                    //           color: kBgColor,
-                    //           titleColor: kPrimaryColor,
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-                    //         child: DateComponent(
-                    //           title: 'S',
-                    //           date: '12',
-                    //           color: kBgColor,
-                    //           titleColor: kPrimaryColor,
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SizedBox(
-                    //   height: kFlexibleSize(33),
-                    // ),
                     Padding(
                       padding: EdgeInsets.all(kFlexibleSize(8)),
                       child: BaseAppBtn(
@@ -289,7 +163,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                                   builder: (BuildContext) =>
                                       MessageToFrontDeskScreen()));
                         },
-                        title: 'Message To FrontDesk *',
+                        title: 'Message To FrontDesk ',
                       ),
                     ),
                     SizedBox(
@@ -346,7 +220,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                       style: TextStyle(
                         fontSize: kRegularFontSize,
                         fontWeight: FontWeight.w700,
-                        color: kFontColor,
+                        color: kBlackColor,
                       ),
                     ),
                   ),
@@ -358,7 +232,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: kFontColor,
+                          color: kBlackColor,
                           fontSize: kSmallFontSize,
                           fontWeight: FontWeight.w400),
                     ),
@@ -432,7 +306,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
     final event = context.watch<ListProviderImpl>();
 
     final hasError = event.getEventRes?.state == Status.ERROR ||
-        event.getEventRes?.state == Status.UNAUTHORISED;
+        event.getEventRes?.state == Status.UNAUTHORISED || event.getEventRes?.data?.statusCode == 200;
 
     if(event.getEventRes?.state == Status.LOADING){
       return Center(child: LoadingSmall());
@@ -458,36 +332,6 @@ class _HomeScreenState extends BaseState<HomeScreen> {
                 ),
               ),
             ),
-            // Row(
-            //   children: [
-            //     Text(
-            //       'View All',
-            //       maxLines: 1,
-            //       overflow: TextOverflow.ellipsis,
-            //       style: TextStyle(
-            //           color: Colors.white,
-            //           fontSize: kSmallFontSize,
-            //           fontWeight: FontWeight.w400),
-            //     ),
-            //     SizedBox(
-            //       width: kFlexibleSize(5),
-            //     ),
-            //     Padding(
-            //       padding: EdgeInsets.only(right: kFlexibleSize(20)),
-            //       child: Container(
-            //         width: kFlexibleSize(20),
-            //         height: kFlexibleSize(20),
-            //         child: Center(
-            //           child: Container(
-            //             width: kFlexibleSize(20),
-            //             height: kFlexibleSize(10),
-            //             child: arrowRightImage,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
         SizedBox(
@@ -499,7 +343,7 @@ class _HomeScreenState extends BaseState<HomeScreen> {
           child: hasError
               ? const Center(
                   child: NoEventFound(
-                    title: 'No Events',
+                    title: 'No Events Found',
                   ),
                 )
               : listView(data),

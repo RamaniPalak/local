@@ -26,7 +26,9 @@ Widget multiProvider(){
       ChangeNotifierProvider(create: (_) => transactionProvider,),
       ChangeNotifierProvider(create: (_) => noticeProvider),
       ChangeNotifierProvider(create: (context) => documentProvider,),
-      ChangeNotifierProvider(create: (context) => housekeepingProvider,)
+      ChangeNotifierProvider(create: (context) => housekeepingProvider,),
+      ChangeNotifierProvider(create: (context) => razorPayProvider,),
+      ChangeNotifierProvider(create: (context) => messageProvider,)
     ],
     child: app(),
   );

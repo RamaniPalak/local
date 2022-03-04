@@ -84,7 +84,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       Text(
                         '${data?.eventName ?? '-'}',
                         style: TextStyle(
-                            color: kFontColor,
+                            color: kBlackColor,
                             fontSize: kBigFontSize,
                             fontWeight: FontWeight.w600),
                       ),

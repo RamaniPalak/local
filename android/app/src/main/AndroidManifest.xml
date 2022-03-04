@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.local">
+    package="com.example.locl">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="locl"
         android:icon="@mipmap/ic_launcher"
        android:roundIcon="@mipmap/ic_launcher">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.locl.MainActivity"
             android:launchMode="singleTop"
             android:exported="true"
             android:theme="@style/LaunchTheme"

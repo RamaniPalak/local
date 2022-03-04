@@ -26,7 +26,7 @@ class CustomPopup {
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)
+                     borderRadius: BorderRadius.circular(10)
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

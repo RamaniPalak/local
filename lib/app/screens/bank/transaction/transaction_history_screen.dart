@@ -4,14 +4,19 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
+import 'package:local/app/providers/razorpay_provider.dart';
 import 'package:local/app/providers/transaction_provider.dart';
 import 'package:local/app/screens/bank/monthly_invoice.dart';
+import 'package:local/app/screens/timer/timer_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/utils/no_data_found_view.dart';
 import 'package:local/app/utils/reservation.dart';
+import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
   TransactionHistoryScreen({Key? key}) : super(key: key);
@@ -22,6 +27,8 @@ class TransactionHistoryScreen extends StatefulWidget {
 }
 
 class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
+  late Razorpay _razorpay;
+
   @override
   void initState() {
     super.initState();
@@ -31,14 +38,47 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<TransactionProviderImpl>().unbillTransaction();
       context.read<TransactionProviderImpl>().TransactionInvoice();
+      context.read<RazorPayProviderImpl>().generateOrderId();
     });
+
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId!,
+        toastLength: Toast.LENGTH_SHORT);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimerScreen(),));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    Fluttertoast.showToast(
+        msg: "ERROR : " + response.code.toString() + " - " + response.message!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
   }
 
   reservationDetail() async {
     var res = await Reservation.shared.getReservation;
+    var user = await UserPrefs.shared.getUser;
 
     setState(() {
       reservationData = res;
+      localUser = user;
     });
   }
 
@@ -51,8 +91,9 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   // }
 
   ResReservationData? reservationData;
+  LocalUser? localUser;
 
-  int segmentedControlGroupValue = 0;
+  // int segmentedControlGroupValue = 0;
 
   final Map<int, Widget> myTabs = const <int, Widget>{
     0: Text("Item 1"),
@@ -61,6 +102,33 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final razorPay = context.watch<RazorPayProviderImpl>();
+
+    final data = razorPay.generateOrderIdRes?.data?.data;
+
+    void openCheckout() async {
+      var options = {
+        'key': 'rzp_test_WR1n8bttTgSUkS',
+        'retry': {'enabled': true, 'max_count': 1},
+        'order_id': data?.orderId,
+        // "method": {
+        //   "netbanking": true,
+        //   "card": true,
+        //   "upi": false,
+        //   "wallet": false,
+        //   "emi": false,
+        //   "payLater" : false,
+        // },
+        'prefill': {'contact': localUser?.mobile, 'email': localUser?.email},
+      };
+
+      try {
+        _razorpay.open(options);
+      } catch (e) {
+        debugPrint('Error: e');
+      }
+    }
+
     return DefaultTabController(
       initialIndex: 0,
       length: 2,
@@ -101,20 +169,25 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                       padding: EdgeInsets.only(left: kFlexibleSize(40)),
                       child: Text('PAYMENT DUE', style: kLightStyle)),
                   SizedBox(height: kFlexibleSize(11)),
-                  Container(
-                    margin: EdgeInsets.only(left: kFlexibleSize(40)),
-                    padding: EdgeInsets.symmetric(
-                        vertical: kFlexibleSize(2),
-                        horizontal: kFlexibleSize(6)),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(3)),
-                    child: Text(
-                      'Pay Now',
-                      style: TextStyle(
-                          fontSize: kSmallFontSize,
-                          color: kRedColor,
-                          fontWeight: FontWeight.w700),
+                  InkWell(
+                    onTap: () {
+                      openCheckout();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: kFlexibleSize(40)),
+                      padding: EdgeInsets.symmetric(
+                          vertical: kFlexibleSize(2),
+                          horizontal: kFlexibleSize(6)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: Text(
+                        'Pay Now',
+                        style: TextStyle(
+                            fontSize: kSmallFontSize,
+                            color: kRedColor,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                   SizedBox(height: kFlexibleSize(25)),
@@ -125,8 +198,8 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                     padding: EdgeInsets.only(left: kFlexibleSize(40)),
                     indicatorPadding: EdgeInsets.only(right: kFlexibleSize(15)),
                     labelPadding:
-                    EdgeInsets.only(left: 0, right: kFlexibleSize(15)),
-                    tabs: [
+                        EdgeInsets.only(left: 0, right: kFlexibleSize(15)),
+                    tabs: const [
                       Tab(text: 'Unbilled'),
                       Tab(text: 'Statement'),
                     ],
@@ -255,7 +328,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     }
 
     if (res.transactionInvoiceRes?.state == Status.LOADING) {
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     }
 
     final data = res.transactionInvoiceRes?.data?.data;
@@ -270,7 +343,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (BuildContext context) => MonthlyInvoiceScreen(
-                            invoiceId: data?[index].invoiceId ,
+                            invoiceId: data?[index].invoiceId,
                           )));
             },
             child: Container(
@@ -291,7 +364,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                         Text(
                           '${data?[index].invoiceNo ?? '-'}',
                           style: TextStyle(
-                              color: kFontColor,
+                              color: kBlackColor,
                               fontSize: kRegularFontSize,
                               fontWeight: FontWeight.w700),
                         ),
@@ -314,7 +387,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                         Padding(
                           padding: EdgeInsets.only(right: kFlexibleSize(10)),
                           child: Text(
-                            '${data?[index].invoiceDate ?? '-'}',
+                            '${data?[index].invoiceDateFormat ?? '-'}',
                             style: kTransactionStyle,
                           ),
                         ),
@@ -325,25 +398,25 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                               '₹ ${data?[index].dueAmt} Due ',
                               style: kTransactionStyle,
                             ),
-                            if (data?[index].isPaymentDue == true)
-                              Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: kFlexibleSize(2),
-                                      horizontal: kFlexibleSize(6)),
-                                  decoration: BoxDecoration(
-                                      color: dividerColor,
-                                      borderRadius: BorderRadius.circular(3)),
-                                  child: Text(
-                                    'Pay Now',
-                                    style: TextStyle(
-                                        fontSize: kSmallFontSize,
-                                        color: kRedColor,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              )
+                            // if (data?[index].isPaymentDue == true)
+                            //   Padding(
+                            //     padding: const EdgeInsets.all(2),
+                            //     child: Container(
+                            //       padding: EdgeInsets.symmetric(
+                            //           vertical: kFlexibleSize(2),
+                            //           horizontal: kFlexibleSize(6)),
+                            //       decoration: BoxDecoration(
+                            //           color: dividerColor,
+                            //           borderRadius: BorderRadius.circular(3)),
+                            //       child: Text(
+                            //         'Pay Now',
+                            //         style: TextStyle(
+                            //             fontSize: kSmallFontSize,
+                            //             color: kRedColor,
+                            //             fontWeight: FontWeight.w700),
+                            //       ),
+                            //     ),
+                            //   )
                           ],
                         ),
                       ],
@@ -363,7 +436,8 @@ class MySeparator extends StatelessWidget {
   final double height;
   final Color color;
 
-  MySeparator({this.height = 1, this.color = Colors.black});
+  const MySeparator({Key? key, this.height = 1, this.color = Colors.black})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

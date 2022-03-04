@@ -53,7 +53,7 @@ Widget keyValueReservComponent(
   return Row(
     children: [
       Text('$key : ', style: TextStyle(
-        color: kFontColor,
+        color: kBlackColor,
         fontFamily: kRegularFonts,
         fontSize: kRegularFontSize,
         fontWeight: FontWeight.w400,

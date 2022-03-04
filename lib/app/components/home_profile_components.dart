@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:local/app/components/dailog_component.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
+import 'package:local/app/providers/razorpay_provider.dart';
+import 'package:local/app/screens/timer/timer_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/user_prefs.dart';
 import 'package:local/app/views/common_images.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProfileComponents extends StatefulWidget {
-  ProfileComponents({
-    Key? key,
-    this.reservationData,
-    this.onTap,
-    this.userData
-  }) : super(key: key);
+  ProfileComponents({Key? key, this.reservationData, this.onTap, this.userData})
+      : super(key: key);
 
   final ResReservationData? reservationData;
   LocalUser? userData;
@@ -21,10 +23,63 @@ class ProfileComponents extends StatefulWidget {
 }
 
 class _ProfileComponentsState extends State<ProfileComponents> {
+  late Razorpay _razorpay;
+
   @override
   void initState() {
     super.initState();
     // reservationDetail();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      context.read<RazorPayProviderImpl>().generateOrderId();
+      context.read<RazorPayProviderImpl>().transGetById();
+    });
+
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  void _showDialog({String? id, String? msg, Image? img, Color? colors}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return DialogComponent(
+          color: colors,
+          img: img,
+          message: msg,
+          id: id,
+        );
+      },
+    );
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    //_showDialog(msg: 'Transaction\nSuccessful',img: successImg,colors: Colors.green[700]);
+    Fluttertoast.showToast(
+        msg: "SUCCESS: " + response.paymentId!,
+        toastLength: Toast.LENGTH_SHORT,);
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimerScreen(),));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    //_showDialog(msg: 'Transaction\nFailed',img: errorImg,colors: Colors.red[700]);
+    Fluttertoast.showToast(
+        msg: "ERROR: " + response.code.toString() + " - " + response.message!,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    Fluttertoast.showToast(
+        msg: "EXTERNAL_WALLET: " + response.walletName!,
+        toastLength: Toast.LENGTH_SHORT);
   }
 
   // reservationDetail() async {
@@ -39,6 +94,38 @@ class _ProfileComponentsState extends State<ProfileComponents> {
 
   @override
   Widget build(BuildContext context) {
+    final razorPay = context.watch<RazorPayProviderImpl>();
+
+    final data = razorPay.generateOrderIdRes?.data?.data;
+
+    //context.read<RazorPayProviderImpl>().transGetById(orderID: data?.orderId,refRazorPayTransId: data?.refRazorPayTransId);
+
+    void openCheckout() async {
+      var options = {
+        'key': 'rzp_test_WR1n8bttTgSUkS',
+        'retry': {'enabled': true, 'max_count': 1},
+        'order_id': data?.orderId,
+        // "method": {
+        //   "netbanking": true,
+        //   "card": true,
+        //   "upi": false,
+        //   "wallet": false,
+        //   "emi": false,
+        //   "payLater" : false,
+        // },
+        'prefill': {
+          'contact': widget.userData?.mobile,
+          'email': widget.userData?.email
+        },
+      };
+
+      try {
+        _razorpay.open(options);
+      } catch (e) {
+        debugPrint('Error: e');
+      }
+    }
+
     return Container(
       height: kFlexibleSize(150),
       width: double.infinity,
@@ -93,7 +180,8 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                           ),
                           child: boxes(
                               hasPadding: true,
-                              key: '₹ ${widget.reservationData?.folioBalance ?? '-'}',
+                              key:
+                                  '₹ ${widget.reservationData?.folioBalance ?? '-'}',
                               value: 'Payment Due')),
                     ),
                     Container(
@@ -115,21 +203,27 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                 SizedBox(
                   height: kFlexibleSize(5),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: kFlexibleSize(14)),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical: kFlexibleSize(2),
-                        horizontal: kFlexibleSize(6)),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(kFlexibleSize(3))),
-                    child: Text(
-                      'Pay Now',
-                      style: TextStyle(
-                          fontSize: kSmallFontSize,
-                          color: kRedColor,
-                          fontWeight: FontWeight.w700),
+                InkWell(
+                  onTap: () {
+                    openCheckout();
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: kFlexibleSize(14)),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: kFlexibleSize(2),
+                          horizontal: kFlexibleSize(6)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(kFlexibleSize(3))),
+                      child: Text(
+                        'Pay Now',
+                        style: TextStyle(
+                            fontSize: kSmallFontSize,
+                            color: kRedColor,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ),

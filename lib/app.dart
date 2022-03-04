@@ -15,7 +15,7 @@ Widget app() {
     theme: ThemeData(
          fontFamily: kRegularFonts,
         appBarTheme: AppBarTheme(
-            backgroundColor: kBGColor,
+            backgroundColor: kWhiteColor,
             elevation: 0,
             foregroundColor: Colors.black,
             centerTitle: true,
@@ -32,7 +32,7 @@ Widget app() {
                     systemNavigationBarIconBrightness: Brightness.light,
                   )
                 : SystemUiOverlayStyle.light),
-        scaffoldBackgroundColor: kBGColor,
+        scaffoldBackgroundColor: kWhiteColor,
         primaryColor: kPrimaryColor,
         primarySwatch: Colors.indigo),
     initialRoute: kInitialRoute,

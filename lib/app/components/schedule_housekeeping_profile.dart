@@ -55,7 +55,7 @@ class ScheduleProfile extends StatelessWidget {
                           style: TextStyle(
                               fontSize: kBigFontSize,
                               fontWeight: FontWeight.w700,
-                              color: kFontColor),
+                              color: kBlackColor),
                         )),
                     Center(
                       child: Row(

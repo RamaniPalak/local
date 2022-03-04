@@ -3,9 +3,11 @@ import 'package:local/app/providers/auth_provider.dart';
 import 'package:local/app/screens/auth/login_screen.dart';
 import 'package:local/app/screens/auth/reservation_screen.dart';
 import 'package:local/app/screens/base/base_state_less.dart';
+import 'package:local/app/screens/firebase_notify.dart';
 import 'package:local/app/screens/helper_screen/stuck_page.dart';
 import 'package:local/app/screens/home/home_screen.dart';
 import 'package:local/app/screens/splash_screen.dart';
+import 'package:local/app/screens/timer/timer_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +24,9 @@ class LendingPage extends BaseStateLess {
     final auth = context.watch<AuthProviderImpl>();
 
     // return Consumer<AuthProviderImpl>(builder: (context, auth, __) {
+
+
+
 
 
     if (auth.isAppUnderMaintenance == true) {
@@ -42,13 +47,13 @@ class LendingPage extends BaseStateLess {
       return SplashScreen();
     }
     if (auth.isLogin ?? false) {
-      if(auth.isReservationSelected == true){
+      if(auth.isReservationSelected == true ){
         return HomeScreen();
       }
       return ReservationScreen();
     }
     else {
-      return LoginScreen();
+      return const LoginScreen();
     }
   }
 }

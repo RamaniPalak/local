@@ -11,6 +11,8 @@ final genderValues = EnumValues({
   "none": Gender.NONE
 });
 
+enum MessageTerm {FrontDesk,User}
+
 enum HousekeepingTerm {Minimal,Full}
 
 final housekeepingValues = EnumValues({

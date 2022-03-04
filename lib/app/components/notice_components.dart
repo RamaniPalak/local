@@ -79,7 +79,7 @@ class NoticeComponent extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 style: TextStyle(
-                    color: kFontColor,
+                    color: kBlackColor,
                     fontSize: kRegularFontSize,
                     fontWeight: FontWeight.w400),
               ),

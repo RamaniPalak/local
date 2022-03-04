@@ -33,6 +33,10 @@ final Image loclImage = Image.asset(imagePath+ 'locl_icon.png');
 final Image loclTextImage = Image.asset(imagePath+ 'splash_text.png');
 final Image addBlueIcon = Image.asset(imagePath+ 'add_blue.png');
 final Image eventImg = Image.asset(imagePath+ 'card_placeholder.png', fit: BoxFit.fitHeight,);
+final Image errorImg = Image.asset(imagePath+ 'error_img.png', fit: BoxFit.fitHeight,);
+final Image successImg = Image.asset(imagePath+ 'success-img.png', fit: BoxFit.fitHeight,);
+
+
 
 
 

@@ -31,7 +31,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
     'History ',
     'Raise Complaints',
     'Notice',
-    'Message To FrontDesk *',
+    'Message To FrontDesk ',
     'Request for Change Room',
     'Logout'
     // 'Review & Ratings',
@@ -130,7 +130,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                   } else if (index == 3) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            const MessageToFrontDeskScreen()));
+                             MessageToFrontDeskScreen()));
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
@@ -159,7 +159,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                       ),
                       Icon(
                         Icons.arrow_right_alt,
-                        color: kFontColor,
+                        color: kBlackColor,
                         size: kFlexibleSize(15.0),
                       )
                     ],

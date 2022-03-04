@@ -1,5 +1,4 @@
 
-
 class ResUnbillTransaction {
   ResUnbillTransaction({
     this.success,
@@ -11,7 +10,7 @@ class ResUnbillTransaction {
 
   bool? success;
   String? message;
-  List<ResUnbillTransactionData>? data;
+  List<ResUnBillTransactionData>? data;
   int? statusCode;
   int? statusValueCode;
 
@@ -24,7 +23,7 @@ class ResUnbillTransaction {
   factory ResUnbillTransaction.fromJson(Map<String, dynamic> json) => ResUnbillTransaction(
     success: json["success"] == null ? null : json["success"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : List<ResUnbillTransactionData>.from(json["data"].map((x) => ResUnbillTransactionData.fromJson(x))),
+    data: json["data"] == null ? null : List<ResUnBillTransactionData>.from(json["data"].map((x) => ResUnBillTransactionData.fromJson(x))),
     statusCode: json["statusCode"] == null ? null : json["statusCode"],
     statusValueCode: json["statusValueCode"] == null ? null : json["statusValueCode"],
   );
@@ -38,8 +37,8 @@ class ResUnbillTransaction {
   };
 }
 
-class ResUnbillTransactionData {
-  ResUnbillTransactionData({
+class ResUnBillTransactionData {
+  ResUnBillTransactionData({
     this.bookId,
     this.accountName,
     this.narration,
@@ -51,7 +50,7 @@ class ResUnbillTransactionData {
   String? narration;
   double? charge;
 
-  factory ResUnbillTransactionData.fromJson(Map<String, dynamic> json) => ResUnbillTransactionData(
+  factory ResUnBillTransactionData.fromJson(Map<String, dynamic> json) => ResUnBillTransactionData(
     bookId: json["bookID"] == null ? null : json["bookID"],
     accountName: json["accountName"] == null ? null : json["accountName"],
     narration: json["narration"] == null ? null : json["narration"],

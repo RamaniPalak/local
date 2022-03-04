@@ -25,5 +25,10 @@ class ServerConfigs {
   static String eventList = 'Login/GetEventList';
   static String getHousekeeping = 'Member/HouseKeepingSchedule';
   static String cancelHKP = 'Member/hkpCancel';
+  static String generateRazorpayOrderid = 'RazorPayTrans/GenerateRazorpayOrderID';
+  static String razorpayTransGetbyID = 'RazorPayTrans/RazorpayTransGetbyID';
+  static String getMsgToFrontDeskById = 'MsgToFrontDeskMobile/GetMsgToFrontDeskById';
+  static String msgInsert ='MsgToFrontDeskMobile/MsgToFrontDesk_Insert';
   static String userLogout = 'userLogout';
+
 }

@@ -117,7 +117,7 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
           'New Complaints',
         ),
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
+        foregroundColor: kBlackColor,
         elevation: 0.0,
       ),
       body: SafeArea(

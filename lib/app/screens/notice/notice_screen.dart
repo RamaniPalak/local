@@ -38,19 +38,15 @@ class _NoticeScreenState extends State<NoticeScreen> {
       body: Container(child: notice()),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-
           final notice = context.read<ListProviderImpl>();
           final data = notice.getNoticeRes?.data?.data?.data;
 
           final isOpen = data?.any((element) => element.statusTerm == 'Open');
 
-         if(isOpen == true){
-
-           ShowSnackBar(message: "You can't add new notice", context: context);
-
-           return;
-         }
-
+          if (isOpen == true) {
+            ShowSnackBar(message: "You can't add new notice", context: context);
+            return;
+          }
           Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -74,7 +70,6 @@ class _NoticeScreenState extends State<NoticeScreen> {
 
   Widget notice() {
     final notice = context.watch<ListProviderImpl>();
-
 
     final hasError = notice.getNoticeRes?.state == Status.ERROR ||
         notice.getNoticeRes?.state == Status.UNAUTHORISED;
