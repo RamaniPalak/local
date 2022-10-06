@@ -67,11 +67,11 @@ abstract class BaseScreen {
   }
 
   Widget resContainer(
-      {required ApiResponse res,
+      { ApiResponse? res,
       required Widget successWidget,
       Function? retryCall,
       required BuildContext context}) {
-    switch (res.state) {
+    switch (res?.state) {
       case Status.LOADING:
         return Center(
             child: LoadingSmall(
@@ -86,7 +86,7 @@ abstract class BaseScreen {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(res.msg ?? ""),
+              Text(res?.msg ?? ""),
               TextButton(
                   onPressed: () {
                     if (retryCall != null) {
@@ -103,7 +103,7 @@ abstract class BaseScreen {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(res.msg ?? ""),
+              Text(res?.msg ?? ""),
               TextButton(
                   onPressed: () async {
                     await Provider.of<AuthProviderImpl>(context)

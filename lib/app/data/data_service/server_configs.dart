@@ -1,7 +1,8 @@
 class ServerConfigs {
 
-  static String baseURL =
-      'http://loclpms-api-dev.ap-south-1.elasticbeanstalk.com/Mobile/api/v1/';
+  static String baseURL = "http://loclpms-api-dev.ap-south-1.elasticbeanstalk.com/Mobile/api/v1/";
+      //'http://loclpms-api-dev.ap-south-1.elasticbeanstalk.com/Mobile/api/v1/';
+  //http://192.168.1.113/Mobile/api/v1/
 
   //static String imageBaseURL = 'http://$domain/';
   static String userLogin = 'Login/checklogindetails';
@@ -29,6 +30,7 @@ class ServerConfigs {
   static String razorpayTransGetbyID = 'RazorPayTrans/RazorpayTransGetbyID';
   static String getMsgToFrontDeskById = 'MsgToFrontDeskMobile/GetMsgToFrontDeskById';
   static String msgInsert ='MsgToFrontDeskMobile/MsgToFrontDesk_Insert';
+  static String hkpStates ='Member/hkpStates';
   static String userLogout = 'userLogout';
 
 }

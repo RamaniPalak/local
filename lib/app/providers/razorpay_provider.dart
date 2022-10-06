@@ -8,7 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 class RazorPayProvider {
   Future generateOrderId() async {}
 
-  Future transGetById({String? orderID, String? refRazorPayTransId}) async {}
+  Future transGetById() async {}
 }
 
 class RazorPayProviderImpl extends BaseNotifier implements RazorPayProvider {
@@ -30,6 +30,12 @@ class RazorPayProviderImpl extends BaseNotifier implements RazorPayProvider {
 
   ApiResponse<ResTransGetbyId>? get transGetByIdRes => _transGetByIdRes;
 
+ // ResGenerateOrderIdData? generateOrderIdData;
+
+  String? orderID;
+  String? refTransId;
+
+
   @override
   Future generateOrderId() async {
     try {
@@ -40,6 +46,9 @@ class RazorPayProviderImpl extends BaseNotifier implements RazorPayProvider {
       if (res.success != true) {
         apiResIsFailed(_generateOrderIdRes!, res.message ?? '');
       } else {
+        orderID = res.data?.orderId;
+        refTransId = res.data?.refRazorPayTransId;
+        print('order${orderID = res.data?.orderId}');
         apiResIsSuccess(_generateOrderIdRes!, res);
       }
     } catch (e) {
@@ -49,17 +58,18 @@ class RazorPayProviderImpl extends BaseNotifier implements RazorPayProvider {
   }
 
   @override
-  Future transGetById({String? orderID, String? refRazorPayTransId}) async {
+  Future transGetById() async {
     try {
       apiResIsLoading(_transGetByIdRes!);
 
       final res = await repo.transGetById(
-          orderID: orderID, refRazorPayTransId: refRazorPayTransId);
+          orderID: orderID, refRazorPayTransId: refTransId);
 
       if (res.success != true) {
         apiResIsFailed(_transGetByIdRes!, res.message ?? '');
       } else {
         apiResIsSuccess(_transGetByIdRes!, res);
+
       }
     } catch (e) {
       print(e);

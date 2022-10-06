@@ -40,10 +40,10 @@ class _ReservationScreenState extends State<ReservationScreen> {
   }
 
   Widget reservationUser() {
-    final profile = context.watch<AuthProviderImpl>();
+    final reservation = context.watch<AuthProviderImpl>();
 
-    final hasError = profile.reservationUserRes?.state == Status.ERROR ||
-        profile.reservationUserRes?.state == Status.UNAUTHORISED;
+    final hasError = reservation.reservationUserRes?.state == Status.ERROR ||
+        reservation.reservationUserRes?.state == Status.UNAUTHORISED;
 
     if (hasError) {
       return Center(
@@ -53,24 +53,23 @@ class _ReservationScreenState extends State<ReservationScreen> {
               },
               title: 'No  Data Found'));
     }
+    final data = reservation.reservationUserRes?.data?.data;
 
-    if (profile.reservationUserRes?.state == Status.LOADING) {
+    if (reservation.reservationUserRes?.state == Status.LOADING) {
       return Center(child: LoadingSmall());
     }
-
-    final data = profile.reservationUserRes?.data?.data;
 
     return ListView.builder(
         itemCount: data?.length ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          print(profile.selectedRes?.reservationId);
+          print(reservation.selectedResData?.reservationId);
 
           final isSelected =
-              profile.selectedRes?.reservationId == data?[index].reservationId;
+              reservation.selectedResData?.reservationId == data?[index].reservationId;
 
           return InkWell(
             onTap: () {
-              profile.setReservation(reservationData: data![index]);
+              reservation.setReservation(reservationData: data![index]);
               Navigator.popUntil(context, (route) => route.isFirst);
             },
             child: Padding(
@@ -79,7 +78,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   isReserSelect: isSelected,
                   reserv: ReservationModel(
                       roomType: data?[index].roomTypeName ?? '-',
-                      resvId: data?[index].reservationId ?? '-',
+                      resvId: data?[index].reservationNo ?? '-',
                       companyName: data?[index].companyName ?? '-',
                       propertyName: data?[index].propertyName ?? '-',
                       dateIssue: data?[index].checkInDate ?? '-',

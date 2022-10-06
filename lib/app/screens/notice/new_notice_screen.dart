@@ -96,7 +96,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      textField(title: 'RES#', hint: 'RES'),
+                      textField(title: 'RES#', hint: 'RES',value: reservationData?.reservationNo),
                       SizedBox(height: kFlexibleSize(20)),
                       Text(
                         'Date of issue',
@@ -211,7 +211,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
     );
   }
 
-  Container textField({required String title, required String hint}) {
+  Container textField({required String title, required String hint,String? value}) {
     return Container(
       child: Column(
         children: [
@@ -229,7 +229,7 @@ class _NewNoticeScreenState extends BaseState<NewNoticeScreen> {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: '${reservationData?.reservationNo ?? ''}',
+                  hintText: value,
                   hintStyle: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,

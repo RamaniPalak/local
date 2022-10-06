@@ -24,7 +24,9 @@ class ResReservation {
     try {
       final res = await Reservation.shared.getReservation;
 
-      return data?.where((element) => element.reservationId == res.reservationId).toList().first;
+        return data?.where((element) => element.reservationId == res.reservationId).toList().first;
+
+
     } catch (e) {
       print(e);
     }
@@ -100,6 +102,10 @@ class ResReservationData {
   String? logo;
   String? logoPath;
   bool? isReservationSelected;
+
+  bool get isPaymentDue  {
+    return (double.parse(folioBalance ?? '')) < 0;
+  }
 
   factory ResReservationData.fromJson(Map<String, dynamic> json) => ResReservationData(
     reservationId: json["reservationID"] == null ? null : json["reservationID"],

@@ -133,7 +133,7 @@ class ListProviderImpl extends BaseNotifier implements ListProvider {
     try {
       apiResIsLoading(_insertComplainRes!);
 
-      final res = await repo.insertComplain(data: complainData!, paths: paths);
+      final res = await repo.insertComplain(data: complainData, paths: paths);
 
       if (res.success != true) {
         apiResIsFailed(_insertComplainRes!, res.message ?? '');

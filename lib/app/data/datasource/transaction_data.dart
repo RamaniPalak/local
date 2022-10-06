@@ -11,9 +11,9 @@ import 'package:local/app/utils/reservation.dart';
 abstract class TransactionData {
   Future<ResUnbillTransaction> unbillTransaction();
 
-  Future<ResTransactionInvoice> TransactionInvoice();
+  Future<ResTransactionInvoice> transactionInvoice();
 
-  Future<ResGetInvoice> GetInvoice({required String invoiceId});
+  Future<ResGetInvoice> getInvoice({required String invoiceId});
 }
 
 class TransactionDataImpl implements TransactionData {
@@ -39,7 +39,7 @@ class TransactionDataImpl implements TransactionData {
   }
 
   @override
-  Future<ResTransactionInvoice> TransactionInvoice() async {
+  Future<ResTransactionInvoice> transactionInvoice() async {
     final user = await Reservation.shared.getReservation;
 
     final req = ReqUnbillTransaction(
@@ -59,7 +59,7 @@ class TransactionDataImpl implements TransactionData {
   }
 
   @override
-  Future<ResGetInvoice> GetInvoice({required String invoiceId}) async {
+  Future<ResGetInvoice> getInvoice({required String invoiceId}) async {
     final user = await Reservation.shared.getReservation;
 
     final req = ReqGetInvoice(

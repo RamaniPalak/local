@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:local/app/screens/auth/login_screen.dart';
 import 'package:local/app/screens/lending_page.dart';
-
+import 'package:local/app/screens/message/message_screen.dart';
 import 'app/utils/constants.dart';
 
 Widget app() {
+  String? selectedNotificationPayload;
+
   return MaterialApp(
     title: 'Locl',
     debugShowCheckedModeBanner: false,
@@ -39,6 +41,7 @@ Widget app() {
     routes:  {
       kInitialRoute: (context) => LendingPage(),
       kLoginRoute: (context) => const LoginScreen(),
+      MessageToFrontDeskScreen.routeName: (_) => MessageToFrontDeskScreen()
     },
   );
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:local/app/components/date_components.dart';
 import 'package:local/app/components/schedule_housekeeping_profile.dart';
-import 'package:local/app/data/entity/res_entity/res_housekeeping.dart';
 import 'package:local/app/providers/housekeeping_provider.dart';
 import 'package:local/app/screens/base/base_state_full.dart';
 import 'package:local/app/screens/home/home_screen.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/utils/enums.dart';
 import 'package:local/app/views/base_button.dart';
+import 'package:local/app/views/custom_popup_view.dart';
 import 'package:local/app/views/loading_small.dart';
 import 'package:provider/provider.dart';
 
@@ -50,73 +50,6 @@ class _HouseKeepingScreenState extends BaseState<HouseKeepingScreen> {
           SizedBox(
             height: kFlexibleSize(20),
           ),
-          // Container(
-          //   padding: EdgeInsets.only(
-          //       left: kFlexibleSize(20), right: kFlexibleSize(20)),
-          //   child: Row(
-          //     children: [
-          //       DateComponent(
-          //         title: 'M',
-          //         date: '7',
-          //         color: kBgColor,
-          //         titleColor: kPrimaryColor,
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(10)),
-          //         child: DateComponent(
-          //           title: 'T',
-          //           date: '7',
-          //           color: kBgColor,
-          //         ),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-          //         child: DateComponent(
-          //           title: 'W',
-          //           date: '8',
-          //           color: kBgRedColor,
-          //           titleColor: kRedColor,
-          //         ),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-          //         child: DateComponent(
-          //           title: 'T',
-          //           date: '9',
-          //           color: kBgColor,
-          //           titleColor: kPrimaryColor,
-          //         ),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-          //         child: DateComponent(
-          //           title: 'F',
-          //           date: '10',
-          //           color: kBgRedColor,
-          //           titleColor: kRedColor,
-          //         ),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-          //         child: DateComponent(
-          //           title: 'S',
-          //           date: '11',
-          //           color: kBgColor,
-          //           titleColor: kPrimaryColor,
-          //         ),
-          //       ),
-          //       Padding(
-          //         padding: EdgeInsets.only(left: kFlexibleSize(9)),
-          //         child: DateComponent(
-          //           title: 'S',
-          //           date: '12',
-          //           color: kBgColor,
-          //           titleColor: kPrimaryColor,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           houseKeeping(),
           SizedBox(
             height: kFlexibleSize(20),
@@ -142,11 +75,13 @@ class _HouseKeepingScreenState extends BaseState<HouseKeepingScreen> {
     final housekeepingData = data?[housekeeping.selectedIndex];
 
     return hasError
-        ? NoEventFound(
-            title: 'No HouseKeeping data ',
-            retryCall: () {
-              context.read<HouseKeepingProviderImpl>().houseKeepingDate();
-            })
+        ? Center(
+            child: NoEventFound(
+                title: 'No HouseKeeping data ',
+                retryCall: () {
+                  context.read<HouseKeepingProviderImpl>().houseKeepingDate();
+                }),
+          )
         : Container(
             child: Column(
               children: [
@@ -189,7 +124,7 @@ class _HouseKeepingScreenState extends BaseState<HouseKeepingScreen> {
                 ),
                 ScheduleProfile(
                   houseModel: HouseModel(
-                    img: housekeepingData?.hkp?.profilePic,
+                      img: housekeepingData?.hkp?.profilePic,
                       date: housekeepingData?.hkp?.hkpDateFormat,
                       time: housekeepingData?.hkp?.startTime,
                       name: housekeepingData?.hkp?.housekeeperName,
@@ -206,40 +141,121 @@ class _HouseKeepingScreenState extends BaseState<HouseKeepingScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        width: kFlexibleSize(110),
-                        height: kFlexibleSize(45),
-                        child: Button(
-                          title: 'Cancel HKP',
-                          color: kBgColor,
-                          textcolor: kPrimaryColor,
-                          onTap: () {
-                            context.read<HouseKeepingProviderImpl>().cancelHKP(
-                                hkpReserId: housekeepingData?.hkp?.hkpReservationId ?? '');
+                      housekeepingData?.hkp?.employeeId == null
+                          ? SizedBox(
+                              width: kFlexibleSize(150),
+                              height: kFlexibleSize(45),
+                              child: Button(
+                                title: 'Cancelled',
+                                color: kBgColor,
+                                textcolor: kPrimaryColor,
+                              ),
+                            )
+                          : SizedBox(
+                              width: kFlexibleSize(150),
+                              height: kFlexibleSize(45),
+                              child: Button(
+                                title: 'Cancel HKP',
+                                color: kBgColor,
+                                textcolor: kPrimaryColor,
+                                onTap: () {
+                                  CustomPopup(context,
+                                      title: 'Cancel HKP',
+                                      message: 'Are you sure you want to Cancel HKP ?',
+                                      primaryBtnTxt: 'Ok', primaryAction: () {
+                                        context
+                                            .read<HouseKeepingProviderImpl>()
+                                            .cancelHKP(
+                                            hkpReserId: housekeepingData
+                                                ?.hkp?.hkpReservationId ??
+                                                '');
 
-                            context.read<HouseKeepingProviderImpl>().cancelHKPRes;
-                          },
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: kFlexibleSize(6)),
-                        width: kFlexibleSize(100),
-                        height: kFlexibleSize(45),
-                        child: Button(
-                          title: 'DND',
-                          color: kRedColor,
-                          textcolor: kWhiteColor,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: kFlexibleSize(6)),
-                        width: kFlexibleSize(110),
-                        height: kFlexibleSize(45),
-                        child: BaseAppButton(
-                          title: 'New Request',
-                          color: kPrimaryColor,
-                        ),
-                      ),
+                                        context
+                                            .read<HouseKeepingProviderImpl>()
+                                            .cancelHKPRes;
+                                      },
+                                      secondaryBtnTxt: 'CANCEL',
+                                      secondaryAction: () {});
+
+                                },
+                              ),
+                            ),
+
+                      housekeepingData?.hkp?.hkpStatusTerm == 'CheckIn'
+                          ? Container(
+                              padding: EdgeInsets.only(left: kFlexibleSize(6)),
+                              width: kFlexibleSize(150),
+                              height: kFlexibleSize(45),
+                              child: Button(
+                                title: 'DND',
+                                color: kRedColor,
+                                textcolor: kWhiteColor,
+                                onTap: () {
+                                  CustomPopup(context,
+                                      title: 'DND',
+                                      message: 'Are you sure you want to DND ?',
+                                      primaryBtnTxt: 'Ok', primaryAction: () {
+                                    context
+                                        .read<HouseKeepingProviderImpl>()
+                                        .hkpStates(
+                                            hkpReserId: housekeepingData
+                                                    ?.hkp?.hkpReservationId ??
+                                                '',
+                                            updateLog: housekeepingData
+                                                ?.hkp?.updateLog,
+                                            term: 'MarkAsDND');
+
+                                    context
+                                        .read<HouseKeepingProviderImpl>()
+                                        .hkpStatesRes;
+                                  },
+                                      secondaryBtnTxt: 'CANCEL',
+                                      secondaryAction: () {});
+                                },
+                              ),
+                            )
+                          : Container(
+                              padding: EdgeInsets.only(left: kFlexibleSize(6)),
+                              width: kFlexibleSize(150),
+                              height: kFlexibleSize(45),
+                              child: Button(
+                                title: 'Cancel DND',
+                                color: kRedColor,
+                                textcolor: kWhiteColor,
+                                onTap: () {
+                                  CustomPopup(context,
+                                      title: ' Cancel DND',
+                                      message:
+                                          'Are you sure you want to CancelDND ?',
+                                      primaryBtnTxt: 'Ok', primaryAction: () {
+                                    context
+                                        .read<HouseKeepingProviderImpl>()
+                                        .hkpStates(
+                                            hkpReserId: housekeepingData
+                                                    ?.hkp?.hkpReservationId ??
+                                                '',
+                                            updateLog: housekeepingData
+                                                ?.hkp?.updateLog,
+                                            term: 'MarkAsDirty');
+
+                                    context
+                                        .read<HouseKeepingProviderImpl>()
+                                        .hkpStatesRes;
+                                  },
+                                      secondaryBtnTxt: 'CANCEL',
+                                      secondaryAction: () {});
+                                },
+                              ),
+                            )
+                      // Container(
+                      //   padding: EdgeInsets.only(left: kFlexibleSize(6)),
+                      //   width: kFlexibleSize(110),
+                      //   height: kFlexibleSize(45),
+                      //   child: BaseAppButton(
+                      //     title: 'New Request',
+                      //     color: kPrimaryColor,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

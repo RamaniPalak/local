@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:local/app/components/dailog_component.dart';
 import 'package:local/app/providers/razorpay_provider.dart';
+import 'package:local/app/utils/enums.dart';
 import 'package:local/app/views/common_images.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 
 class TimerScreen extends StatefulWidget {
-  const TimerScreen({Key? key}) : super(key: key);
+  TimerScreen({Key? key}) : super(key: key);
 
   @override
   _TimerScreenState createState() => _TimerScreenState();
@@ -27,6 +29,17 @@ class _TimerScreenState extends State<TimerScreen> {
   startTimeout([int? milliseconds]) {
     var duration = interval;
     Timer.periodic(duration, (timer) {
+      final provider = context.read<RazorPayProviderImpl>();
+
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
+        await provider.transGetById();
+        if (provider.transGetByIdRes?.state == Status.COMPLETED) {
+          if (provider.transGetByIdRes?.data?.success == true) {
+            timer.cancel();
+            await context.read<AuthProviderImpl>().reservationUser();
+          }
+        }
+      });
       setState(() {
         progressValue = ((currentSeconds * 100) / timerMaxSeconds);
         print((currentSeconds * 100) / timerMaxSeconds);
@@ -44,25 +57,41 @@ class _TimerScreenState extends State<TimerScreen> {
 
     scheduleTimeout(60 * 1000);
 
-    Timer mytimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-        context.read<RazorPayProviderImpl>().transGetById();
+    final provider = context.read<RazorPayProviderImpl>();
+
+    Timer mytimer = Timer.periodic(Duration(seconds: 2), (timer) {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
+        await provider.transGetById();
+        if (provider.transGetByIdRes?.state == Status.COMPLETED) {
+          if (provider.transGetByIdRes?.data?.success == true) {
+            timer.cancel();
+            _showDialog(
+                msg: 'Success',
+                colors: Colors.green,
+                img: successImg,
+                primaryAction: () {
+                  Navigator.of(context).pop();
+                });
+            await context.read<AuthProviderImpl>().reservationUser();
+          }
+        }
       });
     });
 
     //mytimer.cancel(); //to end timer// 5 seconds.
   }
 
-  void _showDialog({String? msg, Image? img, Color? colors}) {
+  void _showDialog(
+      {String? msg, Image? img, Color? colors, Function? primaryAction}) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return DialogComponent(
-          img: img,
-          message: msg,
-          color: colors,
-        );
+            img: img,
+            message: msg,
+            color: colors,
+            primaryAction: primaryAction);
       },
     );
   }
@@ -72,6 +101,7 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void handleTimeout() {
     // callback function
+
     _showDialog(
         msg: 'Something Went Wrong', img: errorImg, colors: Colors.red[700]);
   }
@@ -80,6 +110,7 @@ class _TimerScreenState extends State<TimerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'Payment',
         ),

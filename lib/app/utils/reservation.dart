@@ -5,24 +5,24 @@ class Reservation {
   static Reservation shared = Reservation();
 
   // Set Local Data here
-  Future setLocalData({required ResReservationData user}) async {
+  Future setLocalData({required ResReservationData registration}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    prefs.setBool('IS_Reservation', user.isReservationSelected ?? false);
 
-    prefs.setString('MEMBER_ID', user.memberId ?? '');
-    prefs.setString('propertyName', user.propertyName ?? '');
-    prefs.setString('companyId', user.companyId ?? '');
-    prefs.setString('companyName', user.companyName ?? '');
-    prefs.setString('memberName', user.memberName ?? '');
-    prefs.setString('reservationId', user.reservationId ?? '');
-    prefs.setString('reservationNo', user.reservationNo ?? '');
-    prefs.setString('propertyId', user.propertyId ?? '');
-    prefs.setString('folioBalance', user.folioBalance ?? '');
-    prefs.setString('roomId', user.roomId ?? '');
-    prefs.setString('roomNo', user.roomNo ?? '');
-    prefs.setString('roomTypeId', user.roomTypeId ?? '');
-    prefs.setString('roomTypeName', user.roomTypeName ?? '');
+    prefs.setBool('IS_Reservation', registration.isReservationSelected ?? false);
+    prefs.setString('MEMBER_ID', registration.memberId ?? '');
+    prefs.setString('propertyName', registration.propertyName ?? '');
+    prefs.setString('companyId', registration.companyId ?? '');
+    prefs.setString('companyName', registration.companyName ?? '');
+    prefs.setString('memberName', registration.memberName ?? '');
+    prefs.setString('reservationId', registration.reservationId ?? '');
+    prefs.setString('reservationNo', registration.reservationNo ?? '');
+    prefs.setString('propertyId', registration.propertyId ?? '');
+    prefs.setString('folioBalance', registration.folioBalance ?? '');
+    prefs.setString('roomId', registration.roomId ?? '');
+    prefs.setString('roomNo', registration.roomNo ?? '');
+    prefs.setString('roomTypeId', registration.roomTypeId ?? '');
+    prefs.setString('roomTypeName', registration.roomTypeName ?? '');
 
   }
   // Clear Local here

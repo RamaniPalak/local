@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MonthlyInvoiceScreen extends StatefulWidget {
-  MonthlyInvoiceScreen({Key? key, this.invoiceId}) : super(key: key);
+  const MonthlyInvoiceScreen({Key? key, this.invoiceId}) : super(key: key);
 
   final String? invoiceId;
 
@@ -29,7 +29,7 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context
           .read<TransactionProviderImpl>()
-          .GetInvoice(invoiceId: widget.invoiceId ?? '');
+          .getInvoice(invoiceId: widget.invoiceId ?? '');
     });
 
     // loadPFd();
@@ -101,7 +101,7 @@ class _MonthlyInvoiceScreenState extends State<MonthlyInvoiceScreen> {
               retryCall: () {
                 context
                     .read<TransactionProviderImpl>()
-                    .GetInvoice(invoiceId: widget.invoiceId ?? '');
+                    .getInvoice(invoiceId: widget.invoiceId ?? '');
               },
               title: 'No Data Found'));
     }

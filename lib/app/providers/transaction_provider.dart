@@ -11,9 +11,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 class TransactionProvider {
   Future unbillTransaction() async {}
 
-  Future TransactionInvoice() async {}
+  Future transactionInvoice() async {}
 
-  Future GetInvoice({required String invoiceId}) async {}
+  Future getInvoice({required String invoiceId}) async {}
 }
 
 class TransactionProviderImpl extends BaseNotifier
@@ -63,11 +63,11 @@ class TransactionProviderImpl extends BaseNotifier
   }
 
   @override
-  Future TransactionInvoice() async {
+  Future transactionInvoice() async {
     try {
       apiResIsLoading(_transactionInvoiceRes!);
 
-      final res = await repo.TransactionInvoice();
+      final res = await repo.transactionInvoice();
 
       if (res.success != true) {
         apiResIsFailed(_transactionInvoiceRes!, res.message ?? '');
@@ -80,11 +80,11 @@ class TransactionProviderImpl extends BaseNotifier
   }
 
   @override
-  Future GetInvoice({required String invoiceId}) async {
+  Future getInvoice({required String invoiceId}) async {
     try {
       apiResIsLoading(_getInvoiceRes!);
 
-      final res = await repo.GetInvoice(invoiceId: invoiceId);
+      final res = await repo.getInvoice(invoiceId: invoiceId);
 
       if (res.success != true) {
         apiResIsFailed(_getInvoiceRes!, res.message ?? '');

@@ -22,16 +22,16 @@ class NewComplaintsScreen extends BasePage {
 }
 
 class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
+
   TextEditingController noteController = TextEditingController();
   TextEditingController titleController = TextEditingController();
 
-  var related = ['Housekeeping', 'Cleaning'];
+  var related = ['Housekeeping', 'Frontdesk'];
   var priority = ['High', 'Medium', 'Low'];
 
   String? selectRelated;
   String? selectPriority;
 
-  var point = 5;
   PickImage? pickImage;
 
   File? img;
@@ -74,13 +74,13 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
         throw 'Please enter description';
       }
 
-      if (imagelist.isEmpty) {
-        throw 'Please select image';
-      }
-
-      if (imagelist.length <= 0) {
-        throw 'select image';
-      }
+      // if (imagelist.isEmpty) {
+      //   throw 'Please select image';
+      // }
+      //
+      // if (imagelist.length <= 0) {
+      //   throw 'select image';
+      // }
 
       final provider = Provider.of<ListProviderImpl>(context, listen: false);
 
@@ -255,7 +255,7 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
                             )
                           ],
                         ),
-                      ),
+                       ),
                       SizedBox(height: kFlexibleSize(30)),
                       btn()
                     ],
@@ -270,7 +270,7 @@ class _NewComplaintsScreenState extends BaseState<NewComplaintsScreen> {
   }
 
   Widget image(int index) {
-    return Container(
+    return SizedBox(
       width: kFlexibleSize(110),
       // height: kFlexibleSize(130),
       child: img != null

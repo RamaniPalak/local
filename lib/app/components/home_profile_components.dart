@@ -30,8 +30,7 @@ class _ProfileComponentsState extends State<ProfileComponents> {
     super.initState();
     // reservationDetail();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      context.read<RazorPayProviderImpl>().generateOrderId();
-      context.read<RazorPayProviderImpl>().transGetById();
+      // context.read<RazorPayProviderImpl>().transGetById();
     });
 
     _razorpay = Razorpay();
@@ -64,9 +63,18 @@ class _ProfileComponentsState extends State<ProfileComponents> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     //_showDialog(msg: 'Transaction\nSuccessful',img: successImg,colors: Colors.green[700]);
     Fluttertoast.showToast(
-        msg: "SUCCESS: " + response.paymentId!,
-        toastLength: Toast.LENGTH_SHORT,);
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TimerScreen(),));
+      msg: "SUCCESS: " + response.paymentId!,
+      toastLength: Toast.LENGTH_SHORT,
+    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(
+      builder: (context) => TimerScreen(),
+    ))
+        .then((value) {
+      if (value == true) {
+        widget.reservationData;
+      }
+    });
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -98,9 +106,8 @@ class _ProfileComponentsState extends State<ProfileComponents> {
 
     final data = razorPay.generateOrderIdRes?.data?.data;
 
-    //context.read<RazorPayProviderImpl>().transGetById(orderID: data?.orderId,refRazorPayTransId: data?.refRazorPayTransId);
-
     void openCheckout() async {
+      print(data?.orderId);
       var options = {
         'key': 'rzp_test_WR1n8bttTgSUkS',
         'retry': {'enabled': true, 'max_count': 1},
@@ -203,30 +210,37 @@ class _ProfileComponentsState extends State<ProfileComponents> {
                 SizedBox(
                   height: kFlexibleSize(5),
                 ),
-                InkWell(
-                  onTap: () {
-                    openCheckout();
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(left: kFlexibleSize(14)),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: kFlexibleSize(2),
-                          horizontal: kFlexibleSize(6)),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(kFlexibleSize(3))),
-                      child: Text(
-                        'Pay Now',
-                        style: TextStyle(
-                            fontSize: kSmallFontSize,
-                            color: kRedColor,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ),
+                widget.reservationData?.isPaymentDue == true
+                    ? InkWell(
+                        onTap: () async {
+                          await context
+                              .read<RazorPayProviderImpl>()
+                              .generateOrderId();
+                          //  context.read<RazorPayProviderImpl>().orderID = data?.orderId;
+                          // context.read<RazorPayProviderImpl>().refTransId = data?.refRazorPayTransId;
+                          openCheckout();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: kFlexibleSize(14)),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: kFlexibleSize(2),
+                                horizontal: kFlexibleSize(6)),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.circular(kFlexibleSize(3))),
+                            child: Text(
+                              'Pay Now',
+                              style: TextStyle(
+                                  fontSize: kSmallFontSize,
+                                  color: kRedColor,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),

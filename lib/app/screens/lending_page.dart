@@ -9,6 +9,7 @@ import 'package:local/app/screens/home/home_screen.dart';
 import 'package:local/app/screens/splash_screen.dart';
 import 'package:local/app/screens/timer/timer_screen.dart';
 import 'package:local/app/utils/constants.dart';
+import 'package:local/app/utils/firebase.dart';
 import 'package:provider/provider.dart';
 
 class LendingPage extends BaseStateLess {
@@ -24,9 +25,6 @@ class LendingPage extends BaseStateLess {
     final auth = context.watch<AuthProviderImpl>();
 
     // return Consumer<AuthProviderImpl>(builder: (context, auth, __) {
-
-
-
 
 
     if (auth.isAppUnderMaintenance == true) {
@@ -46,9 +44,9 @@ class LendingPage extends BaseStateLess {
     if (auth.isLogin == null) {
       return SplashScreen();
     }
-    if (auth.isLogin ?? false) {
-      if(auth.isReservationSelected == true ){
-        return HomeScreen();
+    if (auth.isLogin ?? false ) {
+      if(auth.isReservationSelected == true  ){
+        return FirebaseHandler(child: HomeScreen ());
       }
       return ReservationScreen();
     }

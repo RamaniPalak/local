@@ -12,12 +12,12 @@ class TransactionRepository {
     return await dataSource.unbillTransaction();
   }
 
-  Future<ResTransactionInvoice> TransactionInvoice() async {
-    return await dataSource.TransactionInvoice();
+  Future<ResTransactionInvoice> transactionInvoice() async {
+    return await dataSource.transactionInvoice();
   }
 
-  Future<ResGetInvoice> GetInvoice({required String invoiceId}) async {
-    return await dataSource.GetInvoice(invoiceId: invoiceId);
+  Future<ResGetInvoice> getInvoice({required String invoiceId}) async {
+    return await dataSource.getInvoice(invoiceId: invoiceId);
   }
 
 }

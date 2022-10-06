@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:local/app/components/common_components.dart';
 import 'package:local/app/utils/constants.dart';
 import 'package:local/app/views/base_text_field.dart';
 

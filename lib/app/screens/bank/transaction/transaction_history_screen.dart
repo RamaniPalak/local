@@ -37,8 +37,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
     setState(() {});
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       context.read<TransactionProviderImpl>().unbillTransaction();
-      context.read<TransactionProviderImpl>().TransactionInvoice();
-      context.read<RazorPayProviderImpl>().generateOrderId();
+      context.read<TransactionProviderImpl>().transactionInvoice();
     });
 
     _razorpay = Razorpay();
@@ -111,6 +110,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
         'key': 'rzp_test_WR1n8bttTgSUkS',
         'retry': {'enabled': true, 'max_count': 1},
         'order_id': data?.orderId,
+       // 'amount': "" ,
         // "method": {
         //   "netbanking": true,
         //   "card": true,
@@ -169,8 +169,10 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                       padding: EdgeInsets.only(left: kFlexibleSize(40)),
                       child: Text('PAYMENT DUE', style: kLightStyle)),
                   SizedBox(height: kFlexibleSize(11)),
+                  reservationData?.isPaymentDue == true ?
                   InkWell(
                     onTap: () {
+                      context.read<RazorPayProviderImpl>().generateOrderId();
                       openCheckout();
                     },
                     child: Container(
@@ -189,7 +191,8 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                             fontWeight: FontWeight.w700),
                       ),
                     ),
-                  ),
+                  ):
+                  Container(),
                   SizedBox(height: kFlexibleSize(25)),
                   TabBar(
                     isScrollable: true,
@@ -267,7 +270,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
                                   fontWeight: FontWeight.w700))),
                       Text('₹ ${total}',
                           style: TextStyle(
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w700,
                               fontSize: kDoubleFontSize,
                               color: Colors.black))
                     ],
@@ -322,7 +325,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
       return bgContainer(
           widget: NoDataFoundView(
               retryCall: () {
-                context.read<TransactionProviderImpl>().TransactionInvoice();
+                context.read<TransactionProviderImpl>().transactionInvoice();
               },
               title: 'No Data Found'));
     }

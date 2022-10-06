@@ -24,7 +24,7 @@ abstract class ListData {
   Future<ResGetHistory> getHistory();
 
   Future<ResEmpty> insertComplain(
-      {required ReqAddComplain data, List<String>? paths});
+      { ReqAddComplain? data, List<String>? paths});
 
   Future<ResComplain> getComplain();
 
@@ -96,7 +96,7 @@ class ListDataImpl implements ListData {
 
   @override
   Future<ResEmpty> insertComplain(
-      {required ReqAddComplain data, List<String>? paths}) async {
+      { ReqAddComplain? data, List<String>? paths}) async {
     final user = await Reservation.shared.getReservation;
 
     final List<MultipartFile> list = [];
@@ -115,12 +115,12 @@ class ListDataImpl implements ListData {
 
     final form = {
       'ComplainFiles': list,
-      "TicketTitle": data.ticketTitle,
-      "IssueRelatedType_Term": data.issueRelatedTypeTerm,
+      "TicketTitle": data?.ticketTitle,
+      "IssueRelatedType_Term": data?.issueRelatedTypeTerm,
       "CompanyID": user.companyId,
       "PropertyID": user.propertyId,
-      "TicketNote": data.ticketNote,
-      "Priority_Term": data.priorityTerm,
+      "TicketNote": data?.ticketNote,
+      "Priority_Term": data?.priorityTerm,
     };
 
     var formData = FormData.fromMap(form);
@@ -138,11 +138,11 @@ class ListDataImpl implements ListData {
 
   @override
   Future<ResComplain> getComplain() async {
-    final user = await Reservation.shared.getReservation;
+    final registration = await Reservation.shared.getReservation;
 
     final req = ReqGetComplain(
-        propertyId: user.propertyId,
-        companyId: user.companyId,
+        propertyId: registration.propertyId,
+        companyId: registration.companyId,
         pageNum: 1,
         pageSize: 100);
 
@@ -175,4 +175,47 @@ class ListDataImpl implements ListData {
       throw '$jsonParserErrorMsg';
     }
   }
+  // @override
+  // Future<ResEmpty> insertComplain(
+  //     {required ReqAddComplain data, List<String>? paths}) async {
+  //   final user = await Reservation.shared.getReservation;
+  //
+  //   final List<Map<String,MultipartFile>> list = [];
+  //
+  //   await Future.forEach<String>(paths!, (element) async {
+  //     print('cool');
+  //     final file = await MultipartFile.fromFile(element);
+  //     print('Before Finally');
+  //     print(file.filename);
+  //     list.add({
+  //       "ImageFile":file
+  //     });
+  //   });
+  //
+  //   print('Finally');
+  //
+  //   print(list.length);
+  //
+  //   final form = {
+  //     'ComplainFiles': list,
+  //     "TicketTitle": data.ticketTitle,
+  //     "IssueRelatedType_Term": data.issueRelatedTypeTerm,
+  //     "CompanyID": user.companyId,
+  //     "PropertyID": user.propertyId,
+  //     "TicketNote": data.ticketNote,
+  //     "Priority_Term": data.priorityTerm,
+  //   };
+  //
+  //   var formData = FormData.fromMap(form);
+  //
+  //   print(form);
+  //
+  //   final res = await WebService.shared
+  //       .postApiDIO(path: ServerConfigs.insertComplain, data: formData);
+  //   try {
+  //     return ResEmpty.fromJson(res!);
+  //   } catch (e) {
+  //     throw '$jsonParserErrorMsg';
+  //   }
+  // }
 }

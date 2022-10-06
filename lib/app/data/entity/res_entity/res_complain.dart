@@ -53,11 +53,9 @@ class ResComplainData {
   });
 
   String? ticketTitle;
-
   String? companyId;
   String? propertyId;
   String? ticketNote;
-
   String? ticketStatusTerm;
   String? priorityTerm;
   String? reservationId;

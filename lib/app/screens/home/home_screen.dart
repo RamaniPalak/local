@@ -92,7 +92,8 @@ class _HomeScreenState extends BaseState<HomeScreen> {
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+            },
             child: Padding(
               padding: EdgeInsets.only(right: kFlexibleSize(20)),
               child: Container(

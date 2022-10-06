@@ -62,18 +62,18 @@ class Data {
   String? memberId;
   String? orderId;
   DateTime? transactionDate;
-  int? amt;
+  double? amt;
   String? statusTerm;
-  dynamic? transactionId;
-  dynamic? bookId;
+  String? transactionId;
+  String? bookId;
   bool? isReconcile;
   DateTime? reconcileOn;
-  dynamic? reconcileBy;
-  dynamic? acctId;
-  dynamic? moPTerm;
-  dynamic? transResponse;
+  String? reconcileBy;
+  String? acctId;
+  String? moPTerm;
+  String? transResponse;
   String? razorPayReciptId;
-  dynamic? razorPayPaymentId;
+  String? razorPayPaymentId;
   String? memberFolioId;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(

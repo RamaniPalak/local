@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 class MessageToFrontDeskScreen extends BasePage {
   MessageToFrontDeskScreen({Key? key}) : super(key: key);
 
+  static const String routeName = '/secondPage';
+
   @override
   State<MessageToFrontDeskScreen> createState() =>
       _MessageToFrontDeskScreenState();
@@ -20,6 +22,9 @@ class MessageToFrontDeskScreen extends BasePage {
 
 class _MessageToFrontDeskScreenState
     extends BaseState<MessageToFrontDeskScreen> {
+
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -148,7 +153,7 @@ class _MessageToFrontDeskScreenState
     final data = getMsg.getMsgRes?.data?.data;
 
     if (getMsg.getMsgRes?.state == Status.LOADING) {
-      return Center(child: LoadingSmall());
+      return Expanded(child: Center(child: LoadingSmall()));
     }
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
@@ -192,7 +197,7 @@ class _MessageToFrontDeskScreenState
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(kFlexibleSize(17)),
                 color: Colors.white),
-            child: femaleProfileImage,
+            child: placeHolderImg,
           ),
           SizedBox(width: kFlexibleSize(10)),
           Expanded(
@@ -282,7 +287,7 @@ class _MessageToFrontDeskScreenState
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(kFlexibleSize(17)),
                 color: Colors.white),
-            child: maleProfileImage,
+            child: placeHolderImg,
           ),
         ],
       ),

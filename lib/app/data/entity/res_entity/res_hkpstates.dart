@@ -1,7 +1,7 @@
 
 
-class ResDndStatus {
-  ResDndStatus({
+class ResHkpStates {
+  ResHkpStates({
     this.success,
     this.message,
     this.data,
@@ -15,7 +15,7 @@ class ResDndStatus {
   int? statusCode;
   int? statusValueCode;
 
-  factory ResDndStatus.fromJson(Map<String, dynamic> json) => ResDndStatus(
+  factory ResHkpStates.fromJson(Map<String, dynamic> json) => ResHkpStates(
     success: json["success"] == null ? null : json["success"],
     message: json["message"] == null ? null : json["message"],
     data: json["data"] == null ? null : json["data"],

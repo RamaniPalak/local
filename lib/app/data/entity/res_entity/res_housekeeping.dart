@@ -99,6 +99,7 @@ class Hkp {
     this.mobileNo,
     this.employeeId,
     this.companyId,
+    this.hkpStatusTerm
   });
 
   String? roomid;
@@ -119,6 +120,7 @@ class Hkp {
   String? reservationdetails;
   DateTime? updateLog;
   String? profilePic;
+  String? hkpStatusTerm;
   String? mobileNo;
   String? employeeId;
   String? companyId;
@@ -247,6 +249,7 @@ class Hkp {
     housekeeperId: json["HousekeeperID"],
     housekeeperName: json["HousekeeperName"],
     reservationstatus: json["reservationstatus"] == null ? null : json["reservationstatus"],
+    hkpStatusTerm: json["hkpStatus_Term"] == null ? null : json["hkpStatus_Term"],
     reservationdetails: json["reservationdetails"] == null ? null : json["reservationdetails"],
     updateLog: json["UpdateLog"] == null ? null : DateTime.parse(json["UpdateLog"]),
     profilePic: json["ProfilePic"],
@@ -272,6 +275,7 @@ class Hkp {
     "HousekeeperName": housekeeperName,
     "reservationstatus": reservationstatus == null ? null : reservationstatus,
     "reservationdetails": reservationdetails == null ? null : reservationdetails,
+    "hkpStatus_Term": hkpStatusTerm == null ? null : hkpStatusTerm,
     "UpdateLog": updateLog == null ? null : updateLog!.toIso8601String(),
     "ProfilePic": profilePic,
     "MobileNo": mobileNo,

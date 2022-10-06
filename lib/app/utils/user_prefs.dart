@@ -13,6 +13,7 @@ class UserPrefs {
     prefs.setString('MOBILE', user.mobile);
     prefs.setString('EMAIL', user.email);
     prefs.setString('displayName', user.displayName);
+    prefs.setString('fcmId', user.fcmId ?? '');
   }
 
   // Clear Local here
@@ -35,9 +36,10 @@ class UserPrefs {
     String mobile = prefs.getString('MOBILE') ?? '';
     String email = prefs.getString('EMAIL') ?? '';
     String displayName = prefs.getString('displayName') ?? '';
+    String fcmId = prefs.getString('fcmId') ??'';
 
 
-    return LocalUser(isLogin: isLogin, token: token, memberID: memberId,mobile: mobile,email: email,displayName: displayName);
+    return LocalUser(isLogin: isLogin, token: token, memberID: memberId,mobile: mobile,email: email,displayName: displayName,fcmId: fcmId);
   }
 
   Future setEmail({required String email}) async {
@@ -66,6 +68,7 @@ class LocalUser {
   final String mobile;
   final String email;
   final String displayName;
+  final String? fcmId;
 
   LocalUser({
     required this.memberID,
@@ -73,6 +76,7 @@ class LocalUser {
     required this.isLogin,
     required this.mobile,
     required this.email,
-    required this.displayName
+    required this.displayName,
+     this.fcmId
   });
 }

@@ -5,6 +5,7 @@ import 'package:local/app/data/entity/req_entity/req_user_logout.dart';
 import 'package:local/app/data/entity/res_entity/res_empty.dart';
 import 'package:local/app/data/entity/res_entity/res_reservation.dart';
 import 'package:local/app/data/entity/res_entity/res_user_login.dart';
+import 'package:local/app/utils/firebase.dart';
 import 'package:local/app/utils/messages.dart';
 import 'package:local/app/utils/user_prefs.dart';
 
@@ -17,10 +18,14 @@ abstract class AuthData {
 }
 
 class AuthDataImpl implements AuthData {
+
   @override
   Future<ResLogin> userLogin({required String mobile}) async {
     final res = await WebService.shared.postApiDIO(
-        path: ServerConfigs.userLogin, queryParameters: {'mobileNo': mobile});
+        path: ServerConfigs.userLogin, queryParameters: {'mobileNo': mobile,'fcm_Token':FirebaseConfig.FCMToken});
+
+    print('login ${mobile}');
+    print('login ${FirebaseConfig.FCMToken}');
 
     try {
       return ResLogin.fromJson(res!);

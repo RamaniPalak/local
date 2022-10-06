@@ -51,5 +51,7 @@
 		<string>phonepe</string>
 		<string>paytmmp</string>
 	</array>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
 </dict>
 </plist>

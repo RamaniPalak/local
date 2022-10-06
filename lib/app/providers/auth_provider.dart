@@ -68,16 +68,16 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
   ApiResponse<ResEmpty>? get logoutRes => _logoutRes;
 
-  ResReservationData? selectedRes;
+  ResReservationData? selectedResData;
 
   Meber? member;
 
   setReservation({required ResReservationData reservationData}) {
     reservationData.isReservationSelected = true;
 
-    Reservation.shared.setLocalData(user: reservationData);
+    Reservation.shared.setLocalData(registration: reservationData);
 
-    selectedRes = reservationData;
+    selectedResData = reservationData;
 
     isReservationSelected = true;
     notifyListeners();
@@ -91,9 +91,9 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
     isLogin = await UserPrefs.shared.isUserLogin;
 
-    selectedRes = await Reservation.shared.getReservation;
+    selectedResData = await Reservation.shared.getReservation;
 
-    isReservationSelected = selectedRes?.isReservationSelected;
+    isReservationSelected = selectedResData?.isReservationSelected;
 
     print('is User Logged in: $isLogin');
 
@@ -151,7 +151,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
       isLogin = false;
       isReservationSelected = false;
 
-      selectedRes = null;
+      selectedResData = null;
 
       notifyListeners();
 
@@ -208,7 +208,7 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
           token: loginUserRes?.data?.data?.token ?? '',
           email: loginUserRes?.data?.data?.logindetails?.eMail ?? '-',
           mobile: loginUserRes?.data?.data?.logindetails?.mobileNo ?? '-',
-          displayName:  '${member?.title ?? '-'} ${member?.firstName ?? '-'} ${member?.lastName ?? '-'}',
+          displayName: '${member?.title ?? '-'} ${member?.firstName ?? '-'} ${member?.lastName ?? '-'}',
           isLogin: true,
         ));
         notifyListeners();
@@ -277,9 +277,11 @@ class AuthProviderImpl extends BaseNotifier implements AuthProvider {
 
         final selectedRes = await res.selectedReservation;
 
-        if(selectedRes != null){
-          selectedRes.isReservationSelected = true;
-          Reservation.shared.setLocalData(user: selectedRes);
+      if(selectedRes != null || res.data?.length == 1){
+        setReservation(reservationData: res.data!.first);
+
+          selectedRes!.isReservationSelected = true;
+          Reservation.shared.setLocalData(registration: selectedRes);
         }
 
         apiResIsSuccess(_reservationUserRes!, res);

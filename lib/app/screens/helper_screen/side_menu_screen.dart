@@ -5,7 +5,7 @@ import 'package:local/app/data/entity/res_entity/res_reservation.dart';
 import 'package:local/app/providers/auth_provider.dart';
 import 'package:local/app/screens/bank/history_screen.dart';
 import 'package:local/app/screens/base/base_state_full.dart';
-import 'package:local/app/screens/change_room/change_room.dart';
+import 'package:local/app/screens/change_room/new_change_room.dart';
 import 'package:local/app/screens/change_room/request_for_changeroom.dart';
 import 'package:local/app/screens/complaints/raise_complaint.dart';
 import 'package:local/app/screens/message/message_screen.dart';
@@ -134,7 +134,7 @@ class _SideMenuScreenState extends BaseState<SideMenuScreen> {
                   } else if (index == 4) {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
-                            const NoticeScreen(isCheckout: false)));
+                            const RequestChangeRoomScreen()));
                   }
                 },
                 child: Container(

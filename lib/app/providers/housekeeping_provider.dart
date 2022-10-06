@@ -1,4 +1,5 @@
 import 'package:local/app/data/entity/res_entity/res_cancelhkp.dart';
+import 'package:local/app/data/entity/res_entity/res_hkpstates.dart';
 import 'package:local/app/data/entity/res_entity/res_housekeeping.dart';
 import 'package:local/app/providers/base_notifier.dart';
 import 'package:local/app/repository/housekeeping_repository.dart';
@@ -9,6 +10,9 @@ class HouseKeepingProvider {
   Future houseKeepingDate() async {}
 
   Future cancelHKP({required String hkpReserId}) async {}
+
+  Future hkpStates({required String hkpReserId,DateTime? updateLog,String? term}) async {}
+
 }
 
 class HouseKeepingProviderImpl extends BaseNotifier
@@ -20,6 +24,7 @@ class HouseKeepingProviderImpl extends BaseNotifier
   HouseKeepingProviderImpl(this.repo) {
     _housekeepingRes = ApiResponse();
     _cancelHKPRes = ApiResponse();
+    _hkpStatesRes = ApiResponse();
   }
 
   ApiResponse<ResHouseKeeping>? _housekeepingRes;
@@ -29,6 +34,10 @@ class HouseKeepingProviderImpl extends BaseNotifier
   ApiResponse<ResCancelHkp>? _cancelHKPRes;
 
   ApiResponse<ResCancelHkp>? get cancelHKPRes => _cancelHKPRes;
+
+  ApiResponse<ResHkpStates>? _hkpStatesRes;
+
+  ApiResponse<ResHkpStates>? get hkpStatesRes => _hkpStatesRes;
 
   int selectedIndex = 0;
 
@@ -75,5 +84,28 @@ class HouseKeepingProviderImpl extends BaseNotifier
       apiResIsFailed(_cancelHKPRes!, e.toString());
 
      }
+  }
+
+  @override
+  Future hkpStates({required String hkpReserId, DateTime? updateLog,String? term}) async {
+
+    try{
+      apiResIsLoading(_hkpStatesRes!);
+
+      final res = await repo.hkpStates(hkpReserId: hkpReserId,updateLog: updateLog,term: term);
+
+      if(res.success != true){
+        apiResIsFailed(_hkpStatesRes!, res.message ?? '');
+      } else {
+        apiResIsSuccess(_hkpStatesRes!, res);
+        houseKeepingDate();
+      }
+
+    } catch(e){
+      print(e);
+      apiResIsFailed(_hkpStatesRes!, e.toString());
+
+    }
+
   }
 }

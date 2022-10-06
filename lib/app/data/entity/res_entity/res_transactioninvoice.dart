@@ -53,9 +53,9 @@ class ResTransactionInvoiceData {
   double? dueAmt;
 
 
-  // bool get isPaymentDue  {
-  //   return (dueAmt ?? 0) < 0;
-  // }
+  bool get isPaymentDue  {
+    return (dueAmt ?? 0) < 0;
+  }
 
   String get invoiceDateFormat {
 

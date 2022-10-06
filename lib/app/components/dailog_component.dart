@@ -3,13 +3,14 @@ import 'package:local/app/utils/constants.dart';
 import 'package:local/app/views/base_button.dart';
 
 class DialogComponent extends StatefulWidget {
-  DialogComponent({Key? key, this.color, this.img, this.id, this.message})
+  DialogComponent({Key? key, this.color, this.img, this.id, this.message,this.primaryAction})
       : super(key: key);
 
   Color? color;
   Image? img;
   String? id;
   String? message;
+  final Function? primaryAction;
 
   @override
   _DialogComponentState createState() => _DialogComponentState();
@@ -65,7 +66,8 @@ class _DialogComponentState extends State<DialogComponent> {
                 alignment: Alignment.bottomRight,
                   child: BaseAppButton(
                 onTap: (){
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
+                  widget.primaryAction!();
                 },
                 title: 'OK',
                     color: kPrimaryColor,

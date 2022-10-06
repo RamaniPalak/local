@@ -24,7 +24,7 @@ class ListRepository {
     return await dataSource.getHistory();
   }
 
-  Future<ResEmpty> insertComplain({required ReqAddComplain data,List<String>? paths}) async {
+  Future<ResEmpty> insertComplain({ ReqAddComplain? data,List<String>? paths}) async {
     return await dataSource.insertComplain(data: data,paths: paths);
   }
 

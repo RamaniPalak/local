@@ -1,8 +1,10 @@
 import 'package:local/app/data/data_service/server_configs.dart';
 import 'package:local/app/data/data_service/web_service.dart';
 import 'package:local/app/data/entity/req_entity/req_cancelhkp.dart';
+import 'package:local/app/data/entity/req_entity/req_hkpstate.dart';
 import 'package:local/app/data/entity/req_entity/req_housekeeping.dart';
 import 'package:local/app/data/entity/res_entity/res_cancelhkp.dart';
+import 'package:local/app/data/entity/res_entity/res_hkpstates.dart';
 import 'package:local/app/data/entity/res_entity/res_housekeeping.dart';
 import 'package:local/app/utils/messages.dart';
 import 'package:local/app/utils/reservation.dart';
@@ -11,6 +13,9 @@ abstract class HouseKeepingData {
   Future<ResHouseKeeping> housekeepingDate();
 
   Future<ResCancelHkp> cancelHKP({required String hkpReserId});
+
+  Future<ResHkpStates> hkpStates({required String hkpReserId,DateTime? updateLog,String? term});
+
 }
 
 class HouseKeepingDataImpl implements HouseKeepingData {
@@ -55,5 +60,30 @@ class HouseKeepingDataImpl implements HouseKeepingData {
     } catch (e) {
       throw '$jsonParserErrorMsg';
     }
+  }
+
+  @override
+  Future<ResHkpStates> hkpStates({required String hkpReserId, DateTime? updateLog,String? term}) async {
+
+    final registration = await Reservation.shared.getReservation;
+
+    final req = ReqHkpStates(
+      propertyId: registration.propertyId,
+      companyId: registration.companyId,
+      hkpReservationId: hkpReserId,
+      menuText: term,
+      updatelog: updateLog);
+
+    print(req.toJson());
+
+    final res = await WebService.shared.postApiDIO(path: ServerConfigs.hkpStates,data: req.toJson());
+
+    try{
+      return ResHkpStates.fromJson(res!);
+
+    } catch(e){
+      throw '$jsonParserErrorMsg';
+    }
+
   }
 }

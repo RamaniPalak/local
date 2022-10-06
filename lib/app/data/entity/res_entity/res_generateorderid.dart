@@ -10,14 +10,14 @@ class ResGenerateOrderId {
 
   bool? success;
   String? message;
-  Data? data;
+  ResGenerateOrderIdData? data;
   int? statusCode;
   int? statusValueCode;
 
   factory ResGenerateOrderId.fromJson(Map<String, dynamic> json) => ResGenerateOrderId(
     success: json["success"] == null ? null : json["success"],
     message: json["message"] == null ? null : json["message"],
-    data: json["data"] == null ? null : Data.fromJson(json["data"]),
+    data: json["data"] == null ? null : ResGenerateOrderIdData.fromJson(json["data"]),
     statusCode: json["statusCode"] == null ? null : json["statusCode"],
     statusValueCode: json["statusValueCode"] == null ? null : json["statusValueCode"],
   );
@@ -31,8 +31,8 @@ class ResGenerateOrderId {
   };
 }
 
-class Data {
-  Data({
+class ResGenerateOrderIdData {
+  ResGenerateOrderIdData({
     this.orderId,
     this.refRazorPayTransId,
   });
@@ -40,7 +40,7 @@ class Data {
   String? orderId;
   String? refRazorPayTransId;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory ResGenerateOrderIdData.fromJson(Map<String, dynamic> json) => ResGenerateOrderIdData(
     orderId: json["orderID"] == null ? null : json["orderID"],
     refRazorPayTransId: json["refRazorPayTransID"] == null ? null : json["refRazorPayTransID"],
   );
